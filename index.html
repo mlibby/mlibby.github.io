@@ -3,7 +3,7 @@
 <html>
 
 <head>
-  <title>Oregon Trails - mlibby.com</title>
+  <title>Oregon Trail - mlibby.com</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,7 +24,7 @@
 
 <body>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <div class="container">
+    <div class="container-fluid">
       <a class="navbar-brand" href="#">mlibby.com</a>
       <button type="button" class="navbar-toggler btn btn-outline-dark" data-toggle="collapse"
         data-target="#navbar-content">
@@ -32,14 +32,21 @@
       </button>
       <div id="navbar-content" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item"><a class="nav-link" href="#oregon">Oregon Trails</a></li>
+          <li class="nav-item"><a class="nav-link" href="#oregon">Oregon Trail</a></li>
         </ul>
       </div>
     </div>
   </nav>
-  <main class="container">
-    <h1>Welcome to mlibby.com</h1>
+  <main class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h1>Welcome to mlibby.com</h1>
+        <button class="play-oregon btn btn-primary">Play The Oregon Trail</button>
+      </div>
+    </div>
   </main>
+
+  <script src="js/site.js"></script>
 </body>
 
 </html>
