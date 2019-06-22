@@ -11,7 +11,40 @@ export default
     this.teletype.clear();
     this.teletype.print("Welcome to The Oregon Trail!").then(() => {
       this.teletype.print("Foo Bar!").then(() => {
-        this.playAgain();
+        this.teletype.print("Bar F00?").then(() => {
+          this.teletype.print("Boo ya!").then(() => {
+            this.teletype.print("Ya boy...").then(() => {
+              this.teletype.print("Yeah yeah yeah").then(() => {
+                this.teletype.print("Ja ja ja ja ja ja").then(() => {
+                  this.teletype.print("Nah nah nah nah nah nah").then(() => {
+                    this.teletype.print("Haben sie kopfschmerzen?").then(() => {
+                      this.teletype.print("Callback heck").then(() => {
+                        this.teletype.print("It's a little nuts").then(() => {
+                          this.teletype.print("But what can you do?").then(() => {
+                            this.teletype.print("Javascript crazy").then(() => {
+                              this.teletype.print("Javascript crazy like a fox").then(() => {
+                                this.teletype.print("Foxy scripting").then(() => {
+                                  this.teletype.print("For Firefox").then(() => {
+                                    this.teletype.print("FIRE!!!!!!").then(() => {
+                                      this.teletype.print("Ready... Fire! Aim!").then(() => {
+                                        this.playAgain();
+                                        $(document).scrollTop(this.main[0].scrollHeight);
+                                      });
+                                    });
+                                  });
+                                });
+                              });
+                            });
+                          });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
       });
     });
   }

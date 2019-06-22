@@ -39,6 +39,6 @@ export default
   printChar() {
     let char = this.buffer.shift();
     this.output.append(char);
-    this.output.scrollTop(this.output[0].scrollHeight);
+    $(document).scrollTop(this.container[0].scrollHeight);
   }
 }
