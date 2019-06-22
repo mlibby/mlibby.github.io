@@ -5,7 +5,7 @@ export default
     this.buffer = [];
     this.output = null;
     this.isPrinting = false;
-    this.printSpeed = 5; //millis
+    this.printSpeed = 25; //millis
     this.clear();
   }
 
