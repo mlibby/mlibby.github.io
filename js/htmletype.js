@@ -3,12 +3,13 @@ export default
   constructor($container) {
     this.$container = $container;
     this.buffer = [];
+    this.messageBuffer = [];
     this.$output = null;
     this.$input = null;
     this.$label = $("<label class='tt-label' for='tt-input'>Type your input (press Enter when done)</label>");
     this.$inputGroup = null;
     this.isPrinting = false;
-    this.printSpeed = 25; //millis
+    this.printSpeed = 1; //millis
     this.clear();
   }
 
@@ -17,12 +18,18 @@ export default
   }
 
   startParagraph(cssClass) {
-    this.$output = $("<p class='tt-output "+ cssClass + "'></p>");
+    this.$output = $("<p class='tt-output " + cssClass + "'></p>");
     this.$container.append(this.$output);
   }
 
-  print(msg, cssClass) {
-    this.buffer = msg.split("");
+  async printAll(messages) {
+    for (const message of messages) {
+      await this.print(message);
+    }
+  }
+
+  print(message, cssClass) {
+    this.buffer = message.split("");
     this.startParagraph(cssClass);
     return new Promise((resolve, reject) => {
       this.printBuffer(resolve, reject);
