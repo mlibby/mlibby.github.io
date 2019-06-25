@@ -15,6 +15,28 @@ function getPositiveInteger(number) {
   }
 }
 
+const turnNumberDates = {
+  1: "APRIL 12",
+  2: "APRIL 26 ",
+  3: "MAY 10 ",
+  4: "MAY 24 ",
+  5: "JUNE 7 ",
+  6: "JUNE 21 ",
+  7: "JULY 5 ",
+  8: "JULY 19 ",
+  9: "AUGUST 2 ",
+  10: "AUGUST 16 ",
+  11: "AUGUST 31 ",
+  12: "SEPTEMBER 13 ",
+  13: "SEPTEMBER 27 ",
+  14: "OCTOBER 11 ",
+  15: "OCTOBER 25",
+  16: "NOVEMBER 8 ",
+  17: "NOVEMBER 22 ",
+  18: "DECEMBER 6 ",
+  19: "DECEMBER 20 "
+};
+
 /*************************
  * This a Javascript recreation of a 1978 version of The Oregon Trail
  * 
@@ -389,28 +411,6 @@ export default class OregonTrail {
   // 1710 GOTO 5170
   // 1720 PRINT "1847"
   // 1730 PRINT
-  turnNumberDates = {
-    1: "APRIL 12",
-    2: "APRIL 26 ",
-    3: "MAY 10 ",
-    4: "MAY 24 ",
-    5: "JUNE 7 ",
-    6: "JUNE 21 ",
-    7: "JULY 5 ",
-    8: "JULY 19 ",
-    9: "AUGUST 2 ",
-    10: "AUGUST 16 ",
-    11: "AUGUST 31 ",
-    12: "SEPTEMBER 13 ",
-    13: "SEPTEMBER 27 ",
-    14: "OCTOBER 11 ",
-    15: "OCTOBER 25",
-    16: "NOVEMBER 8 ",
-    17: "NOVEMBER 22 ",
-    18: "DECEMBER 6 ",
-    19: "DECEMBER 20 "
-  };
-
   printDate() {
     if (this.turnNumber > 19) {
       this.tt.printAll([
@@ -620,11 +620,11 @@ export default class OregonTrail {
     this.shoot((responseTime) => {
       if (responseTime <= 1) {
         options = this.tt.print("RIGHT BETWEEN THE EYES---YOU GOT A BIG ONE!!!! FULL BELLIES TONIGHT!");
-        this.food += 52 + Math.randomInt(6) + 1;
-        this.ammo -= 10 + Math.randomInt(4) + 1;
+        this.food += 52 + randomInt(6) + 1;
+        this.ammo -= 10 + randomInt(4) + 1;
       }
-      else if (Math.randomInt(100) >= 13 * responseTime) {
-        options = this.food += 52 + Math.randomInt(6) + 1;
+      else if (randomInt(100) >= 13 * responseTime) {
+        options = this.food += 52 + randomInt(6) + 1;
         this.ammo -= 10 + 3 * responseTime;
         this.tt.print("NICE SHOT. RIGHT ON TARGET. GOOD EATIN' TONIGHT!!");
       }
@@ -1117,13 +1117,13 @@ export default class OregonTrail {
   // 6280 RETURN
   shoot(callback) {
     let shootWords = ["BANG", "BLAM", "POW", "WHAM"];
-    let wordIndex = Math.randomInt(4);
+    let wordIndex = randomInt(4);
     this.tt.print("TYPE " + shootWords[wordIndex]).then(() => {
       let responseStart = moment();
       this.tt.input().then(result => {
         let responseTime = moment().diff(responseStart, 'seconds');
         responseTime -= this.rifleSkill + 1;
-        responseTime = this.positiveIntegerize(responseTime);
+        responseTime = getPositiveInteger(responseTime);
         if (result.toUpperCase() !== shootWords[wordIndex]) {
           responseTime = 100;
         }
