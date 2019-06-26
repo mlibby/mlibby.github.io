@@ -624,9 +624,9 @@ export default class OregonTrail {
         this.ammo -= 10 + randomInt(4) + 1;
       }
       else if (randomInt(100) >= 13 * responseTime) {
-        options = this.food += 52 + randomInt(6) + 1;
+        this.food += 52 + randomInt(6) + 1;
         this.ammo -= 10 + 3 * responseTime;
-        this.tt.print("NICE SHOT. RIGHT ON TARGET. GOOD EATIN' TONIGHT!!");
+        options = this.tt.print("NICE SHOT. RIGHT ON TARGET. GOOD EATIN' TONIGHT!!");
       }
       else {
         // original code doesn't reduce ammo when you miss
