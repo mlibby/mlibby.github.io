@@ -412,6 +412,8 @@ export default class OregonTrail {
   // 1720 PRINT "1847"
   // 1730 PRINT
   printDate() {
+    // not re-implementing the on-goto system for printing month/day, 
+    // using a JS object defined in the module namespace instead
     if (this.turnNumber > 19) {
       this.tt.printAll([
         "YOU HAVE BEEN ON THE TRAIL TOO LONG  ------",
@@ -447,6 +449,7 @@ export default class OregonTrail {
   // 1900 M=INT(M)
   // 1910 M2=M
   beginningTurn() {
+    // getPositiveInteger combines the >= and int() checks from the BASIC code
     this.ammo = getPositiveInteger(this.ammo);
     this.clothing = getPositiveInteger(this.clothing);
     this.food = getPositiveInteger(this.food);
@@ -457,6 +460,8 @@ export default class OregonTrail {
     this.printFoodWarning();
   }
 
+  // 1830 IF F >= 13 THEN 1650 [err: should be 1850]
+  // 1840 PRINT "YOU'D BETTER DO SOME HUNTING OR BUY FOOD AND SOON!!!!"
   printFoodWarning() {
     if (this.food < 13) {
       this.tt.print("YOU'D BETTER DO SOME HUNTING OR BUY FOOD AND SOON!!!!").then(() => {
@@ -504,7 +509,7 @@ export default class OregonTrail {
         this.supplies.toString().padEnd(14, ' ') +
         this.money.toString()
       ).then(() => {
-        this.getNextAction();
+        this.getUserTurnAction();
       });
     });
   }
@@ -531,31 +536,31 @@ export default class OregonTrail {
   // 2250 GOTO 2170
   // 2260 X1=X1*(-1)
   // 2270 ON X GOTO 2290,2540,2720
-  getNextAction() {
+  getUserTurnAction() {
     if (this.fortOptionFlag === -1) {
       this.tt.print("DO YOU WANT TO (1) HUNT, OR (2) CONTINUE?").then(() => {
         this.tt.input().then(result => {
           let action = Number(result) + 1;
-          this.doAction(action);
+          this.doUserTurnAction(action);
         });
       });
     } else {
       this.tt.print("DO YOU WANT TO (1) STOP AT THE NEXT FORT, (2) HUNT, OR (3) CONTINUE?").then(() => {
         this.tt.input().then(result => {
           let action = Number(result);
-          this.doAction(action)
+          this.doUserTurnAction(action)
         });
       });
     }
   }
 
-  doAction(action) {
+  doUserTurnAction(action) {
     if (action === 1) {
       this.stopAtFort();
     } else if (action === 2) {
       if (this.ammo < 40) {
         this.tt.print("TOUGH---YOU NEED MORE BULLETS TO GO HUNTING").then(() => {
-          this.getNextAction();
+          this.getUserTurnAction();
         });
       } else {
         this.hunt();
@@ -581,7 +586,7 @@ export default class OregonTrail {
   // 2410 F=F+2/3*P
   // 2420 PRINT "AMMUNITION";
   // 2430 GOSUB 2330
-  // 2440 LET B=INT(B+2/3+P*50)
+  // 2440 LET B=INT(B+2/3+P*50) [err: probably meant to be 'B+2/3*P*50' like the others]
   // 2450 PRINT "CLOTHING";
   // 2460 GOSUB 2330
   // 2470 C=C+2/3*P
@@ -590,10 +595,25 @@ export default class OregonTrail {
   // 2500 M1=M1+2/3*P
   // 2510 M=M-45
   // 2520 GOTO 2720
-  stopAtFort() {
-    this.tt.print("stop at fort").then(() => {
+  async stopAtFort() {
+    this.tt.print("ENTER WHAT YOU WISH TO SPEND ON THE FOLLOWING").then(async () => {
+      let purchaseAmount = await this.askAtFort("FOOD");
+      this.food += 2 / 3 * purchaseAmount;
+      purchaseAmount = await this.askAtFort("AMMUNITION");
+      this.ammo += 2 / 3 * purchaseAmount * 50;
+      purchaseAmount = await this.askAtFort("CLOTHING");
+      this.clothing += 2 / 3 * purchaseAmount;
+      purchaseAmount = await this.askAtFort("MISCELLANEOUS SUPPLIES");
+      this.supplies += 2 / 3 * purchaseAmount;
+      this.totalMileage -= 45;
       this.eat();
     });
+  }
+
+  async askAtFort(purchase) {
+    await this.tt.print(purchase);
+    let result = await this.tt.input();
+    return Number(result);
   }
 
   // 2530 REM ***HUNTING***
@@ -937,7 +957,9 @@ export default class OregonTrail {
   // 5060 PRINT "YOU RAN OUT OF FOOD AND STARVED TO DEATH"
   // 5070 GOTO 5170
   starved() {
-
+    this.tt.print("YOU RAN OUT OF FOOD AND STARVED TO DEATH").then(() => {
+      this.unfortunateSituation();
+    });
   }
 
   // 5080 LET T=0
@@ -949,10 +971,8 @@ export default class OregonTrail {
   // 5140 PRINT "PNEUMONIA"
   // 5150 GOTO 5170
   // 5160 PRINT "INJURIES"
+
   // 5170 PRINT
-
-
-
   // 5180 PRINT "DUE TO YOUR UNFORTUNATE SITUATION, THERE ARE A FEW"
   // 5190 PRINT "FORMALITIES WE MUST GO THROUGH"
   // 5200 PRINT
@@ -994,12 +1014,10 @@ export default class OregonTrail {
                   options = this.tt.print("BUT YOUR AUNT SADIE IN ST. LOUIS IS REALLY WORRIED ABOUT YOU.");
                 }
                 options.then(() => {
-                  this.tt.print([
-                    "",
+                  this.tt.printAll([
                     "WE THANK YOU FOR THIS INFORMATION AND WE ARE SORRY YOU DIDN'T MAKE IT TO THE GREAT TERRITORY OF OREGON. BETTER LUCK NEXT TIME.",
-                    "",
-                    "                   SINCERELY",
-                    "                   THE OREGON CITY CHAMBER OF COMMERCE",
+                    "        SINCERELY",
+                    "        THE OREGON CITY CHAMBER OF COMMERCE",
                   ]).then(() => {
                     this.askPlayAgain();
                   });
@@ -1158,7 +1176,7 @@ export default class OregonTrail {
 
 
   askPlayAgain() {
-    this.tt.print("Do you want to play again?").then(() => {
+    this.tt.print("DO YOU WANT TO PLAY AGAIN?").then(() => {
       this.playAgain();
       this.tt.scrollToEnd();
     });
