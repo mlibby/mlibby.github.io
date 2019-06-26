@@ -92,18 +92,16 @@ export default class OregonTrail {
   // 180 REM RANDOMIZE REMOVED
   // 190 INPUT C$
   // 200 IF C$="NO" THEN 690
-  play() {
+  async play() {
     this.tt.clear();
-    this.tt.print("DO YOU NEED INSTRUCTIONS? (YES/NO)").then(() => {
-      this.tt.input().then((result) => {
-        if (result.toUpperCase().trim() === "NO") {
-          this.askRifleSkill();
-        }
-        else {
-          this.printInstructions();
-        }
-      });
-    });
+    await this.tt.print("DO YOU NEED INSTRUCTIONS? (YES/NO)");
+    const result = await this.tt.input();
+    if (result.toUpperCase().trim() === "NO") {
+      this.askRifleSkill();
+    }
+    else {
+      this.printInstructions();
+    }
   }
 
   // 210 PRINT
@@ -154,8 +152,8 @@ export default class OregonTrail {
   // 660 PRINT "WHEN ASKED TO ENTER MONEY AMOUNTS, DON'T USE A **$**."
   // 670 PRINT
   // 680 PRINT "GOOD LUCK!!!"
-  printInstructions() {
-    this.tt.printAll([
+  async printInstructions() {
+    await this.tt.printAll([
       "THIS PROGRAM SIMULATES A TRIP OVER THE OREGON TRAIL FROM INDEPENDENCE MISSOURI TO OREGON CITY, OREGON IN 1847. YOUR FAMILY OF FIVE WILL COVER THE 2040 MILE OREGON TRAIL IN 5-6 MONTHS --- IF YOU MAKE IT ALIVE.",
       "YOU HAD SAVED $900 TO SPEND FOR THE TRIP, AND YOU'VE JUST PAID $200 FOR A WAGON.",
       "YOU WILL NEED TO SPEND THE REST OF YOUR MONEY ON THE FOLLOWING ITEMS:",
@@ -169,9 +167,9 @@ export default class OregonTrail {
       "AT EACH TURN, ALL ITEMS ARE SHOWN IN DOLLAR AMOUNTS EXCEPT BULLETS",
       "WHEN ASKED TO ENTER MONEY AMOUNTS, DON'T USE A **$**.",
       "GOOD LUCK!!!"
-    ]).then(() => {
-      this.askRifleSkill();
-    });
+    ]);
+
+    this.askRifleSkill();
   }
 
   // 690 PRINT
@@ -185,18 +183,17 @@ export default class OregonTrail {
   // 770 IF D95 THEN 790 [err: should be IF D9 > 5 THEN ... ?]
   // 780 GOTO 810
   // 790 D9=0
-  askRifleSkill() {
-    this.tt.printAll([
+  async askRifleSkill() {
+    await this.tt.printAll([
       "HOW GOOD A SHOT ARE YOU WITH YOUR RIFLE?",
       "  (1) ACE MARKSMAN,  (2) GOOD SHOT,  (3) FAIR TO MIDDLIN', (4) NEED MORE PRACTICE,  (5) SHAKY KNEES",
       "ENTER ONE OF THE ABOVE. THE BETTER YOU CLAIM YOU ARE, THE FASTER YOU'LL HAVE TO BE WITH YOUR GUN TO BE SUCCESSFUL."
-    ]).then(() => {
-      this.tt.input().then(result => {
-        this.rifleSkill = getPositiveInteger(result);
-        this.rifleSkill = this.rifleSkill > 5 ? 0 : this.rifleSkill;
-        this.initialPurchases();
-      });
-    });
+    ]);
+
+    const result = await this.tt.input();
+    this.rifleSkill = getPositiveInteger(result);
+    this.rifleSkill = this.rifleSkill > 5 ? 0 : this.rifleSkill;
+    this.initialPurchases();
   }
 
   // 800 REM ***INITIAL PURCHASES***
@@ -224,24 +221,22 @@ export default class OregonTrail {
   // 900 IF A <= 300 THEN 930
   // 910 PRINT "TOO MUCH"
   // 920 GOTO 850
-  askOxenSpending() {
+  async askOxenSpending() {
     // line 810 & 820 implemented in constructor
-    this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON YOUR OXEN TEAM?").then(() => {
-      this.tt.input().then(result => {
-        this.oxen = getPositiveInteger(result);
-        if (this.oxen < 200) {
-          this.tt.print("NOT ENOUGH").then(() => {
-            this.askOxenSpending();
-          });
-        } else if (this.oxen > 300) {
-          this.tt.print("TOO MUCH").then(() => {
-            this.askOxenSpending();
-          });
-        } else {
-          this.askFoodSpending();
-        }
-      });
-    });
+    await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON YOUR OXEN TEAM?");
+    const result = await this.tt.input();
+    this.oxen = getPositiveInteger(result);
+    if (this.oxen < 200) {
+      await this.tt.print("NOT ENOUGH");
+      this.askOxenSpending();
+    }
+    else if (this.oxen > 300) {
+      await this.tt.print("TOO MUCH");
+      this.askOxenSpending();
+    }
+    else {
+      this.askFoodSpending();
+    }
   }
 
   // 930 PRINT "HOW MUCH DO YOU WANT TO SPEND ON FOOD";
@@ -249,19 +244,17 @@ export default class OregonTrail {
   // 950 IF F >= 0 THEN 980
   // 960 PRINT "IMPOSSIBLE"
   // 970 GOTO 930
-  askFoodSpending() {
-    this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON FOOD?").then(() => {
-      this.tt.input().then(result => {
-        this.food = getPositiveInteger(result);
-        if (this.food < 0) {
-          this.tt.print("IMPOSSIBLE").then(() => {
-            this.askFoodSpending();
-          });
-        } else {
-          this.askAmmoSpending();
-        }
-      });
-    });
+  async askFoodSpending() {
+    await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON FOOD?");
+    const result = await this.tt.input();
+    this.food = getPositiveInteger(result);
+    if (this.food < 0) {
+      await this.tt.print("IMPOSSIBLE");
+      this.askFoodSpending();
+    }
+    else {
+      this.askAmmoSpending();
+    }
   }
 
   // 980 PRINT "HOW MUCH DO YOU WANT TO SPEND ON AMMUNITION";
@@ -269,19 +262,16 @@ export default class OregonTrail {
   // 1000 IF B >= 0 THEN 1030
   // 1010 PRINT "IMPOSSIBLE"
   // 1020 GOTO 980
-  askAmmoSpending() {
-    this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON AMMUNITION?").then(() => {
-      this.tt.input().then(result => {
-        this.ammo = getPositiveInteger(result);
-        if (this.ammo < 0) {
-          this.tt.print("IMPOSSIBLE").then(() => {
-            this.tt.askAmmoSpending();
-          });
-        } else {
-          this.askClothingSpending();
-        }
-      });
-    });
+  async askAmmoSpending() {
+    await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON AMMUNITION?");
+    const result = await this.tt.input();
+    this.ammo = getPositiveInteger(result);
+    if (this.ammo < 0) {
+      await this.tt.print("IMPOSSIBLE");
+      this.tt.askAmmoSpending();
+    } else {
+      this.askClothingSpending();
+    }
   }
 
   // 1030 PRINT "HOW MUCH DO YOU WANT TO SPEND ON CLOTHING";
@@ -289,19 +279,17 @@ export default class OregonTrail {
   // 1050 IF C >= 0 THEN 1080
   // 1060 PRINT "IMPOSSIBLE"
   // 1070 GOTO 1030
-  askClothingSpending() {
-    this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON CLOTHING?").then(() => {
-      this.tt.input().then(result => {
-        this.clothing = getPositiveInteger(result);
-        if (this.clothing < 0) {
-          this.tt.print("IMPOSSIBLE").then(() => {
-            this.askClothingSpending();
-          });
-        } else {
-          this.askMiscSpending();
-        }
-      });
-    });
+  async askClothingSpending() {
+    await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON CLOTHING?");
+    const result = await this.tt.input();
+    this.clothing = getPositiveInteger(result);
+    if (this.clothing < 0) {
+      await this.tt.print("IMPOSSIBLE");
+      this.askClothingSpending();
+    }
+    else {
+      this.askMiscSpending();
+    }
   }
 
   // 1080 PRINT "HOW MUCH DO YOU WANT TO SPEND ON MISCELLANEOUS SUPPLIES";
@@ -309,19 +297,17 @@ export default class OregonTrail {
   // 1100 IF M1 >= 0 THEN 1130
   // 1110 PRINT "IMPOSSIBLE"
   // 1120 GOTO 1080
-  askMiscSpending() {
-    this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON MISCELLANEOUS SUPPLIES?").then(() => {
-      this.tt.input().then(result => {
-        this.supplies = getPositiveInteger(result);
-        if (this.supplies < 0) {
-          this.tt.print("IMPOSSIBLE").then(() => {
-            this.askMiscSpending();
-          });
-        } else {
-          this.checkSpendingTotal();
-        }
-      });
-    });
+  async askMiscSpending() {
+    await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON MISCELLANEOUS SUPPLIES?");
+    const result = await this.tt.input()
+    this.supplies = getPositiveInteger(result);
+    if (this.supplies < 0) {
+      await this.tt.print("IMPOSSIBLE");
+      this.askMiscSpending();
+    }
+    else {
+      this.checkSpendingTotal();
+    }
   }
 
   // 1130 T=700-A-F-B-C-M1
@@ -334,19 +320,18 @@ export default class OregonTrail {
   // 1200 PRINT "MONDAY MARCH 29 1847"
   // 1210 PRINT
   // 1220 GOTO 1750
-  checkSpendingTotal() {
+  async checkSpendingTotal() {
     this.money = 700 - this.oxen - this.food - this.ammo - this.clothing - this.supplies;
     if (this.money >= 0) {
-      this.tt.printAll([
+      await this.tt.printAll([
         "AFTER ALL YOUR PURCHASES, YOU NOW HAVE " + this.money + " DOLLARS LEFT",
         "MONDAY MARCH 29 1847"
-      ]).then(() => {
-        this.beginningTurn();
-      });
-    } else {
-      this.tt.print("YOU OVERSPENT. YOU ONLY HAD $700 TO SPEND. BUY AGAIN.").then(() => {
-        this.askOxenSpending();
-      });
+      ]);
+      this.beginningTurn();
+    }
+    else {
+      this.tt.print("YOU OVERSPENT. YOU ONLY HAD $700 TO SPEND. BUY AGAIN.");
+      this.askOxenSpending();
     }
   }
 
@@ -411,22 +396,20 @@ export default class OregonTrail {
   // 1710 GOTO 5170
   // 1720 PRINT "1847"
   // 1730 PRINT
-  printDate() {
+  async printDate() {
     // not re-implementing the on-goto system for printing month/day, 
     // using a JS object defined in the module namespace instead
     if (this.turnNumber > 19) {
-      this.tt.printAll([
+      await this.tt.printAll([
         "YOU HAVE BEEN ON THE TRAIL TOO LONG  ------",
         "YOUR FAMILY DIES IN THE FIRST BLIZZARD OF WINTER"
-      ]).then(() => {
-        this.unfortunateSituation();
-      });
+      ]);
+      this.unfortunateSituation();
     }
     else {
       let dateToPrint = "MONDAY " + turnNumberDates[this.turnNumber] + "1847";
-      this.tt.print(dateToPrint).then(() => {
-        this.beginningTurn();
-      });
+      await this.tt.print(dateToPrint);
+      this.beginningTurn();
     }
   }
 
@@ -462,15 +445,12 @@ export default class OregonTrail {
 
   // 1830 IF F >= 13 THEN 1650 [err: should be 1850]
   // 1840 PRINT "YOU'D BETTER DO SOME HUNTING OR BUY FOOD AND SOON!!!!"
-  printFoodWarning() {
+  async printFoodWarning() {
     if (this.food < 13) {
-      this.tt.print("YOU'D BETTER DO SOME HUNTING OR BUY FOOD AND SOON!!!!").then(() => {
-        this.printMileage();
-      })
+      await this.tt.print("YOU'D BETTER DO SOME HUNTING OR BUY FOOD AND SOON!!!!");
     }
-    else {
-      this.printMileage();
-    }
+
+    this.printMileage();
   }
 
   // 1920 IF S4=1 THEN 1950
@@ -485,33 +465,30 @@ export default class OregonTrail {
   // 2010 GOTO 2040
   // 2020 PRINT "TOTAL MILEAGE IS 950"
   // 2030 M9=0
-  printMileage() {
+  async printMileage() {
     if (this.southPassMileageFlag == 1) {
       this.southPassMileageFlag = 0;
-      this.tt.print("TOTAL MILEAGE IS 950").then(() => {
-        this.printItemSummary();
-      });
-    } else {
-      this.tt.print("TOTAL MILEAGE IS " + this.totalMileage).then(() => {
-        this.printItemSummary();
-      });
+      await this.tt.print("TOTAL MILEAGE IS 950");
     }
+    else {
+      await this.tt.print("TOTAL MILEAGE IS " + this.totalMileage);
+    }
+
+    this.printItemSummary();
   }
 
   // 2040 PRINT "FOOD","BULLETS","CLOTHING","MISC. SUPP.","CASH"
   // 2050 PRINT F,B,C,M1,T
-  printItemSummary() {
-    this.tt.print("FOOD  BULLETS  CLOTHING  MISC. SUPP.   CASH").then(() => {
-      this.tt.print(
-        this.food.toString().padEnd(6, ' ') +
-        this.ammo.toString().padEnd(9, ' ') +
-        this.clothing.toString().padEnd(10, ' ') +
-        this.supplies.toString().padEnd(14, ' ') +
-        this.money.toString()
-      ).then(() => {
-        this.getUserTurnAction();
-      });
-    });
+  async printItemSummary() {
+    await this.tt.print("FOOD  BULLETS  CLOTHING  MISC. SUPP.   CASH");
+    await this.tt.print(
+      this.food.toString().padEnd(6, ' ') +
+      this.ammo.toString().padEnd(9, ' ') +
+      this.clothing.toString().padEnd(10, ' ') +
+      this.supplies.toString().padEnd(14, ' ') +
+      this.money.toString()
+    );
+    this.getUserTurnAction();
   }
 
   // 2060 IF X1=-1 THEN 2170
@@ -536,36 +513,36 @@ export default class OregonTrail {
   // 2250 GOTO 2170
   // 2260 X1=X1*(-1)
   // 2270 ON X GOTO 2290,2540,2720
-  getUserTurnAction() {
+  async getUserTurnAction() {
+    let action;
     if (this.fortOptionFlag === -1) {
-      this.tt.print("DO YOU WANT TO (1) HUNT, OR (2) CONTINUE?").then(() => {
-        this.tt.input().then(result => {
-          let action = Number(result) + 1;
-          this.doUserTurnAction(action);
-        });
-      });
-    } else {
-      this.tt.print("DO YOU WANT TO (1) STOP AT THE NEXT FORT, (2) HUNT, OR (3) CONTINUE?").then(() => {
-        this.tt.input().then(result => {
-          let action = Number(result);
-          this.doUserTurnAction(action)
-        });
-      });
+      await this.tt.print("DO YOU WANT TO (1) HUNT, OR (2) CONTINUE?");
+      const result = await this.tt.input();
+      action = Number(result) + 1;
     }
+    else {
+      await this.tt.print("DO YOU WANT TO (1) STOP AT THE NEXT FORT, (2) HUNT, OR (3) CONTINUE?");
+      const result = await this.tt.input();
+      action = Number(result);
+    }
+
+    this.doUserTurnAction(action)
   }
 
-  doUserTurnAction(action) {
+  async doUserTurnAction(action) {
     if (action === 1) {
       this.stopAtFort();
-    } else if (action === 2) {
+    }
+    else if (action === 2) {
       if (this.ammo < 40) {
-        this.tt.print("TOUGH---YOU NEED MORE BULLETS TO GO HUNTING").then(() => {
-          this.getUserTurnAction();
-        });
-      } else {
+        await this.tt.print("TOUGH---YOU NEED MORE BULLETS TO GO HUNTING");
+        this.getUserTurnAction();
+      }
+      else {
         this.hunt();
       }
-    } else {
+    }
+    else {
       this.eat();
     }
   }
@@ -596,18 +573,22 @@ export default class OregonTrail {
   // 2510 M=M-45
   // 2520 GOTO 2720
   async stopAtFort() {
-    this.tt.print("ENTER WHAT YOU WISH TO SPEND ON THE FOLLOWING").then(async () => {
-      let purchaseAmount = await this.askAtFort("FOOD");
-      this.food += 2 / 3 * purchaseAmount;
-      purchaseAmount = await this.askAtFort("AMMUNITION");
-      this.ammo += 2 / 3 * purchaseAmount * 50;
-      purchaseAmount = await this.askAtFort("CLOTHING");
-      this.clothing += 2 / 3 * purchaseAmount;
-      purchaseAmount = await this.askAtFort("MISCELLANEOUS SUPPLIES");
-      this.supplies += 2 / 3 * purchaseAmount;
-      this.totalMileage -= 45;
-      this.eat();
-    });
+    await this.tt.print("ENTER WHAT YOU WISH TO SPEND ON THE FOLLOWING");
+
+    let purchaseAmount = await this.askAtFort("FOOD");
+    this.food += 2 / 3 * purchaseAmount;
+
+    purchaseAmount = await this.askAtFort("AMMUNITION");
+    this.ammo += 2 / 3 * purchaseAmount * 50;
+
+    purchaseAmount = await this.askAtFort("CLOTHING");
+    this.clothing += 2 / 3 * purchaseAmount;
+
+    purchaseAmount = await this.askAtFort("MISCELLANEOUS SUPPLIES");
+    this.supplies += 2 / 3 * purchaseAmount;
+
+    this.totalMileage -= 45;
+    this.eat();
   }
 
   async askAtFort(purchase) {
@@ -634,29 +615,26 @@ export default class OregonTrail {
   // 2690 B=B-10-RND(-1)*4
   // 2700 GOTO 2720
   // 2710 PRINT "YOU MISSED---AND YOUR DINNER GOT AWAY....."
-  hunt() {
+  async hunt() {
     this.totalMileage -= 45;
     let options;
-    this.shoot((responseTime) => {
-      if (responseTime <= 1) {
-        options = this.tt.print("RIGHT BETWEEN THE EYES---YOU GOT A BIG ONE!!!! FULL BELLIES TONIGHT!");
-        this.food += 52 + randomInt(6) + 1;
-        this.ammo -= 10 + randomInt(4) + 1;
-      }
-      else if (randomInt(100) >= 13 * responseTime) {
-        this.food += 52 + randomInt(6) + 1;
-        this.ammo -= 10 + 3 * responseTime;
-        options = this.tt.print("NICE SHOT. RIGHT ON TARGET. GOOD EATIN' TONIGHT!!");
-      }
-      else {
-        // original code doesn't reduce ammo when you miss
-        options = this.tt.print("YOU MISSED---AND YOUR DINNER GOT AWAY.....");
-      }
+    const responseTime = await this.shoot();
+    if (responseTime <= 1) {
+      await this.tt.print("RIGHT BETWEEN THE EYES---YOU GOT A BIG ONE!!!! FULL BELLIES TONIGHT!");
+      this.food += 52 + randomInt(6) + 1;
+      this.ammo -= 10 + randomInt(4) + 1;
+    }
+    else if (randomInt(100) >= 13 * responseTime) {
+      this.food += 52 + randomInt(6) + 1;
+      this.ammo -= 10 + 3 * responseTime;
+      await this.tt.print("NICE SHOT. RIGHT ON TARGET. GOOD EATIN' TONIGHT!!");
+    }
+    else {
+      // original code doesn't reduce ammo when you miss
+      await this.tt.print("YOU MISSED---AND YOUR DINNER GOT AWAY.....");
+    }
 
-      options.then(() => {
-        this.eat();
-      });
-    });
+    this.eat();
   }
 
   // 2720 IF F >= 13 THEN 2750
@@ -673,26 +651,25 @@ export default class OregonTrail {
   // 2830 F=F+8+5*E
   // 2840 PRINT "YOU CAN'T EAT THAT WELL"
   // 2850 GOTO 2750
-  eat() {
+  async eat() {
     if (this.food >= 13) {
-      this.tt.print("DO YOU WANT TO EAT (1) POORLY (2) MODERATELY OR (3) WELL").then(() => {
-        this.tt.input().then(result => {
-          result = getPositiveInteger(result);
-          if (result > 3 || result < 1) {
-            this.eat();
-          } else {
-            let foodToEat = 8 + 5 * result;
-            if (foodToEat > this.food) {
-              this.tt.print("YOU CAN'T EAT THAT WELL").then(() => {
-                this.eat();
-              });
-            } else {
-              this.food -= foodToEat;
-              this.updateMileage();
-            }
-          }
-        });
-      });
+      await this.tt.print("DO YOU WANT TO EAT (1) POORLY (2) MODERATELY OR (3) WELL");
+      let result = await this.tt.input();
+      result = getPositiveInteger(result);
+      if (result > 3 || result < 1) {
+        this.eat();
+      }
+      else {
+        let foodToEat = 8 + 5 * result;
+        if (foodToEat > this.food) {
+          await this.tt.print("YOU CAN'T EAT THAT WELL");
+          this.eat();
+        }
+        else {
+          this.food -= foodToEat;
+          this.updateMileage();
+        }
+      }
     }
     else {
       this.starved();
@@ -774,10 +751,9 @@ export default class OregonTrail {
   // 3510 IF B >= 0 THEN 3550
   // 3520 PRINT "YOU RAN OUT OF BULLETS AND GOT MASSACRED BY THE RIDERS"
   // 3530 GOTO 5170
-  ridersAttack() {
-    this.tt.print("riders attack").then(() => {
-      this.doEvents();
-    });
+  async ridersAttack() {
+    await this.tt.print("riders attack");
+    this.doEvents();
   }
 
   // 3540 REM ***SELECTION OF EVENTS***
@@ -897,10 +873,9 @@ export default class OregonTrail {
   // 4670 PRINT "HELPFUL INDIANS SHOW YOU WHERE TO FIND MORE FOOD"
   // 4680  F=F+14
   // 4690 GOTO 4710
-  doEvents() {
-    this.tt.print("do events").then(() => {
-      this.doMountains();
-    });
+  async doEvents() {
+    await this.tt.print("do events");
+    this.doMountains();
   }
 
   // 4700 REM ***MOUNTAINS***
@@ -938,13 +913,12 @@ export default class OregonTrail {
   // 5020 M=M-30-40*RND(-1)
   // 5030 IF C<18+2*RND(-1) THEN 6300
   // 5040 GOTO 4940
-  doMountains() {
-    this.tt.print("do mountains").then(() => {
-      //    if (this.totalMileage > 950) {
-      //        this.doMountains();
-      //    }
-      this.finishTurn();
-    });
+  async doMountains() {
+    await this.tt.print("do mountains");
+    //    if (this.totalMileage > 950) {
+    //        this.doMountains();
+    //    }
+    this.finishTurn();
   }
 
   finishTurn() {
@@ -956,10 +930,9 @@ export default class OregonTrail {
   // 5050 REM ***DYING***
   // 5060 PRINT "YOU RAN OUT OF FOOD AND STARVED TO DEATH"
   // 5070 GOTO 5170
-  starved() {
-    this.tt.print("YOU RAN OUT OF FOOD AND STARVED TO DEATH").then(() => {
-      this.unfortunateSituation();
-    });
+  async starved() {
+    await this.tt.print("YOU RAN OUT OF FOOD AND STARVED TO DEATH");
+    this.unfortunateSituation();
   }
 
   // 5080 LET T=0
@@ -997,39 +970,33 @@ export default class OregonTrail {
   // 5390 PRINT
   // 5400 PRINT TAB(17);"THE OREGON CITY CHAMBER OF COMMERCE"
   // 5410 STOP
-  unfortunateSituation() {
-    this.tt.printAll([
+  async unfortunateSituation() {
+    await this.tt.printAll([
       "DUE TO YOUR UNFORTUNATE SITUATION, THERE ARE A FEW FORMALITIES WE MUST GO THROUGH.",
       "WOULD YOU LIKE A MINISTER?"
-    ]).then(() => {
-      this.tt.input().then(result => {
-        this.tt.print("WOULD YOU LIKE A FANCY FUNERAL?").then(() => {
-          this.tt.input().then(result => {
-            this.tt.print("WOULD YOU LIKE US TO INFORM YOUR NEXT OF KIN?").then(() => {
-              this.tt.input().then(result => {
-                let options;
-                if (result.toLowerCase() === "yes") {
-                  options = this.tt.print("THAT WILL BE $4.50 FOR THE TELEGRAPH CHARGE.");
-                } else {
-                  options = this.tt.print("BUT YOUR AUNT SADIE IN ST. LOUIS IS REALLY WORRIED ABOUT YOU.");
-                }
-                options.then(() => {
-                  this.tt.printAll([
-                    "WE THANK YOU FOR THIS INFORMATION AND WE ARE SORRY YOU DIDN'T MAKE IT TO THE GREAT TERRITORY OF OREGON. BETTER LUCK NEXT TIME.",
-                    "        SINCERELY",
-                    "        THE OREGON CITY CHAMBER OF COMMERCE",
-                  ]).then(() => {
-                    this.askPlayAgain();
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  }
+    ]);
+    let result = await this.tt.input();
 
+    await this.tt.print("WOULD YOU LIKE A FANCY FUNERAL?");
+    result = await this.tt.input();
+
+    await this.tt.print("WOULD YOU LIKE US TO INFORM YOUR NEXT OF KIN?");
+    result = await this.tt.input();
+    if (result.toLowerCase() === "yes") {
+      await this.tt.print("THAT WILL BE $4.50 FOR THE TELEGRAPH CHARGE.");
+    }
+    else {
+      await this.tt.print("BUT YOUR AUNT SADIE IN ST. LOUIS IS REALLY WORRIED ABOUT YOU.");
+    }
+
+    await this.tt.printAll([
+      "WE THANK YOU FOR THIS INFORMATION AND WE ARE SORRY YOU DIDN'T MAKE IT TO THE GREAT TERRITORY OF OREGON. BETTER LUCK NEXT TIME.",
+      "        SINCERELY",
+      "        THE OREGON CITY CHAMBER OF COMMERCE",
+    ]);
+
+    this.askPlayAgain();
+  }
 
   // 5420 REM ***FINAL TURN***
   // 5430 F9=(2040-M2)/(M-M2)
@@ -1102,10 +1069,9 @@ export default class OregonTrail {
   // 6100 PRINT
   // 6110 PRINT TAB(22);"AT YOUR NEW HOME"
   // 6120 STOP
-  finalTurn() {
-    this.tt.print("YOU FINALLY ARRIVED AT OREGON CITY AFTER 2040 LONG MILES---HOORAY!!!!! A REAL PIONEER!").then(() => {
-      this.playAgain();
-    });
+  async finalTurn() {
+    await this.tt.print("YOU FINALLY ARRIVED AT OREGON CITY AFTER 2040 LONG MILES---HOORAY!!!!! A REAL PIONEER!");
+    this.playAgain();
   }
 
   // 6130 REM ***SHOOTING SUB-ROUTINE***
@@ -1133,24 +1099,22 @@ export default class OregonTrail {
   // 6260 IF C$=S$(56) THEN 6280
   // 6270 B1=0
   // 6280 RETURN
-  shoot(callback) {
-    let shootWords = ["BANG", "BLAM", "POW", "WHAM"];
-    let wordIndex = randomInt(4);
-    this.tt.print("TYPE " + shootWords[wordIndex]).then(() => {
-      let responseStart = moment();
-      this.tt.input().then(result => {
-        let responseTime = moment().diff(responseStart, 'seconds');
-        responseTime -= this.rifleSkill + 1;
-        responseTime = getPositiveInteger(responseTime);
-        if (result.toUpperCase() !== shootWords[wordIndex]) {
-          responseTime = 100;
-        }
-        if (responseTime > 255) {
-          responseTime = 255;
-        }
-        callback(responseTime);
-      });
-    });
+  async shoot() {
+    const shootWords = ["BANG", "BLAM", "POW", "WHAM"];
+    const wordIndex = randomInt(4);
+    await this.tt.print("TYPE " + shootWords[wordIndex]);
+    const responseStart = moment();
+    let result = await this.tt.input();
+    let responseTime = moment().diff(responseStart, 'seconds');
+    responseTime -= this.rifleSkill + 1;
+    responseTime = getPositiveInteger(responseTime);
+    if (result.toUpperCase() !== shootWords[wordIndex]) {
+      responseTime = 100;
+    }
+    if (responseTime > 255) {
+      responseTime = 255;
+    }
+    return responseTime;
   }
 
   // 6290 REM ***ILLNESS SUB-ROUTINE***
@@ -1174,12 +1138,10 @@ export default class OregonTrail {
   sickness() {
   }
 
-
-  askPlayAgain() {
-    this.tt.print("DO YOU WANT TO PLAY AGAIN?").then(() => {
-      this.playAgain();
-      this.tt.scrollToEnd();
-    });
+  async askPlayAgain() {
+    await this.tt.print("DO YOU WANT TO PLAY AGAIN?");
+    this.playAgain();
+    this.tt.scrollToEnd();
   }
 
   playAgain() {
