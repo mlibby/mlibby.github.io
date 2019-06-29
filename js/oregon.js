@@ -16,7 +16,7 @@ function getPositiveInteger(number) {
 }
 
 const turnNumberDates = {
-  1: "APRIL 12",
+  1: "APRIL 12 ",
   2: "APRIL 26 ",
   3: "MAY 10 ",
   4: "MAY 24 ",
@@ -30,7 +30,7 @@ const turnNumberDates = {
   12: "SEPTEMBER 13 ",
   13: "SEPTEMBER 27 ",
   14: "OCTOBER 11 ",
-  15: "OCTOBER 25",
+  15: "OCTOBER 25 ",
   16: "NOVEMBER 8 ",
   17: "NOVEMBER 22 ",
   18: "DECEMBER 6 ",
@@ -686,13 +686,34 @@ export default class OregonTrail {
   }
 
   // 2880 REM ***RIDERS ATTACK***
-  // 2890 IF RND(-1)*10>((M/100-4)**27+72)/((M/100-4)**2+12)-1 THEN 3550
+  // 2890 IF RND(-1)*10>((M/100-4)**2+72)/((M/100-4)**2+12)-1 THEN 3550
   // 2900 PRINT "RIDERS AHEAD.  THEY ";
   // 2910 S5=0
   // 2920 IF RND(-1)<.8 THEN 2950
   // 2930 PRINT "DON'T ";
   // 2940 S5=1
   // 2950 PRINT "LOOK HOSTILE"
+  async ridersAttack() {
+    if (randomInt(10) <= ((this.totalMileage / 100 - 4) ^ 2 + 72) / ((this.totalMileage / 100 - 4) ^ 2 + 12) - 1) {
+      this.ridersAreFriendly = false;
+      if (randomInt(10) < 8) {
+        this.ridersAreFriendly = true;
+      }
+
+      await this.tt.print("RIDERS AHEAD.  THEY " + (this.ridersAreFriendly ? "DON'T " : "") + "LOOK HOSTILE");
+
+      if (randomInt(10) <= 2) {
+        this.ridersAreFriendly = false;
+      }
+
+      this.askRiderTactics();
+    }
+    else {
+
+      this.doEvents();
+    }
+  }
+
   // 2960 PRINT "TACTICS"
   // 2970 PRINT "(1) RUN  (2) ATTACK  (3) CONTINUE  (4) CIRCLE WAGONS"
   // 2980 IF RND(-1)>.2 THEN 3000
@@ -703,12 +724,50 @@ export default class OregonTrail {
   // 3030 T1=INT(T1)
   // 3040 IF S5=1 THEN 3330
   // 3050 IF T1>1 THEN 3110
+  // ...
+  // 3110 IF T1>2 THEN 3240
+  // ...
+  // 3240 IF T1>3 THEN 3290
+  // ...
+  async askRiderTactics() {
+    await this.tt.printAll([
+      "TACTICS",
+      "(1) RUN  (2) ATTACK  (3) CONTINUE  (4) CIRCLE WAGONS"
+    ]);
+
+    let tactics = await this.tt.input();
+    tactics = getPositiveInteger(tactics);
+    if (tactics < 1 || tactics > 4) {
+      this.askRiderTactics();
+    }
+
+    if (tactics === 1) {
+      this.runFromRiders();
+    }
+    else if (tactics === 2) {
+      this.attackRiders();
+    }
+    else if (tactics === 3) {
+      this.continuePastRiders();
+    }
+    else {
+      this.circleWagons();
+    }
+  }
+
   // 3060 M=M+20
   // 3070 M1=M1-15
   // 3080 B=B-150
   // 3090 A=A-40
   // 3100 GOTO 3470
-  // 3110 IF T1>2 THEN 3240
+  runFromRiders() {
+    this.totalMileage += 20;
+    this.supplies -= 15;
+    this.ammo -= 150;
+    this.oxen -= 40;
+    this.riderResults();
+  }
+
   // 3120 GOSUB 6140
   // 3130 B=B-B1*40-80
   // 3140 IF B1>1 THEN 3170
@@ -721,15 +780,27 @@ export default class OregonTrail {
   // 3210 GOTO 3470
   // 3220 PRINT "KINDA SLOW WITH YOUR COLT .45"
   // 3230 GOTO 3470
-  // 2340 IF T1>3 THEN 2390
+  attackRiders() {
+    this.doEvents();
+  }
+
   // 3250 IF RND(-1)>.8 THEN 3450
-  // 2360 LET B=B-150
-  // 2370 M1=M1-15
-  // 2380 GOTO 3470
+  // 3260 LET B=B-150
+  // 3270 M1=M1-15
+  // 3280 GOTO 3470
+
+  continuePastRiders() {
+    this.doEvents();
+  }
+
   // 3290 GOSUB 6140
   // 3300 B=B-B1*30-80
   // 3310 M=M-25
   // 3320 GOTO 3140
+  circleWagons() {
+    this.doEvents();
+  }
+
   // 3330 IF T1>1 THEN 3370
   // 3340 M=M+15
   // 3350 A=A-10
@@ -742,6 +813,7 @@ export default class OregonTrail {
   // 3420 GOTO 3470
   // 3430 M=M-20
   // 3440 GOTO 3470
+
   // 3450 PRINT "THEY DID NOT ATTACK"
   // 3460 GOTO 3550
   // 3470 IF S5=0 THEN 3500
@@ -751,8 +823,7 @@ export default class OregonTrail {
   // 3510 IF B >= 0 THEN 3550
   // 3520 PRINT "YOU RAN OUT OF BULLETS AND GOT MASSACRED BY THE RIDERS"
   // 3530 GOTO 5170
-  async ridersAttack() {
-    await this.tt.print("riders attack");
+  async riderResults() {
     this.doEvents();
   }
 
@@ -923,8 +994,7 @@ export default class OregonTrail {
 
   finishTurn() {
     this.fortOptionFlag *= -1;
-    this.turnNumber++;
-    setTimeout(() => this.beginningTurn(), 1);
+    setTimeout(() => this.settingDate(), 1);
   }
 
   // 5050 REM ***DYING***
