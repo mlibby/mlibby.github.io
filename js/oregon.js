@@ -837,11 +837,11 @@ export default class OregonTrail {
   // 3430 M=M-20
   // 3440 GOTO 3470
   handleFriendlyRiders(tactics) {
-    if(tactics === 1) {
+    if (tactics === 1) {
       this.totalMileage += 15;
       this.oxen -= 10;
     }
-    else if(tactics === 2) {
+    else if (tactics === 2) {
       this.totalMileage -= 5;
       this.ammo -= 100;
     }
@@ -896,28 +896,119 @@ export default class OregonTrail {
   // 3630 IF D1>10 THEN 3650
   // 3640 ON D1 GOTO 3660,3700,3740,3790,3820,3850,3880,3960,4130,4190
   // 3650 ON D1-10 GOTO 4220,4290,4340,4650,4610,4670
+  doEvents() {
+    if (randomInt(100) <= 6) {
+      this.eventWagonBreaksDown();
+    }
+    else if (randomInt(100) <= 11) {
+      this.eventOxInjuresLeg();
+    }
+    else if (randomInt(100) <= 13) {
+      this.eventDaughterBrokeArm();
+    }
+    else if (randomInt(100) <= 15) {
+      this.eventOxWandersOff();
+    }
+    else if (randomInt(100) <= 17) {
+      this.eventSonWandersOff();
+    }
+    else if (randomInt(100) <= 22) {
+      this.eventUnsafeWater();
+    }
+    else if (randomInt(100) <= 32) {
+      this.eventHeavyRains();
+    }
+    else if (randomInt(100) <= 35) {
+      this.eventBanditsAttack();
+    }
+    else if (randomInt(100) <= 37) {
+      this.eventUnknownLosses();
+    }
+    else if (randomInt(100) <= 42) {
+      this.eventHeavyFog();
+    }
+    else if (randomInt(100) <= 44) {
+      this.eventPoisonousSnake();
+    }
+    else if (randomInt(100) <= 54) {
+      this.eventWagonSwamped();
+    }
+    else if (randomInt(100) <= 64) {
+      this.eventAnimalsAttack();
+    }
+    else if (randomInt(100) <= 69) {
+      this.eventColdWeather();
+    }
+    else if (randomInt(100) <= 95) {
+      this.eventFoodPoisoning();
+    }
+    else {
+      this.eventFriendlyIndians();
+    }
+  }
+
   // 3660 PRINT "WAGON BREAKS DOWN--LOSE TIME AND SUPPLIES FIXING IT"
   // 3670 LET M=M-15-5*RND(-1)
   // 3680 LET M1=M1-8
   // 3690 GOTO 4710
+  async  eventWagonBreaksDown() {
+    await this.tt.print("WAGON BREAKS DOWN--LOSE TIME AND SUPPLIES FIXING IT");
+    this.totalMileage -= 15 - randomInt(5);
+    this.supplies -= 8;
+    this.doMountains();
+  }
+
   // 3700 PRINT "OX INJURES LEG---SLOWS YOU DOWN REST OF TRIP"
   // 3710 LET M=M-25
   // 3720 LET A=A-20
   // 3730 GOTO 4710
+  async eventOxInjuresLeg() {
+    await this.tt.print("OX INJURES LEG---SLOWS YOU DOWN REST OF TRIP");
+    this.totalMileage -= 25;
+    this.oxen -= 20;
+    this.doMountains();
+  }
+
   // 3740 PRINT "BAD LUCK---YOUR DAUGHTER BROKE HER ARM"
   // 3750 PRINT "YOU HAD TO STOP AND USE SUPPLIES TO MAKE A SLING"
   // 3760 M=M-5-4*RND(-1)
   // 3770 M1=M1-2-3*RND(-1)
   // 3780 GOTO 4710
+  async eventDaughterBrokeArm() {
+    await this.tt.print("BAD LUCK---YOUR DAUGHTER BROKE HER ARM");
+    await this.tt.print("YOU HAD TO STOP AND USE SUPPLIES TO MAKE A SLING");
+    this.totalMileage -= 5 - randomInt(4);
+    this.supplies -= 2 - randomInt(3);
+    this.doMountains();
+  }
+
   // 3790 PRINT "OX WANDERS OFF---SPEND TIME LOOKING FOR IT"
   // 3800 M=M-17
   // 3810 GOTO 4710
+  async eventOxWandersOff() {
+    await this.tt.print("OX WANDERS OFF---SPEND TIME LOOKING FOR IT");
+    this.totalMileage -= 17;
+    this.doMountains();
+  }
+
   // 3820 PRINT "YOUR SON GETS LOST---SPEND HALF THE DAY LOOKING FOR HIM"
   // 3830 M=M-10
   // 3840 GOTO 4710
+  async eventSonWandersOff() {
+    await this.tt.print("YOUR SON GETS LOST---SPEND HALF THE DAY LOOKING FOR HIM");
+    this.totalMileage -= 10;
+    this.doMountains();
+  }
+
   // 3850 PRINT "UNSAFE WATER--LOSE TIME LOOKING FOR CLEAN SPRING"
   // 3860 LET M=M-10*RND(-1)*-2
   // 3870 GOTO 4710
+  async eventUnsafeWater() {
+    await this.tt.print("UNSAFE WATER--LOSE TIME LOOKING FOR CLEAN SPRING");
+    this.totalMileage -= randomInt(20);
+    this.doMountains();
+  }
+
   // 3880 IF M>950 THEN 4490
   // 3890 PRINT "HEAVY RAINS---TIME AND SUPPLIES LOST"
   // 3910 F=F-10
@@ -925,6 +1016,15 @@ export default class OregonTrail {
   // 3930 M1=M1-15
   // 3940 M=M-10*RND(-1)-5
   // 3950 GOTO 4710
+  async eventHeavyRains() {
+    await this.tt.print("HEAVY RAINS---TIME AND SUPPLIES LOST");
+    this.food -= 10;
+    this.ammo -= 500;
+    this.supplies -= 15;
+    this.totalMileage -= randomInt(10) - 5;
+    this.doMountains();
+  }
+
   // 3960 PRINT "BANDITS ATTACK"
   // 3970 GOSUB 6140
   // 3980 B=B-20*B1
@@ -942,17 +1042,33 @@ export default class OregonTrail {
   // 4100 PRINT "QUICKEST DRAW OUTSIDE OF DODGE CITY!!!"
   // 4110 PRINT "YOU GOT 'EM!"
   // 4120 GOTO 4710
+  async eventBanditsAttack() {
+    await this.tt.print("BANDITS ATTACK");
+    this.doMountains();
+  }
+
   // 4140 F=F-40
   // 4150 B=B-400
   // 4160 LET M1=M1-RND(-1)*68-3
   // 4170 M=M-15
   // 4180 GOTO 4710
+  async eventUnknownLosses() {
+    this.food -= 40;
+    this.ammo -= 400;
+    this.supplies -= randomInt(68) - 3;
+    this.totalMileage -= 15;
+    this.doMountains();
+  }
+
   // 4190 PRINT "LOSE YOUR WAY IN HEAVY FOG---TIME IS LOST"
   // 4200 M=M-10-5*RND(-1)
   // 4210 GOTO 4710
-  // 4190 PRINT "LOSE YOUR WAY IN HEAVY FOG---TIME IS LOST"
-  // 4200 M=M-10-5*RND(-1)
-  // 4210 GOTO 4710
+  async eventHeavyFog() {
+    await this.tt.print("LOSE YOUR WAY IN HEAVY FOG---TIME IS LOST");
+    this.totalMileage -= 10 - randomInt(5);
+    this.doMountains();
+  }
+
   // 4220 PRINT "YOU KILLED A POISONOUS SNAKE AFTER IT BIT YOU"
   // 4230 B=B-10
   // 4240 M1=M1-5
@@ -960,11 +1076,33 @@ export default class OregonTrail {
   // 4260 PRINT "YOU DIE OF SNAKEBITE SINCE YOU HAVE NO MEDICINE"
   // 4270 GOTO 5170
   // 4280 GOTO 4710
+  async eventPoisonousSnake() {
+    await this.tt.print("YOU KILLED A POISONOUS SNAKE AFTER IT BIT YOU");
+    this.ammo -= 10;
+    this.supplies -= 5;
+
+    if (this.supplies >= 0) {
+      this.doMountains();
+    }
+    else {
+      this.tt.print("YOU DIE OF SNAKEBITE SINCE YOU HAVE NO MEDICINE");
+      this.unfortunateSituation();
+    }
+  }
+
   // 4290 PRINT "YOUR WAGON GETS SWAMPED FORDING RIVER--LOSE FOOD AND CLOTHES"
   // 4300 F=F-30
   // 4310 C=C-20
   // 4320 M=M-20-20*RND(-1)
   // 4330 GOTO 4710
+  async eventWagonSwamped() {
+    await this.tt.print("YOUR WAGON GETS SWAMPED FORDING RIVER--LOSE FOOD AND CLOTHES");
+    this.food -= 30;
+    this.clothing -= 20;
+    this.totalMileage -= 20 - randomInt(20);
+    this.doMountains();
+  }
+
   // 4340 PRINT "WILD ANIMALS ATTACK!"
   // 4350 GOSUB 6140
   // 4360 IF B>39 THEN 4410
@@ -980,6 +1118,11 @@ export default class OregonTrail {
   // 4460 C=C-B1*4
   // 4470 F=F-B1*8
   // 4480 BOTO 4710
+  async eventAnimalsAttack() {
+    await this.tt.print("WILD ANIMALS ATTACK!");
+    this.doMountains();
+  }
+
   // 4490 PRINT "COLD WEATHER---BRRRRRRR!---YOU ";
   // 4500 IF C>22+4*RND(-1) THEN 4530
   // 4510 PRINT "DON'T ";
@@ -987,22 +1130,48 @@ export default class OregonTrail {
   // 4530 PRINT "HAVE ENOUGH CLOTHING TO KEEP WARM"
   // 4540 IF C1=0 THEN 4710
   // 4550 GOTO 6300
+  async eventColdWeather() {
+    this.isTooCold = this.clothing <= 22 + randomInt(4);
+    await this.tt.print("COLD WEATHER---BRRRRRRR!---YOU " + this.isTooCold ? "DON'T " : "" + "HAVE ENOUGH CLOTHING TO KEEP WARM");
+    if (this.isTooCold) {
+      this.sickness();
+    }
+    else {
+      this.doMountains();
+    }
+  }
+
   // 4560 PRINT "HAIL STORM---SUPPLIES DAMAGED"
   // 4570 M=M-5-RND(-1)*10
   // 4580 B=B-200
   // 4590 M1=M1-4-RND(-1)*3
   // 4600 GOTO 4710
+  async eventHailStorm() {
+    await this.tt.print("HAIL STORM---SUPPLIES DAMAGED");
+    this.totalMileage -= 5 - randomInt(10);
+    this.ammo -= 200;
+    this.supplies -= 4 - randomInt(3);
+    this.doMountains();
+  }
+
   // 4610 IF E=1 THEN 6300
   // 4620 IF E=3 THEN 4650
   // 4630 IF RND(-1)>.25 THEN 6300
   // 4640 GOTO 4710
   // 4650 IF RND(-1)<.5 THEN 6300
   // 4660 GOTO 4710
+  async eventFoodPoisoning() {
+    if (false) {
+      this.sickness();
+    }
+    this.doMountains();
+  }
+
   // 4670 PRINT "HELPFUL INDIANS SHOW YOU WHERE TO FIND MORE FOOD"
   // 4680  F=F+14
   // 4690 GOTO 4710
-  async doEvents() {
-    await this.tt.print("do events");
+  async eventFriendlyIndians() {
+    this.food += 14;
     this.doMountains();
   }
 
@@ -1259,10 +1428,11 @@ export default class OregonTrail {
   // 6410 PRINT "BAD ILLNESS---MEDICINE USED"
   // 6420 M=M-5
   // 6430 M1=M1-5
-  // 64540 IF M1<0 THEN 5110
+  // 6440 IF M1<0 THEN 5110
   // 6450 IF L1=1 THEN 4940
   // 6460 GOTO 4710
   sickness() {
+    this.doMountains();
   }
 
   async askPlayAgain() {
@@ -1290,7 +1460,7 @@ export default class OregonTrail {
   // 6520 REM C = AMOUNT SPENT ON CLOTHING [clothing]
   // 6530 REM C1 = FLAG FOR INSUFFICIENT CLOTHING IN COLD WEATHER
   // 6540 REM C$ = YES/NO RESPONSE TO QUESTIONS
-  // 6550 REM D1 = COUNTER IN GENERATING EVENTS
+  // 6550 REM D1 = COUNTER IN GENERATING EVENTS [eventCounter]
   // 6560 REM D3 = TURN NUMBER FOR SETTING DATE [turnNumber]
   // 6570 REM D4 = CURRENT DATE
   // 6580 REM D9 = CHOICE OF SHOOTING EXPERTISE LEVEL [rifleskill]
