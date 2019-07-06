@@ -701,15 +701,9 @@ export default class OregonTrail {
       }
 
       await this.tt.print("RIDERS AHEAD.  THEY " + (this.ridersAreFriendly ? "DON'T " : "") + "LOOK HOSTILE");
-
-      if (randomInt(10) <= 2) {
-        this.ridersAreFriendly = false;
-      }
-
       this.askRiderTactics();
     }
     else {
-
       this.doEvents();
     }
   }
@@ -741,17 +735,26 @@ export default class OregonTrail {
       this.askRiderTactics();
     }
 
-    if (tactics === 1) {
-      this.runFromRiders();
+    if (randomInt(10) <= 2) {
+      this.ridersAreFriendly = !this.ridersAreFriendly;
     }
-    else if (tactics === 2) {
-      this.attackRiders();
-    }
-    else if (tactics === 3) {
-      this.continuePastRiders();
+
+    if (this.ridersAreFriendly) {
+      this.handleFriendlyRiders(tactics);
     }
     else {
-      this.circleWagons();
+      if (tactics === 1) {
+        this.runFromRiders();
+      }
+      else if (tactics === 2) {
+        this.attackRiders();
+      }
+      else if (tactics === 3) {
+        this.continuePastRiders();
+      }
+      else {
+        this.circleWagons();
+      }
     }
   }
 
@@ -770,6 +773,12 @@ export default class OregonTrail {
 
   // 3120 GOSUB 6140
   // 3130 B=B-B1*40-80
+  async attackRiders() {
+    const shotTime = await this.shoot();
+    this.ammo -= (shotTime * 40) - 80;
+    shootRidersResult(shotTime);
+  }
+
   // 3140 IF B1>1 THEN 3170
   // 3150 PRINT "NICE SHOOTING---YOU DROVE THEM OFF"
   // 3160 GOTO 3470
@@ -780,7 +789,19 @@ export default class OregonTrail {
   // 3210 GOTO 3470
   // 3220 PRINT "KINDA SLOW WITH YOUR COLT .45"
   // 3230 GOTO 3470
-  attackRiders() {
+  async shootRidersResult(shotTime) {
+    if (shotTime <= 1) {
+      await this.tt.print("NICE SHOOTING---YOU DROVE THEM OFF");
+    }
+    else if (shotTime <= 4) {
+      await this.tt.print("KINDA SLOW WITH YOUR COLT .45");
+    }
+    else {
+      await this.tt.print("LOUSY SHOT---YOU GOT KNIFED");
+      await this.tt.print("YOU HAVE TO SEE OL' DOC BLANCHARD");
+      this.injuryFlag = true;
+    }
+
     this.doEvents();
   }
 
@@ -788,7 +809,6 @@ export default class OregonTrail {
   // 3260 LET B=B-150
   // 3270 M1=M1-15
   // 3280 GOTO 3470
-
   continuePastRiders() {
     this.doEvents();
   }
@@ -798,7 +818,10 @@ export default class OregonTrail {
   // 3310 M=M-25
   // 3320 GOTO 3140
   circleWagons() {
-    this.doEvents();
+    const shotTime = this.shoot();
+    this.ammo -= (shotTime * 30) - 80;
+    this.supplies -= 25;
+    this.shootRidersResult();
   }
 
   // 3330 IF T1>1 THEN 3370
@@ -813,9 +836,32 @@ export default class OregonTrail {
   // 3420 GOTO 3470
   // 3430 M=M-20
   // 3440 GOTO 3470
+  handleFriendlyRiders(tactics) {
+    if(tactics === 1) {
+      this.totalMileage += 15;
+      this.oxen -= 10;
+    }
+    else if(tactics === 2) {
+      this.totalMileage -= 5;
+      this.ammo -= 100;
+    }
+    else if (tactics === 3) {
+      // no effect
+    }
+    else {
+      this.totalMileage -= 20;
+    }
+
+    this.riderResults();
+  }
 
   // 3450 PRINT "THEY DID NOT ATTACK"
   // 3460 GOTO 3550
+  async ridersDidNotAttack() {
+    await this.tt.print("THEY DID NOT ATTACK");
+    this.doEvents();
+  }
+
   // 3470 IF S5=0 THEN 3500
   // 3480 PRINT "RIDERS WERE FRIENDLY, BUT CHECK FOR POSSIBLE LOSSES"
   // 3490 GOTO 3550
@@ -824,6 +870,17 @@ export default class OregonTrail {
   // 3520 PRINT "YOU RAN OUT OF BULLETS AND GOT MASSACRED BY THE RIDERS"
   // 3530 GOTO 5170
   async riderResults() {
+    if (this.ridersAreFriendly) {
+      await this.tt.print("RIDERS WERE FRIENDLY, BUT CHECK FOR POSSIBLE LOSSES");
+    }
+    else {
+      await this.tt.print("RIDERS WERE HOSTILE--CHECK FOR LOSSES");
+      if (this.ammo < 0) {
+        this.tt.print("YOU RAN OUT OF BULLETS AND GOT MASSACRED BY THE RIDERS");
+        this.unfortunateSituation();
+      }
+    }
+
     this.doEvents();
   }
 
@@ -1251,7 +1308,7 @@ export default class OregonTrail {
   // 6700 REM P = AMOUNT SPENT ON ITEMS AT FORT
   // 6710 REM R1 = RANDOM NUMBER IN CHOOSING EVENTS
   // 6720 REM S4 = FLAG FOR ILLNESS [illnessFlag]
-  // 6730 REM S5 = ""HOSTILITY OF RIDERS"" FACTOR
+  // 6730 REM S5 = ""HOSTILITY OF RIDERS"" FACTOR []
   // 6740 REM S6 = SHOOTING WORD SELECTOR
   // 6750 REM S$ = VARIATIONS OF SHOOTING WORD
   // 6760 REM T = CASH LEFT OVER AFTER INITIAL PURCHASES [money]
