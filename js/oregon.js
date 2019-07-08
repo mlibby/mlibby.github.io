@@ -810,7 +810,14 @@ export default class OregonTrail {
   // 3270 M1=M1-15
   // 3280 GOTO 3470
   continuePastRiders() {
-    this.doEvents();
+    if (randomInt(10) > 8) {
+      this.ridersDidNotAttack();
+    }
+    else {
+      this.ammo -= 150;
+      this.supplies -= 15;
+      this.doEvents();
+    }
   }
 
   // 3290 GOSUB 6140
@@ -910,7 +917,7 @@ export default class OregonTrail {
       this.eventOxWandersOff();
     }
     else if (randomInt(100) <= 17) {
-      this.eventSonWandersOff();
+      this.eventSonGetsLost();
     }
     else if (randomInt(100) <= 22) {
       this.eventUnsafeWater();
@@ -994,7 +1001,7 @@ export default class OregonTrail {
   // 3820 PRINT "YOUR SON GETS LOST---SPEND HALF THE DAY LOOKING FOR HIM"
   // 3830 M=M-10
   // 3840 GOTO 4710
-  async eventSonWandersOff() {
+  async eventSonGetsLost() {
     await this.tt.print("YOUR SON GETS LOST---SPEND HALF THE DAY LOOKING FOR HIM");
     this.totalMileage -= 10;
     this.doMountains();
@@ -1017,12 +1024,17 @@ export default class OregonTrail {
   // 3940 M=M-10*RND(-1)-5
   // 3950 GOTO 4710
   async eventHeavyRains() {
-    await this.tt.print("HEAVY RAINS---TIME AND SUPPLIES LOST");
-    this.food -= 10;
-    this.ammo -= 500;
-    this.supplies -= 15;
-    this.totalMileage -= randomInt(10) - 5;
-    this.doMountains();
+    if (this.totalMileage > 950) {
+      this.eventColdWeather();
+    }
+    else {
+      await this.tt.print("HEAVY RAINS---TIME AND SUPPLIES LOST");
+      this.food -= 10;
+      this.ammo -= 500;
+      this.supplies -= 15;
+      this.totalMileage -= randomInt(10) - 5;
+      this.doMountains();
+    }
   }
 
   // 3960 PRINT "BANDITS ATTACK"
@@ -1033,19 +1045,48 @@ export default class OregonTrail {
   // 4010 T=T/3
   // 4020 GOTO 4040
   // 4030 IF B1 <= 1 THEN 4100
+  // ...
+  // 4100 PRINT "QUICKEST DRAW OUTSIDE OF DODGE CITY!!!"
+  // 4110 PRINT "YOU GOT 'EM!"
+  // 4120 GOTO 4710
+  async eventBanditsAttack() {
+    await this.tt.print("BANDITS ATTACK");
+    const shotTime = await this.shoot();
+    this.ammo -= 20 * shotTime;
+    if (this.ammo < 0) {
+      await this.tt.print("YOU RAN OUT OF BULLETS---THEY GET LOTS OF CASH");
+      this.money = this.money / 3;
+      this.eventsShotByBandits();
+    }
+    else if (shotTime <= 1) {
+      await this.tt.printAll([
+        "QUICKEST DRAW OUTSIDE OF DODGE CITY!!!",
+        "YOU GOT 'EM!"
+      ]);
+      this.doMountains();
+    }
+    else {
+      this.eventsShotByBandits();
+    }
+  }
+
   // 4040 PRINT "YOU GOT SHOT IN THE LEG AND THEY TOOK ONE OF YOUR OXEN"
   // 4050 K8=1
   // 4060 PRINT "BETTER HAVE A DOC LOOK AT YOUR WOUND"
   // 4070 M1=M1-5
   // 4080 A=A-20
   // 4090 GOTO 4710
-  // 4100 PRINT "QUICKEST DRAW OUTSIDE OF DODGE CITY!!!"
-  // 4110 PRINT "YOU GOT 'EM!"
-  // 4120 GOTO 4710
-  async eventBanditsAttack() {
-    await this.tt.print("BANDITS ATTACK");
+  async eventsShotByBandits() {
+    await this.tt.printAll([
+      "YOU GOT SHOT IN THE LEG AND THEY TOOK ONE OF YOUR OXEN",
+      "BETTER HAVE A DOC LOOK AT YOUR WOUND"
+    ]);
+    this.injuryFlag = true;
+    this.supplies -= 5;
+    this.oxen -= 20;
     this.doMountains();
   }
+
 
   // 4140 F=F-40
   // 4150 B=B-400
