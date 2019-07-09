@@ -4,11 +4,16 @@
 }
 
 main {
-    margin-top: 60px;
+    margin-top: 69px;
 }
 
-h2 {
-    margin-top: 10px;
+h1, .h1 {
+    font-size: 2.0rem;
+}
+
+h2, .h2 {
+    font-size: 1.66rem;
+    font-weight: bold;
 }
 
 .h-horizontal h2 {
