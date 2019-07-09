@@ -314,7 +314,7 @@ export default class OregonTrail {
   // 1140 IF T >= 0 THEN 1170
   // 1150 PRINT "YOU OVERSPENT—YOU ONLY HAD $700 TO SPEND. BUY AGAIN"
   // 1160 GOTO 830
-  // 1170 B=50+B
+  // 1170 B=50*B
   // 1180 PRINT "AFTER ALL YOUR PURCHASES, YOU NOW HAVE ";T;" DOLLARS LEFT"
   // 1190 PRINT
   // 1200 PRINT "MONDAY MARCH 29 1847"
@@ -323,6 +323,7 @@ export default class OregonTrail {
   async checkSpendingTotal() {
     this.money = 700 - this.oxen - this.food - this.ammo - this.clothing - this.supplies;
     if (this.money >= 0) {
+      this.ammo *= 50;
       await this.tt.printAll([
         "AFTER ALL YOUR PURCHASES, YOU NOW HAVE " + this.money + " DOLLARS LEFT",
         "MONDAY MARCH 29 1847"
@@ -552,14 +553,7 @@ export default class OregonTrail {
   // 2300 PRINT "FOOD";
   // 2310 GOSUB 2330
   // 2320 GOTO 2410
-  // 2330 INPUT P
-  // 2340 IF P<0 THEN 2400
-  // 2350 T=T-P
-  // 2360 IF T >= 0 THEN 2400
-  // 2370 PRINT "YOU DON'T HAVE THAT MUCH--KEEP YOUR SPENDING DOWN"
-  // 2380 T=T+P
-  // 2390 P=0
-  // 2400 RETURN
+  // ...
   // 2410 F=F+2/3*P
   // 2420 PRINT "AMMUNITION";
   // 2430 GOSUB 2330
@@ -591,10 +585,26 @@ export default class OregonTrail {
     this.eat();
   }
 
+  // 2330 INPUT P
+  // 2340 IF P<0 THEN 2400
+  // 2350 T=T-P
+  // 2360 IF T >= 0 THEN 2400
+  // 2370 PRINT "YOU DON'T HAVE THAT MUCH--KEEP YOUR SPENDING DOWN"
+  // 2380 T=T+P
+  // 2390 P=0
+  // 2400 RETURN
   async askAtFort(purchase) {
     await this.tt.print(purchase);
     let result = await this.tt.input();
-    return Number(result);
+    result = Number(result);
+    if(this.cash > result) {
+      this.cash -= result;
+    }
+    else {
+      result = 0;
+      await this.tt.print("YOU DON'T HAVE THAT MUCH--KEEP YOUR SPENDING DOWN");
+    }
+    return result;
   }
 
   // 2530 REM ***HUNTING***
@@ -824,8 +834,8 @@ export default class OregonTrail {
   // 3300 B=B-B1*30-80
   // 3310 M=M-25
   // 3320 GOTO 3140
-  circleWagons() {
-    const shotTime = this.shoot();
+  async circleWagons() {
+    const shotTime = await this.shoot();
     this.ammo -= (shotTime * 30) - 80;
     this.supplies -= 25;
     this.shootRidersResult();
@@ -1173,7 +1183,7 @@ export default class OregonTrail {
   // 4550 GOTO 6300
   async eventColdWeather() {
     this.isTooCold = this.clothing <= 22 + randomInt(4);
-    await this.tt.print("COLD WEATHER---BRRRRRRR!---YOU " + this.isTooCold ? "DON'T " : "" + "HAVE ENOUGH CLOTHING TO KEEP WARM");
+    await this.tt.print("COLD WEATHER---BRRRRRRR!---YOU " + (this.isTooCold ? "DON'T " : "") + "HAVE ENOUGH CLOTHING TO KEEP WARM");
     if (this.isTooCold) {
       this.sickness();
     }
