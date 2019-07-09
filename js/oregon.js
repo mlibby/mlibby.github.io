@@ -190,7 +190,7 @@ export default class OregonTrail {
       "ENTER ONE OF THE ABOVE. THE BETTER YOU CLAIM YOU ARE, THE FASTER YOU'LL HAVE TO BE WITH YOUR GUN TO BE SUCCESSFUL."
     ]);
 
-    const result = await this.tt.input();
+    const result = await this.tt.input(true);
     this.rifleSkill = getPositiveInteger(result);
     this.rifleSkill = this.rifleSkill > 5 ? 0 : this.rifleSkill;
     this.initialPurchases();
@@ -224,7 +224,7 @@ export default class OregonTrail {
   async askOxenSpending() {
     // line 810 & 820 implemented in constructor
     await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON YOUR OXEN TEAM?");
-    const result = await this.tt.input();
+    const result = await this.tt.input(true);
     this.oxen = getPositiveInteger(result);
     if (this.oxen < 200) {
       await this.tt.print("NOT ENOUGH");
@@ -246,7 +246,7 @@ export default class OregonTrail {
   // 970 GOTO 930
   async askFoodSpending() {
     await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON FOOD?");
-    const result = await this.tt.input();
+    const result = await this.tt.input(true);
     this.food = getPositiveInteger(result);
     if (this.food < 0) {
       await this.tt.print("IMPOSSIBLE");
@@ -264,7 +264,7 @@ export default class OregonTrail {
   // 1020 GOTO 980
   async askAmmoSpending() {
     await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON AMMUNITION?");
-    const result = await this.tt.input();
+    const result = await this.tt.input(true);
     this.ammo = getPositiveInteger(result);
     if (this.ammo < 0) {
       await this.tt.print("IMPOSSIBLE");
@@ -281,7 +281,7 @@ export default class OregonTrail {
   // 1070 GOTO 1030
   async askClothingSpending() {
     await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON CLOTHING?");
-    const result = await this.tt.input();
+    const result = await this.tt.input(true);
     this.clothing = getPositiveInteger(result);
     if (this.clothing < 0) {
       await this.tt.print("IMPOSSIBLE");
@@ -299,7 +299,7 @@ export default class OregonTrail {
   // 1120 GOTO 1080
   async askMiscSpending() {
     await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON MISCELLANEOUS SUPPLIES?");
-    const result = await this.tt.input()
+    const result = await this.tt.input(true)
     this.supplies = getPositiveInteger(result);
     if (this.supplies < 0) {
       await this.tt.print("IMPOSSIBLE");
@@ -518,12 +518,12 @@ export default class OregonTrail {
     let action;
     if (this.fortOptionFlag === -1) {
       await this.tt.print("DO YOU WANT TO (1) HUNT, OR (2) CONTINUE?");
-      const result = await this.tt.input();
+      const result = await this.tt.input(true);
       action = Number(result) + 1;
     }
     else {
       await this.tt.print("DO YOU WANT TO (1) STOP AT THE NEXT FORT, (2) HUNT, OR (3) CONTINUE?");
-      const result = await this.tt.input();
+      const result = await this.tt.input(true);
       action = Number(result);
     }
 
@@ -595,10 +595,10 @@ export default class OregonTrail {
   // 2400 RETURN
   async askAtFort(purchase) {
     await this.tt.print(purchase);
-    let result = await this.tt.input();
+    let result = await this.tt.input(true);
     result = Number(result);
-    if(this.cash > result) {
-      this.cash -= result;
+    if (this.money > result) {
+      this.money -= result;
     }
     else {
       result = 0;
@@ -664,7 +664,7 @@ export default class OregonTrail {
   async eat() {
     if (this.food >= 13) {
       await this.tt.print("DO YOU WANT TO EAT (1) POORLY (2) MODERATELY OR (3) WELL");
-      let result = await this.tt.input();
+      let result = await this.tt.input(true);
       result = getPositiveInteger(result);
       if (result > 3 || result < 1) {
         this.eat();
@@ -739,31 +739,32 @@ export default class OregonTrail {
       "(1) RUN  (2) ATTACK  (3) CONTINUE  (4) CIRCLE WAGONS"
     ]);
 
-    let tactics = await this.tt.input();
+    let tactics = await this.tt.input(true);
     tactics = getPositiveInteger(tactics);
     if (tactics < 1 || tactics > 4) {
       this.askRiderTactics();
     }
-
-    if (randomInt(10) <= 2) {
-      this.ridersAreFriendly = !this.ridersAreFriendly;
-    }
-
-    if (this.ridersAreFriendly) {
-      this.handleFriendlyRiders(tactics);
-    }
     else {
-      if (tactics === 1) {
-        this.runFromRiders();
+      if (randomInt(10) <= 2) {
+        this.ridersAreFriendly = !this.ridersAreFriendly;
       }
-      else if (tactics === 2) {
-        this.attackRiders();
-      }
-      else if (tactics === 3) {
-        this.continuePastRiders();
+
+      if (this.ridersAreFriendly) {
+        this.handleFriendlyRiders(tactics);
       }
       else {
-        this.circleWagons();
+        if (tactics === 1) {
+          this.runFromRiders();
+        }
+        else if (tactics === 2) {
+          this.attackRiders();
+        }
+        else if (tactics === 3) {
+          this.continuePastRiders();
+        }
+        else {
+          this.circleWagons();
+        }
       }
     }
   }

@@ -52,7 +52,8 @@ export default
     this.scrollToEnd();
   }
 
-  input() {
+  input(onlyNumeric) {
+    onlyNumeric = false | onlyNumeric;
     this.$input = $("<input id='tt-input' type='text' class='form-control form-control-lg'></input>");
     this.$inputGroup = $("<div></div").append(this.$input).append(this.$label);
     this.$container.append(this.$inputGroup);
@@ -60,12 +61,12 @@ export default
     this.scrollToEnd();
     return new Promise((resolve, reject) => {
       this.$input.keypress((event) => {
-        this.getInput(event, resolve, reject);
+        this.getInput(event, resolve, reject, onlyNumeric);
       });
     });
   }
 
-  getInput(event, resolve, reject) {
+  getInput(event, resolve, reject, onlyNumeric) {
     if (event.which === 13) {
       event.preventDefault();
       const input = this.$input.val();
@@ -73,6 +74,11 @@ export default
       this.print(input, "user-input").then(() => {
         resolve(input);
       });
+    }
+
+    //prevent anything but numbers being entered for onlyNumeric input
+    if (onlyNumeric && !(48 <= event.which && event.which <= 57)) {
+      event.preventDefault();
     }
   }
 
