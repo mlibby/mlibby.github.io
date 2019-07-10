@@ -197,16 +197,16 @@ export default class OregonTrail {
   }
 
   // 800 REM ***INITIAL PURCHASES***
-  // 810 X1*-1
+  // 810 X1=-1
   // 820 K8*S4*F1*F2*M*M9*D3=0
   initialPurchases() {
-    this.fortOptionFlag = 1;
-    this.injuryFlag = 0;
-    this.illnessFlag = 0;
-    this.southPassFlag = 0;
-    this.blueMountainsFlag = 0;
+    this.showFortActionThisTurn = false;
+    this.injuryFlag = false;
+    this.illnessFlag = false;
+    this.southPassFlag = false;
+    this.southPassMileageFlag = false;
+    this.blueMountainsFlag = false;
     this.totalMileage = 0;
-    this.southPassMileageFlag = 0;
     this.turnNumber = 0;
     this.askOxenSpending();
   }
@@ -467,9 +467,9 @@ export default class OregonTrail {
   // 2020 PRINT "TOTAL MILEAGE IS 950"
   // 2030 M9=0
   async printMileage() {
-    if (this.southPassMileageFlag == 1) {
-      this.southPassMileageFlag = 0;
+    if (this.southPassMileageFlag) {
       await this.tt.print("TOTAL MILEAGE IS 950");
+      this.southPassMileageFlag = false;
     }
     else {
       await this.tt.print("TOTAL MILEAGE IS " + this.totalMileage);
@@ -508,28 +508,34 @@ export default class OregonTrail {
   // 2190 IF X=1 THEN 2210
   // 2200 LET X=2
   // 2210 LET X=X+1
+  async getUserTurnAction() {
+    let action;
+    if (this.showFortActionThisTurn) {
+      await this.tt.print("DO YOU WANT TO (1) STOP AT THE NEXT FORT, (2) HUNT, OR (3) CONTINUE?");
+      const result = await this.tt.input(true);
+      action = Number(result);
+    }
+    else {
+      await this.tt.print("DO YOU WANT TO (1) HUNT, OR (2) CONTINUE?");
+      const result = await this.tt.input(true);
+      action = Number(result) + 1;
+    }
+
+    if (1 <= action && action <= 3) {
+      this.showFortActionThisTurn = !this.showFortActionThisTurn;
+      this.doUserTurnAction(action)
+    }
+    else {
+      this.getUserTurnAction();
+    }
+  }
+
   // 2220 IF X=3 THEN 2260
   // 2230 IF B>39 THEN 2260
   // 2240 PRINT "TOUGH---YOU NEED MORE BULLETS TO GO HUNTING"
   // 2250 GOTO 2170
   // 2260 X1=X1*(-1)
   // 2270 ON X GOTO 2290,2540,2720
-  async getUserTurnAction() {
-    let action;
-    if (this.fortOptionFlag === -1) {
-      await this.tt.print("DO YOU WANT TO (1) HUNT, OR (2) CONTINUE?");
-      const result = await this.tt.input(true);
-      action = Number(result) + 1;
-    }
-    else {
-      await this.tt.print("DO YOU WANT TO (1) STOP AT THE NEXT FORT, (2) HUNT, OR (3) CONTINUE?");
-      const result = await this.tt.input(true);
-      action = Number(result);
-    }
-
-    this.doUserTurnAction(action)
-  }
-
   async doUserTurnAction(action) {
     if (action === 1) {
       this.stopAtFort();
@@ -666,10 +672,7 @@ export default class OregonTrail {
       await this.tt.print("DO YOU WANT TO EAT (1) POORLY (2) MODERATELY OR (3) WELL");
       let result = await this.tt.input(true);
       result = getPositiveInteger(result);
-      if (result > 3 || result < 1) {
-        this.eat();
-      }
-      else {
+      if (1 <= result && result <= 3) {
         let foodToEat = 8 + 5 * result;
         if (foodToEat > this.food) {
           await this.tt.print("YOU CAN'T EAT THAT WELL");
@@ -679,6 +682,9 @@ export default class OregonTrail {
           this.food -= foodToEat;
           this.updateMileage();
         }
+      }
+      else {
+        this.eat();
       }
     }
     else {
@@ -1169,10 +1175,28 @@ export default class OregonTrail {
   // 4450 B=B-20*B1
   // 4460 C=C-B1*4
   // 4470 F=F-B1*8
-  // 4480 BOTO 4710
+  // 4480 GOTO 4710
   async eventAnimalsAttack() {
     await this.tt.print("WILD ANIMALS ATTACK!");
-    this.doMountains();
+    const shotTime = await this.shoot();
+    if (this.ammo > 39) {
+      if (shotTime > 2) {
+        await this.tt.print("SLOW ON THE DRAW---THEY GOT AT YOUR FOOD AND CLOTHES");
+      }
+      else {
+        await this.tt.print("NICE SHOOTIN' PARDNER---THEY DIDN'T GET MUCH");
+      }
+
+      this.ammo -= 20 * shotTime;
+      this.clothing -= 4 * shotTime;
+      this.food -= 8 * shotTime;
+      this.doMountains();
+    }
+    else {
+      await this.tt.print("YOU WERE TOO LOW ON BULLETS--THE WOLVES OVERPOWERED YOU");
+      this.injuryFlag = true;
+      this.youDiedOf();
+    }
   }
 
   // 4490 PRINT "COLD WEATHER---BRRRRRRR!---YOU ";
@@ -1231,29 +1255,118 @@ export default class OregonTrail {
   // 4710 IF M <= 950 THEN 1230
   // 4720 IF RND(-1)*10>9-((M/100-15)**2+72)/((M/100-15)**2+12) THEN 4560
   // 4730 PRINT "RUGGED MOUNTAINS"
+  async doMountains() {
+    if (this.totalMileage <= 950) {
+      this.finishTurn();
+    }
+    else {
+      if (randomInt(10) > 9 - (((this.totalMileage / 100 - 15) ^ 2 + 72) / (this.totalMileage / 100 - 15) ^ 2 + 12)) {
+        this.eventHailStorm();
+      }
+      else {
+        await this.tt.print("RUGGED MOUNTAINS");
+        this.mountainsGotLost();
+      }
+    }
+  }
+
   // 4740 IF RND(-1)>.1 THEN 4780
   // 4750 PRINT "YOU GOT LOST---LOSE VALUABLE TIME TRYING TO FIND TRAIL!"
   // 4760 M=M-60
   // 4770 GOTO 4560
+  async mountainsGotLost() {
+    if (randomInt(10) > 1) {
+      this.mountainsWagonDamaged();
+    }
+    else {
+      await this.tt.print("YOU GOT LOST---LOSE VALUABLE TIME TRYING TO FIND TRAIL!");
+      this.totalMileage -= 60;
+      this.eventHailStorm();
+    }
+  }
+
   // 4780 IF RND(-1)>.11 THEN 4840
   // 4790 PRINT "WAGON DAMAGED!---LOSE TIME AND SUPPLIES"
   // 4800 M1=M1-5
   // 4810 B=B-200
   // 4820 M=M-20-30*RND(-1)
   // 4830 GOTO 4860
+  async mountainsWagonDamaged() {
+    if (randomInt(100) > 11) {
+      this.mountainsGoingSlow();
+    }
+    else {
+      await this.tt.print("WAGON DAMAGED!---LOSE TIME AND SUPPLIES");
+      this.supplies -= 5;
+      this.ammo -= 200;
+      this.totalMileage -= 20 - randomInt(30);
+      this.mountainsSouthPass();
+    }
+  }
+
   // 4840 PRINT "THE GOING GETS SLOW"
   // 4850 M=M-45-RND(-1)/.02
+  async mountainsGoingSlow() {
+    await this.tt.print("THE GOING GETS SLOW");
+    this.totalMileage -= 45 - randomInt(50);
+    this.mountainsSouthPass();
+  }
+
   // 4860 IF F1=1 THEN 4900
   // 4870 F1=1
   // 4880 IF RND(-1)<.8 THEN 4970
   // 4890 PRINT "YOU MADE IT SAFELY THROUGH SOUTH PASS--NO SNOW"
+  async mountainsSouthPass() {
+    if (this.southPassFlag) {
+      this.mountainsBlueMountains();
+    }
+    else {
+      this.southPassFlag = true;
+      if (randomInt < 8) {
+        this.mountainsSouthPassBlizzard();
+      }
+      else {
+        await this.tt.print("YOU MADE IT SAFELY THROUGH SOUTH PASS--NO SNOW");
+        this.mountainsBlueMountains();
+      }
+    }
+  }
+
   // 4900 IF M<1700 THEN 4940
   // 4910 IF F2=1 THEN 4940
   // 4920 F2=1
   // 4930 IF RND(-1)<.7 THEN 4970
+  async mountainsBlueMountains() {
+    if (this.totalMileage < 1700) {
+      this.southPassMileageCheck();
+    }
+    else if (this.blueMountainsFlag) {
+      this.southPassMileageCheck();
+    }
+    else {
+      this.blueMountainsFlag = true;
+      if (randomInt(10) < 7) {
+        this.mountainsSouthPassBlizzard();
+      }
+      else {
+        this.southPassMileageCheck();
+      }
+    }
+  }
+
   // 4940 IF M>950 THEN 1230
   // 4950 M9=1
   // 4960 GOTO 1230
+  async southPassMileageCheck() {
+    if (this.totalMileage > 950) {
+      this.finishTurn();
+    }
+    else {
+      this.southPassMileageFlag = true;
+      this.finishTurn();
+    }
+  }
+
   // 4970 PRINT "BLIZZARD IN MOUNTAIN PASS--TIME AND SUPPLIES LOST"
   // 4980 L1=1
   // 4990 F=F-25
@@ -1262,16 +1375,22 @@ export default class OregonTrail {
   // 5020 M=M-30-40*RND(-1)
   // 5030 IF C<18+2*RND(-1) THEN 6300
   // 5040 GOTO 4940
-  async doMountains() {
-    await this.tt.print("do mountains");
-    //    if (this.totalMileage > 950) {
-    //        this.doMountains();
-    //    }
-    this.finishTurn();
+  async mountainsSouthPassBlizzard() {
+    await this.tt.print("BLIZZARD IN MOUNTAIN PASS--TIME AND SUPPLIES LOST");
+    this.blizzardFlag = true;
+    this.food -= 25;
+    this.supplies -= 10
+    this.ammo -= 300;
+    this.totalMileage -= 30 - randomInt(40);
+    if (this.clothing < 18 + randomInt(2)) {
+      this.sickness();
+    }
+    else {
+      this.southPassMileageCheck();
+    }
   }
 
   finishTurn() {
-    this.fortOptionFlag *= -1;
     setTimeout(() => this.settingDate(), 1);
   }
 
@@ -1286,12 +1405,25 @@ export default class OregonTrail {
   // 5080 LET T=0
   // 5090 PRINT "YOU CAN'T AFFORD A DOCTOR"
   // 5100 GOTO 5120
+  
   // 5110 PRINT "YOU RAN OUT OF MEDICAL SUPPLIES"
+
+
   // 5120 PRINT "YOU DIED OF ";
   // 5130 IF K8=1 THEN 5160
   // 5140 PRINT "PNEUMONIA"
   // 5150 GOTO 5170
   // 5160 PRINT "INJURIES"
+  async youDiedOf() {
+    if (this.injuryFlag) {
+      await this.tt.print("YOU DIED OF INJURIES");
+    }
+    else {
+      await this.tt.print("YOU DIED OF PNEUMONIA");
+    }
+
+    this.unfortunateSituation();
+  }
 
   // 5170 PRINT
   // 5180 PRINT "DUE TO YOUR UNFORTUNATE SITUATION, THERE ARE A FEW"
