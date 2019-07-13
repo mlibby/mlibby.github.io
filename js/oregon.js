@@ -1,6 +1,6 @@
 import Htmletype from "./htmletype.js";
 
-// Returns a pseudo-random integer from 0 to max
+// Returns a pseudo-random integer from 0 to max (not including max)
 function randomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
@@ -710,7 +710,7 @@ export default class OregonTrail {
   // 2940 S5=1
   // 2950 PRINT "LOOK HOSTILE"
   async ridersAttack() {
-    if (randomInt(10) <= ((this.totalMileage / 100 - 4) ^ 2 + 72) / ((this.totalMileage / 100 - 4) ^ 2 + 12) - 1) {
+    if (randomInt(10) <= ((this.totalMileage / 100 - 4) ** 2 + 72) / ((this.totalMileage / 100 - 4) ** 2 + 12) - 1) {
       this.ridersAreFriendly = false;
       if (randomInt(10) < 8) {
         this.ridersAreFriendly = true;
@@ -1260,7 +1260,10 @@ export default class OregonTrail {
       this.finishTurn();
     }
     else {
-      if (randomInt(10) > 9 - (((this.totalMileage / 100 - 15) ^ 2 + 72) / (this.totalMileage / 100 - 15) ^ 2 + 12)) {
+      // RND(-1)*10 > 9- ((M/100-15)**2+72) / ((M/100-15)**2+12)
+      const rnd = randomInt(10);
+      const factor = 9 - ((this.totalMileage / 100 - 15) ** 2 + 72) / ((this.totalMileage / 100 - 15) ** 2 + 12)
+      if (rnd > factor) {
         this.eventHailStorm();
       }
       else {
@@ -1405,7 +1408,7 @@ export default class OregonTrail {
   // 5080 LET T=0
   // 5090 PRINT "YOU CAN'T AFFORD A DOCTOR"
   // 5100 GOTO 5120
-  
+
   // 5110 PRINT "YOU RAN OUT OF MEDICAL SUPPLIES"
 
 
