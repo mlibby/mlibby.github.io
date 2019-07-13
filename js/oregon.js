@@ -451,7 +451,7 @@ export default class OregonTrail {
       await this.tt.print("YOU'D BETTER DO SOME HUNTING OR BUY FOOD AND SOON!!!!");
     }
 
-    this.printMileage();
+    this.checkForIllnessOrInjury();
   }
 
   // 1920 IF S4=1 THEN 1950
@@ -461,6 +461,24 @@ export default class OregonTrail {
   // 1960 IF T<0 THEN 5080
   // 1970 PRINT "DOCTOR'S BILL IS $20"
   // 1980 LET K8=S4=0
+  async checkForIllnessOrInjury() {
+    if (this.injuryFlag || this.illnessFlag) {
+      this.money -= 20;
+      if (this.money < 0) {
+        this.cantAffordDoctor();
+      }
+      else {
+        await this.tt.print("DOCTOR'S BILL IS $20");
+        this.injuryFlag = false;
+        this.illnessFlag = false;
+        this.printMileage();
+      }
+    }
+    else {
+      this.printMileage();
+    }
+  }
+
   // 1990 IF M9=1 THEN 2020
   // 2000 PRINT "TOTAL MILEAGE IS";M
   // 2010 GOTO 2040
@@ -670,10 +688,10 @@ export default class OregonTrail {
   async eat() {
     if (this.food >= 13) {
       await this.tt.print("DO YOU WANT TO EAT (1) POORLY (2) MODERATELY OR (3) WELL");
-      let result = await this.tt.input(true);
-      result = getPositiveInteger(result);
-      if (1 <= result && result <= 3) {
-        let foodToEat = 8 + 5 * result;
+      const result = await this.tt.input(true);
+      this.eatOption = getPositiveInteger(result);
+      if (1 <= this.eatOption && this.eatOption <= 3) {
+        let foodToEat = 8 + 5 * this.eatOption;
         if (foodToEat > this.food) {
           await this.tt.print("YOU CAN'T EAT THAT WELL");
           this.eat();
@@ -698,6 +716,8 @@ export default class OregonTrail {
     this.totalMileage += 200;
     this.totalMileage += (this.oxen - 220) / 5;
     this.totalMileage += randomInt(9) + 1;
+    this.blizzardFlag = false;
+    this.clothingFlag = false;
     this.ridersAttack();
   }
 
@@ -1207,10 +1227,10 @@ export default class OregonTrail {
   // 4540 IF C1=0 THEN 4710
   // 4550 GOTO 6300
   async eventColdWeather() {
-    this.isTooCold = this.clothing <= 22 + randomInt(4);
-    await this.tt.print("COLD WEATHER---BRRRRRRR!---YOU " + (this.isTooCold ? "DON'T " : "") + "HAVE ENOUGH CLOTHING TO KEEP WARM");
-    if (this.isTooCold) {
-      this.sickness();
+    this.clothingFlag = this.clothing <= 22 + randomInt(4);
+    await this.tt.print("COLD WEATHER---BRRRRRRR!---YOU " + (this.clothingFlag ? "DON'T " : "") + "HAVE ENOUGH CLOTHING TO KEEP WARM");
+    if (this.clothingFlag) {
+      this.illness();
     }
     else {
       this.doMountains();
@@ -1238,7 +1258,7 @@ export default class OregonTrail {
   // 4660 GOTO 4710
   async eventFoodPoisoning() {
     if (false) {
-      this.sickness();
+      this.illness();
     }
     this.doMountains();
   }
@@ -1386,7 +1406,7 @@ export default class OregonTrail {
     this.ammo -= 300;
     this.totalMileage -= 30 - randomInt(40);
     if (this.clothing < 18 + randomInt(2)) {
-      this.sickness();
+      this.illness();
     }
     else {
       this.southPassMileageCheck();
@@ -1408,9 +1428,17 @@ export default class OregonTrail {
   // 5080 LET T=0
   // 5090 PRINT "YOU CAN'T AFFORD A DOCTOR"
   // 5100 GOTO 5120
+  async cantAffordDoctor() {
+    this.money = 0;
+    this.tt.print("YOU CAN'T AFFORD A DOCTOR");
+    this.youDiedOf();
+  }
 
   // 5110 PRINT "YOU RAN OUT OF MEDICAL SUPPLIES"
-
+  async outOfMedicalSupplies() {
+    this.tt.print("YOU RAN OUT OF MEDICAL SUPPLIES");
+    this.youDiedOf();
+  }
 
   // 5120 PRINT "YOU DIED OF ";
   // 5130 IF K8=1 THEN 5160
@@ -1601,7 +1629,7 @@ export default class OregonTrail {
   }
 
   // 6290 REM ***ILLNESS SUB-ROUTINE***
-  // 6300 IF 100*RND(-1)<10+35(E-1) THEN 6370
+  // 6300 IF 100*RND(-1)<10+35*(E-1) THEN 6370
   // 6310 IF 100*RND(-1)<100-(40/4**(E-1)) THEN 6410
   // 6320 PRINT "SERIOUS ILLNESS---"
   // 6330 PRINT "YOU MUST STOP FOR MEDICAL ATTENTION"
@@ -1618,8 +1646,32 @@ export default class OregonTrail {
   // 6440 IF M1<0 THEN 5110
   // 6450 IF L1=1 THEN 4940
   // 6460 GOTO 4710
-  sickness() {
-    this.doMountains();
+  async illness() {
+    if (randomInt(100) < 10 + 35 * (this.eatOption - 1)) {
+      await this.tt.print("MILD ILLNESS---MEDICINE USED");
+      this.totalMileage -= 5;
+      this.supplies -= 2;
+    }
+    else if (randomInt(100) < 100 - (40 / 4 ** (this.eatOption - 1))) {
+      await this.tt.print("BAD ILLNESS---MEDICINE USED");
+      this.totalMileage -= 5;
+      this.supplies -= 5;
+    }
+    else {
+      await this.tt.print("YOU MUST STOP FOR MEDICAL ATTENTION");
+      this.supplies -= 10;
+      this.illness = true;
+    }
+
+    if (this.supplies < 0) {
+      this.outOfMedicalSupplies();
+    }
+    else if (this.blizzardFlag) {
+      this.southPassMileageCheck();
+    }
+    else {
+      this.doMountains();
+    }
   }
 
   async askPlayAgain() {
@@ -1633,7 +1685,7 @@ export default class OregonTrail {
       setTimeout(() => this.playAgain(), 1);
     }
     else {
-      const button = $("<button class='btn btn-primary'>Play Again</button>");
+      const button = $("<button class='btn btn-primary mb-5'>Play Again</button>");
       button.click(() => this.play());
       this.tt.$container.append(button);
     }
