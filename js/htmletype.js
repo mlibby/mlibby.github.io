@@ -76,8 +76,11 @@ export default
       });
     }
 
-    //prevent anything but numbers being entered for onlyNumeric input
-    if (onlyNumeric && !(48 <= event.which && event.which <= 57)) {
+    // prevent anything but numbers being entered for onlyNumeric input
+    // numeric characters = 0123456789.-
+    if (onlyNumeric &&
+      !(48 <= event.which && event.which <= 57) &&
+      event.which !== 45 && event.which !== 46) {
       event.preventDefault();
     }
   }
