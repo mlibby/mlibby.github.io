@@ -4,6 +4,6 @@ $().ready(function () {
   const $main = $('main .row .col');
   $('button.play-oregon').click(() => {
     const oregonTrail = new OregonTrail($main);
-    oregonTrail.play();
+    oregonTrail._160_play();
   });
 });

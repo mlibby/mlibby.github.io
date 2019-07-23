@@ -269,7 +269,7 @@ export default class OregonTrail {
     this.B_ammo = await this.tt.input(true);
     if (this.B_ammo < 0) {
       await this.tt.print("IMPOSSIBLE");
-      this.tt._980_askAmmoSpending();
+      this._980_askAmmoSpending();
     } else {
       this._1030_askClothingSpending();
     }
@@ -330,7 +330,7 @@ export default class OregonTrail {
       this._1750_beginningTurn();
     }
     else {
-      this.tt.print("YOU OVERSPENT. YOU ONLY HAD $700 TO SPEND. BUY AGAIN.");
+      await this.tt.print("YOU OVERSPENT. YOU ONLY HAD $700 TO SPEND. BUY AGAIN.");
       this._830_askOxenSpending();
     }
   }
@@ -525,9 +525,10 @@ export default class OregonTrail {
   async _2060_getUserTurnAction() {
     let X_action;
     if (this.X1_showFortActionThisTurn) {
+      this._2070_askFortAction();
     }
     else {
-
+      this._2170_askHuntOrContinue();
     }
   }
 
@@ -545,7 +546,7 @@ export default class OregonTrail {
     this.X1_showFortActionThisTurn = !this.X1_showFortActionThisTurn;
     await this.tt.print("DO YOU WANT TO (1) STOP AT THE NEXT FORT, (2) HUNT, OR (3) CONTINUE?");
     const result = await this.tt.input(true);
-    X_action = Number(result);
+    let X_action = Number(result);
     if (X_action > 2) {
       X_action = 3;
     }
@@ -555,6 +556,8 @@ export default class OregonTrail {
     else {
       X_action = getPositiveInteger(X_action);
     }
+
+    this._2220_doUserTurnAction(X_action);
   }
 
   // 2170 PRINT "DO YOU WANT TO (1) HUNT, OR (2) CONTINUE"
@@ -565,7 +568,15 @@ export default class OregonTrail {
   async _2170_askHuntOrContinue() {
     await this.tt.print("DO YOU WANT TO (1) HUNT, OR (2) CONTINUE?");
     const result = await this.tt.input(true);
-    X_action = Number(result) + 1;
+    let X_action = Number(result);
+    if(X_action === 1) {
+      X_action = 2;
+    } 
+    else {
+      X_action = 3;
+    }
+
+    this._2220_doUserTurnAction(X_action);
   }
 
   // 2220 IF X=3 THEN 2260
@@ -576,18 +587,20 @@ export default class OregonTrail {
   // 2270 ON X GOTO 2290,2540,2720
   async _2220_doUserTurnAction(X_action) {
     if (X_action === 1) {
-      this._2280_stopAtFort();
+      this._2290_stopAtFort();
     }
     else if (X_action === 2) {
       if (this.B_ammo < 40) {
         await this.tt.print("TOUGH---YOU NEED MORE BULLETS TO GO HUNTING");
-        this._2060_getUserTurnAction();
+        this._2170_askHuntOrContinue();
       }
       else {
+        this.X1_showFortActionThisTurn = !this.X1_showFortActionThisTurn;
         this._2530_hunt();
       }
     }
     else {
+      this.X1_showFortActionThisTurn = !this.X1_showFortActionThisTurn;
       this._2720_eat();
     }
   }
@@ -610,7 +623,7 @@ export default class OregonTrail {
   // 2500 M1=M1+2/3*P
   // 2510 M=M-45
   // 2520 GOTO 2720
-  async _2280_stopAtFort() {
+  async _2290_stopAtFort() {
     await this.tt.print("ENTER WHAT YOU WISH TO SPEND ON THE FOLLOWING");
 
     let purchaseAmount = await this._2330_askAtFort("FOOD");
@@ -943,7 +956,7 @@ export default class OregonTrail {
     else {
       await this.tt.print("RIDERS WERE HOSTILE--CHECK FOR LOSSES");
       if (this.B_ammo < 0) {
-        this.tt.print("YOU RAN OUT OF BULLETS AND GOT MASSACRED BY THE RIDERS");
+        await this.tt.print("YOU RAN OUT OF BULLETS AND GOT MASSACRED BY THE RIDERS");
         this._5170_unfortunateSituation();
       }
     }
@@ -1186,7 +1199,7 @@ export default class OregonTrail {
       this._4710_doMountains();
     }
     else {
-      this.tt.print("YOU DIE OF SNAKEBITE SINCE YOU HAVE NO MEDICINE");
+      await this.tt.print("YOU DIE OF SNAKEBITE SINCE YOU HAVE NO MEDICINE");
       this._5170_unfortunateSituation();
     }
   }
@@ -1449,13 +1462,13 @@ export default class OregonTrail {
   // 5100 GOTO 5120
   async _5080_cantAffordDoctor() {
     this.T_money = 0;
-    this.tt.print("YOU CAN'T AFFORD A DOCTOR");
+    await this.tt.print("YOU CAN'T AFFORD A DOCTOR");
     this._5120_youDiedOf();
   }
 
   // 5110 PRINT "YOU RAN OUT OF MEDICAL SUPPLIES"
   async _5110_outOfMedicalSupplies() {
-    this.tt.print("YOU RAN OUT OF MEDICAL SUPPLIES");
+    await this.tt.print("YOU RAN OUT OF MEDICAL SUPPLIES");
     this._5120_youDiedOf();
   }
 
