@@ -37,6 +37,17 @@ const turnNumberDates = {
   19: "DECEMBER 20 "
 };
 
+const daysOfTheWeek = {
+  1: "MONDAY ",
+  2: "TUESDAY ",
+  3: "WEDNESDAY ",
+  4: "THURSDAY ",
+  5: "FRIDAY ",
+  6: "SATURDAY ",
+  7: "SUNDAY "
+};
+
+
 /*************************
  * This a Javascript recreation of a 1978 version of The Oregon Trail
  * 
@@ -95,8 +106,8 @@ export default class OregonTrail {
   async _160_play() {
     this.tt.clear();
     await this.tt.print("DO YOU NEED INSTRUCTIONS? (YES/NO)");
-    const result = await this.tt.input();
-    if (result.toUpperCase().trim() === "NO") {
+    const C$_result = await this.tt.input();
+    if (C$_result.toUpperCase().trim() === "NO") {
       this._690_askRifleSkill();
     }
     else {
@@ -191,7 +202,7 @@ export default class OregonTrail {
     ]);
 
     const result = await this.tt.input(true);
-    this.D9_rifleSkill = getPositiveInteger(result);
+    this.D9_rifleSkill = Number(result);
     this.D9_rifleSkill = this.D9_rifleSkill > 5 ? 0 : this.D9_rifleSkill;
     this._810_initialPurchases();
   }
@@ -226,7 +237,6 @@ export default class OregonTrail {
   }
 
   async _850_askOxenSpending() {
-    // line 810 & 820 implemented in constructor
     await this.tt.print("HOW MUCH DO YOU WANT TO SPEND ON YOUR OXEN TEAM?");
     this.A_oxen = await this.tt.input(true);
     if (this.A_oxen < 200) {
@@ -419,7 +429,7 @@ export default class OregonTrail {
   // 1720 PRINT "1847"
   // 1730 PRINT
   _1720_finishDate() {
-    // hmmm. we already print 1847 in the previous function
+    // hmmm. we already printed 1847 in the previous function
     this._1750_beginningTurn();
   }
 
@@ -441,7 +451,6 @@ export default class OregonTrail {
   // 1900 M=INT(M)
   // 1910 M2=M
   _1750_beginningTurn() {
-    // printing 1847 shoud be handled before calling this function
     // getPositiveInteger combines the >= and int() checks from the BASIC code
     this.B_ammo = getPositiveInteger(this.B_ammo);
     this.C_clothing = getPositiveInteger(this.C_clothing);
@@ -523,9 +532,8 @@ export default class OregonTrail {
 
   // 2060 IF X1=-1 THEN 2170
   async _2060_getUserTurnAction() {
-    let X_action;
     if (this.X1_showFortActionThisTurn) {
-      this._2070_askFortAction();
+      this._2070_adjustFortFlag();
     }
     else {
       this._2170_askHuntOrContinue();
@@ -533,6 +541,11 @@ export default class OregonTrail {
   }
 
   // 2070 X1=X1*(-1)
+  async _2070_adjustFortFlag() {
+    this.X1_showFortActionThisTurn = !this.X1_showFortActionThisTurn;
+    this._2080_askFortAction();
+  }
+
   // 2080 PRINT "DO YOU WANT TO (1) STOP AT THE NEXT FORT, (2) HUNT, ";
   // 2090 PRINT "OR (3) CONTINUE"
   // 2100 INPUT X
@@ -542,8 +555,7 @@ export default class OregonTrail {
   // 2140 GOTO 2270
   // 2150 LET X=3
   // 2160 GOTO 2270
-  async _2070_askFortAction() {
-    this.X1_showFortActionThisTurn = !this.X1_showFortActionThisTurn;
+  async _2080_askFortAction() {
     await this.tt.print("DO YOU WANT TO (1) STOP AT THE NEXT FORT, (2) HUNT, OR (3) CONTINUE?");
     const result = await this.tt.input(true);
     let X_action = Number(result);
@@ -557,7 +569,7 @@ export default class OregonTrail {
       X_action = getPositiveInteger(X_action);
     }
 
-    this._2220_doUserTurnAction(X_action);
+    this._2220_checkForBullets(X_action);
   }
 
   // 2170 PRINT "DO YOU WANT TO (1) HUNT, OR (2) CONTINUE"
@@ -569,14 +581,14 @@ export default class OregonTrail {
     await this.tt.print("DO YOU WANT TO (1) HUNT, OR (2) CONTINUE?");
     const result = await this.tt.input(true);
     let X_action = Number(result);
-    if(X_action === 1) {
+    if (X_action === 1) {
       X_action = 2;
-    } 
+    }
     else {
       X_action = 3;
     }
 
-    this._2220_doUserTurnAction(X_action);
+    this._2220_checkForBullets(X_action);
   }
 
   // 2220 IF X=3 THEN 2260
@@ -584,23 +596,26 @@ export default class OregonTrail {
   // 2240 PRINT "TOUGH---YOU NEED MORE BULLETS TO GO HUNTING"
   // 2250 GOTO 2170
   // 2260 X1=X1*(-1)
+  async _2220_checkForBullets(X_action) {
+    if (X_action === 2 && this.B_ammo <= 39) {
+      await this.tt.print("TOUGH---YOU NEED MORE BULLETS TO GO HUNTING");
+      this._2170_askHuntOrContinue();
+    }
+    else {
+      this.X1_showFortActionThisTurn = !this.X1_showFortActionThisTurn;
+      this._2270_doUserTurnAction(X_action);
+    }
+  }
+
   // 2270 ON X GOTO 2290,2540,2720
-  async _2220_doUserTurnAction(X_action) {
+  async _2270_doUserTurnAction(X_action) {
     if (X_action === 1) {
       this._2290_stopAtFort();
     }
     else if (X_action === 2) {
-      if (this.B_ammo < 40) {
-        await this.tt.print("TOUGH---YOU NEED MORE BULLETS TO GO HUNTING");
-        this._2170_askHuntOrContinue();
-      }
-      else {
-        this.X1_showFortActionThisTurn = !this.X1_showFortActionThisTurn;
-        this._2530_hunt();
-      }
+      this._2540_hunt();
     }
     else {
-      this.X1_showFortActionThisTurn = !this.X1_showFortActionThisTurn;
       this._2720_eat();
     }
   }
@@ -626,17 +641,17 @@ export default class OregonTrail {
   async _2290_stopAtFort() {
     await this.tt.print("ENTER WHAT YOU WISH TO SPEND ON THE FOLLOWING");
 
-    let purchaseAmount = await this._2330_askAtFort("FOOD");
-    this.F_food += 2 / 3 * purchaseAmount;
+    let P_purchaseAmount = await this._2330_askAtFort("FOOD");
+    this.F_food += 2 / 3 * P_purchaseAmount;
 
-    purchaseAmount = await this._2330_askAtFort("AMMUNITION");
-    this.B_ammo += 2 / 3 * purchaseAmount * 50;
+    P_purchaseAmount = await this._2330_askAtFort("AMMUNITION");
+    this.B_ammo += 2 / 3 * P_purchaseAmount * 50;
 
-    purchaseAmount = await this._2330_askAtFort("CLOTHING");
-    this.C_clothing += 2 / 3 * purchaseAmount;
+    P_purchaseAmount = await this._2330_askAtFort("CLOTHING");
+    this.C_clothing += 2 / 3 * P_purchaseAmount;
 
-    purchaseAmount = await this._2330_askAtFort("MISCELLANEOUS SUPPLIES");
-    this.M1_supplies += 2 / 3 * purchaseAmount;
+    P_purchaseAmount = await this._2330_askAtFort("MISCELLANEOUS SUPPLIES");
+    this.M1_supplies += 2 / 3 * P_purchaseAmount;
 
     this.M_totalMileage -= 45;
     this._2720_eat();
@@ -654,6 +669,7 @@ export default class OregonTrail {
     await this.tt.print(purchase);
     let P_result = await this.tt.input(true);
     P_result = Number(P_result);
+
     if (this.T_money > P_result) {
       this.T_money -= P_result;
     }
@@ -661,6 +677,7 @@ export default class OregonTrail {
       P_result = 0;
       await this.tt.print("YOU DON'T HAVE THAT MUCH--KEEP YOUR SPENDING DOWN");
     }
+
     return P_result;
   }
 
@@ -682,25 +699,33 @@ export default class OregonTrail {
   // 2690 B=B-10-RND(-1)*4
   // 2700 GOTO 2720
   // 2710 PRINT "YOU MISSED---AND YOUR DINNER GOT AWAY....."
-  async _2530_hunt() {
-    this.M_totalMileage -= 45;
-    const B1_responseTime = await this._6140_shoot();
-    if (B1_responseTime <= 1) {
-      await this.tt.print("RIGHT BETWEEN THE EYES---YOU GOT A BIG ONE!!!! FULL BELLIES TONIGHT!");
-      this.F_food += 52 + randomInt(6) + 1;
-      this.B_ammo -= 10 + randomInt(4) + 1;
-    }
-    else if (randomInt(100) >= 13 * B1_responseTime) {
-      this.F_food += 52 + randomInt(6) + 1;
-      this.B_ammo -= 10 + 3 * B1_responseTime;
-      await this.tt.print("NICE SHOT. RIGHT ON TARGET. GOOD EATIN' TONIGHT!!");
+  async _2540_hunt() {
+    if (this.B_ammo > 39) {
+      this.M_totalMileage -= 45;
+      const B1_responseTime = await this._6140_shoot();
+      if (B1_responseTime <= 1) {
+        await this.tt.print("RIGHT BETWEEN THE EYES---YOU GOT A BIG ONE!!!! FULL BELLIES TONIGHT!");
+        this.F_food += 52 + randomInt(6) + 1;
+        this.B_ammo -= 10 + randomInt(4) + 1;
+      }
+      else if (randomInt(100) >= 13 * B1_responseTime) {
+        this.F_food += 52 + randomInt(6) + 1;
+        this.B_ammo -= 10 + 3 * B1_responseTime;
+        await this.tt.print("NICE SHOT. RIGHT ON TARGET. GOOD EATIN' TONIGHT!!");
+      }
+      else {
+        // original code doesn't reduce ammo when you miss
+        await this.tt.print("YOU MISSED---AND YOUR DINNER GOT AWAY.....");
+      }
+
+      this._2720_eat();
     }
     else {
-      // original code doesn't reduce ammo when you miss
-      await this.tt.print("YOU MISSED---AND YOUR DINNER GOT AWAY.....");
+      // I don't think we should ever get here because of the check in
+      // function this._2220_checkForBullets, but just in case...
+      await this.tt.print("TOUGH---YOU NEED MORE BULLETS TO GO HUNTING");
+      this._2080_askFortAction();
     }
-
-    this._2720_eat();
   }
 
   // 2720 IF F >= 13 THEN 2750
@@ -729,8 +754,9 @@ export default class OregonTrail {
   async _2750_askEat() {
     await this.tt.print("DO YOU WANT TO EAT (1) POORLY (2) MODERATELY OR (3) WELL");
     const result = await this.tt.input(true);
-    this.E_eatOption = getPositiveInteger(result);
+    this.E_eatOption = Number(result);
     if (1 <= this.E_eatOption && this.E_eatOption <= 3) {
+      this.E_eatOption = getPositiveInteger(this.E_eatOption);
       let foodToEat = 8 + 5 * this.E_eatOption;
       if (foodToEat > this.F_food) {
         await this.tt.print("YOU CAN'T EAT THAT WELL");
@@ -742,7 +768,7 @@ export default class OregonTrail {
       }
     }
     else {
-      this._2720_eat();
+      this._2750_askEat();
     }
   }
 
@@ -753,7 +779,7 @@ export default class OregonTrail {
     this.M_totalMileage += (this.A_oxen - 220) / 5;
     this.M_totalMileage += randomInt(9) + 1;
     this.L1_blizzardFlag = false;
-    this.C1_clothingFlag = false;
+    this.C1_haveEnoughClothing = false;
     this._2880_ridersAttack();
   }
 
@@ -768,7 +794,7 @@ export default class OregonTrail {
   async _2880_ridersAttack() {
     if (randomInt(10) <= ((this.M_totalMileage / 100 - 4) ** 2 + 72) / ((this.M_totalMileage / 100 - 4) ** 2 + 12) - 1) {
       this.S5_ridersAreFriendly = false;
-      if (randomInt(10) < 8) {
+      if (randomInt(100) < 80) {
         this.S5_ridersAreFriendly = true;
       }
 
@@ -801,27 +827,28 @@ export default class OregonTrail {
       "(1) RUN  (2) ATTACK  (3) CONTINUE  (4) CIRCLE WAGONS"
     ]);
 
-    let tactics = await this.tt.input(true);
-    tactics = getPositiveInteger(tactics);
-    if (tactics < 1 || tactics > 4) {
+    let T1_tactics = await this.tt.input(true);
+    T1_tactics = Number(T1_tactics);
+    if (T1_tactics < 1 || T1_tactics > 4) {
       this._2960_askRiderTactics();
     }
     else {
+      T1_tactics = getPositiveInteger(T1_tactics);
       if (randomInt(10) <= 2) {
         this.S5_ridersAreFriendly = !this.S5_ridersAreFriendly;
       }
 
       if (this.S5_ridersAreFriendly) {
-        this._3330_handleFriendlyRiders(tactics);
+        this._3330_handleFriendlyRiders(T1_tactics);
       }
       else {
-        if (tactics === 1) {
+        if (T1_tactics === 1) {
           this._3060_runFromRiders();
         }
-        else if (tactics === 2) {
+        else if (T1_tactics === 2) {
           this._3120_attackRiders();
         }
-        else if (tactics === 3) {
+        else if (T1_tactics === 3) {
           this._3250_continuePastRiders();
         }
         else {
@@ -875,7 +902,7 @@ export default class OregonTrail {
       this.K8_injuryFlag = true;
     }
 
-    this._3550_selectionOfEvents();
+    this._3470_riderResults();
   }
 
   // 3250 IF RND(-1)>.8 THEN 3450
@@ -883,13 +910,13 @@ export default class OregonTrail {
   // 3270 M1=M1-15
   // 3280 GOTO 3470
   _3250_continuePastRiders() {
-    if (randomInt(10) > 8) {
+    if (randomInt(100) > 80) {
       this._3450_ridersDidNotAttack();
     }
     else {
       this.B_ammo -= 150;
       this.M1_supplies -= 15;
-      this._3550_selectionOfEvents();
+      this._3470_riderResults();
     }
   }
 
@@ -899,8 +926,8 @@ export default class OregonTrail {
   // 3320 GOTO 3140
   async _3290_circleWagons() {
     const shotTime = await this._6140_shoot();
-    this.B_ammo -= (shotTime * 30) - 80;
-    this.M1_supplies -= 25;
+    this.B_ammo -= shotTime * 30 - 80;
+    this.M_totalMileage -= 25;
     this._3140_shootRidersResult();
   }
 
@@ -952,16 +979,18 @@ export default class OregonTrail {
   async _3470_riderResults() {
     if (this.S5_ridersAreFriendly) {
       await this.tt.print("RIDERS WERE FRIENDLY, BUT CHECK FOR POSSIBLE LOSSES");
+      this._3550_selectionOfEvents();
     }
     else {
       await this.tt.print("RIDERS WERE HOSTILE--CHECK FOR LOSSES");
-      if (this.B_ammo < 0) {
+      if (this.B_ammo > 0) {
+        this._3550_selectionOfEvents();
+      }
+      else {
         await this.tt.print("YOU RAN OUT OF BULLETS AND GOT MASSACRED BY THE RIDERS");
         this._5170_unfortunateSituation();
       }
     }
-
-    this._3550_selectionOfEvents();
   }
 
   // 3540 REM ***SELECTION OF EVENTS***
@@ -977,49 +1006,50 @@ export default class OregonTrail {
   // 3640 ON D1 GOTO 3660,3700,3740,3790,3820,3850,3880,3960,4130,4190
   // 3650 ON D1-10 GOTO 4220,4290,4340,4650,4610,4670
   _3550_selectionOfEvents() {
-    if (randomInt(100) <= 6) {
+    const R1_randomInt = randomInt(100);
+    if (R1_randomInt <= 6) {
       this._3660_eventWagonBreaksDown();
     }
-    else if (randomInt(100) <= 11) {
+    else if (R1_randomInt <= 11) {
       this._3700_eventOxInjuresLeg();
     }
-    else if (randomInt(100) <= 13) {
+    else if (R1_randomInt <= 13) {
       this._3740_eventDaughterBrokeArm();
     }
-    else if (randomInt(100) <= 15) {
+    else if (R1_randomInt <= 15) {
       this._3790_eventOxWandersOff();
     }
-    else if (randomInt(100) <= 17) {
+    else if (R1_randomInt <= 17) {
       this._3820_eventSonGetsLost();
     }
-    else if (randomInt(100) <= 22) {
+    else if (R1_randomInt <= 22) {
       this._3850_eventUnsafeWater();
     }
-    else if (randomInt(100) <= 32) {
+    else if (R1_randomInt <= 32) {
       this._3880_eventHeavyRains();
     }
-    else if (randomInt(100) <= 35) {
+    else if (R1_randomInt <= 35) {
       this._3960_eventBanditsAttack();
     }
-    else if (randomInt(100) <= 37) {
+    else if (R1_randomInt <= 37) {
       this._4140_eventUnknownLosses();
     }
-    else if (randomInt(100) <= 42) {
+    else if (R1_randomInt <= 42) {
       this._4190_eventHeavyFog();
     }
-    else if (randomInt(100) <= 44) {
+    else if (R1_randomInt <= 44) {
       this._4220_eventPoisonousSnake();
     }
-    else if (randomInt(100) <= 54) {
+    else if (R1_randomInt <= 54) {
       this._4290_eventWagonSwamped();
     }
-    else if (randomInt(100) <= 64) {
+    else if (R1_randomInt <= 64) {
       this._4340_eventAnimalsAttack();
     }
-    else if (randomInt(100) <= 69) {
+    else if (R1_randomInt <= 69) {
       this._4490_eventColdWeather();
     }
-    else if (randomInt(100) <= 95) {
+    else if (R1_randomInt <= 95) {
       this._4610_eventFoodPoisoning();
     }
     else {
@@ -1081,11 +1111,11 @@ export default class OregonTrail {
   }
 
   // 3850 PRINT "UNSAFE WATER--LOSE TIME LOOKING FOR CLEAN SPRING"
-  // 3860 LET M=M-10*RND(-1)*-2
+  // 3860 LET M=M-10*RND(-1)-2
   // 3870 GOTO 4710
   async _3850_eventUnsafeWater() {
     await this.tt.print("UNSAFE WATER--LOSE TIME LOOKING FOR CLEAN SPRING");
-    this.M_totalMileage -= randomInt(20);
+    this.M_totalMileage -= randomInt(10) - 2;
     this._4710_doMountains();
   }
 
@@ -1124,14 +1154,14 @@ export default class OregonTrail {
   // 4120 GOTO 4710
   async _3960_eventBanditsAttack() {
     await this.tt.print("BANDITS ATTACK");
-    const shotTime = await this._6140_shoot();
-    this.B_ammo -= 20 * shotTime;
+    const B1_shotTime = await this._6140_shoot();
+    this.B_ammo -= 20 * B1_shotTime;
     if (this.B_ammo < 0) {
       await this.tt.print("YOU RAN OUT OF BULLETS---THEY GET LOTS OF CASH");
       this.T_money = this.T_money / 3;
       this._4040_eventsShotByBandits();
     }
-    else if (shotTime <= 1) {
+    else if (B1_shotTime <= 1) {
       await this.tt.printAll([
         "QUICKEST DRAW OUTSIDE OF DODGE CITY!!!",
         "YOU GOT 'EM!"
@@ -1163,13 +1193,13 @@ export default class OregonTrail {
 
   // 4140 F=F-40
   // 4150 B=B-400
-  // 4160 LET M1=M1-RND(-1)*68-3
+  // 4160 LET M1=M1-RND(-1)*8-3
   // 4170 M=M-15
   // 4180 GOTO 4710
   async _4140_eventUnknownLosses() {
     this.F_food -= 40;
     this.B_ammo -= 400;
-    this.M1_supplies -= randomInt(68) - 3;
+    this.M1_supplies -= randomInt(8) - 3;
     this.M_totalMileage -= 15;
     this._4710_doMountains();
   }
@@ -1234,18 +1264,18 @@ export default class OregonTrail {
   // 4480 GOTO 4710
   async _4340_eventAnimalsAttack() {
     await this.tt.print("WILD ANIMALS ATTACK!");
-    const shotTime = await this._6140_shoot();
+    const B1_shotTime = await this._6140_shoot();
     if (this.B_ammo > 39) {
-      if (shotTime > 2) {
+      if (B1_shotTime > 2) {
         await this.tt.print("SLOW ON THE DRAW---THEY GOT AT YOUR FOOD AND CLOTHES");
       }
       else {
         await this.tt.print("NICE SHOOTIN' PARDNER---THEY DIDN'T GET MUCH");
       }
 
-      this.B_ammo -= 20 * shotTime;
-      this.C_clothing -= 4 * shotTime;
-      this.F_food -= 8 * shotTime;
+      this.B_ammo -= 20 * B1_shotTime;
+      this.C_clothing -= 4 * B1_shotTime;
+      this.F_food -= 8 * B1_shotTime;
       this._4710_doMountains();
     }
     else {
@@ -1263,13 +1293,13 @@ export default class OregonTrail {
   // 4540 IF C1=0 THEN 4710
   // 4550 GOTO 6300
   async _4490_eventColdWeather() {
-    this.C1_clothingFlag = this.C_clothing <= 22 + randomInt(4);
-    await this.tt.print("COLD WEATHER---BRRRRRRR!---YOU " + (this.C1_clothingFlag ? "DON'T " : "") + "HAVE ENOUGH CLOTHING TO KEEP WARM");
-    if (this.C1_clothingFlag) {
-      this._6300_illness();
+    this.C1_haveEnoughClothing = this.C_clothing > 22 + randomInt(4);
+    await this.tt.print("COLD WEATHER---BRRRRRRR!---YOU " + (this.C1_haveEnoughClothing ? "" : "DON'T ") + "HAVE ENOUGH CLOTHING TO KEEP WARM");
+    if (this.C1_haveEnoughClothing) {
+      this._4710_doMountains();
     }
     else {
-      this._4710_doMountains();
+      this._6300_illness();
     }
   }
 
@@ -1293,16 +1323,29 @@ export default class OregonTrail {
   // 4650 IF RND(-1)<.5 THEN 6300
   // 4660 GOTO 4710
   async _4610_eventFoodPoisoning() {
-    if (false) {
+    if (this.E_eatOption === 1) {
       this._6300_illness();
     }
-    this._4710_doMountains();
+    else {
+      let threshold = 25;
+      if (this.E_eatOption === 3) {
+        threshold = 50;
+      }
+
+      if (randomInt(100) > threshold) {
+        this._6300_illness();
+      }
+      else {
+        this._4710_doMountains();
+      }
+    }
   }
 
   // 4670 PRINT "HELPFUL INDIANS SHOW YOU WHERE TO FIND MORE FOOD"
   // 4680  F=F+14
   // 4690 GOTO 4710
   async _4670_eventFriendlyIndians() {
+    await this.tt.print("HELPFUL INDIANS SHOW YOU WHERE TO FIND MORE FOOD");
     this.F_food += 14;
     this._4710_doMountains();
   }
@@ -1316,10 +1359,9 @@ export default class OregonTrail {
       this._1230_startNewTurn();
     }
     else {
-      // RND(-1)*10 > 9- ((M/100-15)**2+72) / ((M/100-15)**2+12)
-      const rnd = randomInt(10);
+      const rnd = randomInt(100);
       const factor = 9 - ((this.M_totalMileage / 100 - 15) ** 2 + 72) / ((this.M_totalMileage / 100 - 15) ** 2 + 12)
-      if (rnd > factor) {
+      if (rnd > factor * 10) {
         this._4560_eventHailStorm();
       }
       else {
@@ -1334,7 +1376,7 @@ export default class OregonTrail {
   // 4760 M=M-60
   // 4770 GOTO 4560
   async _4740_mountainsGotLost() {
-    if (randomInt(10) > 1) {
+    if (randomInt(100) > 10) {
       this._4780_mountainsWagonDamaged();
     }
     else {
@@ -1404,7 +1446,7 @@ export default class OregonTrail {
     }
     else {
       this.F2_blueMountainsFlag = true;
-      if (randomInt(10) < 7) {
+      if (randomInt(100) < 70) {
         this._4970_mountainsSouthPassBlizzard();
       }
       else {
@@ -1614,6 +1656,65 @@ export default class OregonTrail {
   // 6120 STOP
   async _5420_finalTurn() {
     await this.tt.print("YOU FINALLY ARRIVED AT OREGON CITY AFTER 2040 LONG MILES---HOORAY!!!!! A REAL PIONEER!");
+
+    let F9 = (2040 - this.M2_mileageAtTurnStart) / (this.M_totalMileage - this.M2_mileageAtTurnStart);
+    this.F_food += (1 - F9) * (8 + 5 * this.E_eatOption);
+
+    F9 = getPositiveInteger(F9 * 14);
+    this.D3_turnNumber = this.D3_turnNumber * 14 + F9;
+    F9++;
+    if (F9 >= 5) {
+      F9 -= 7;
+    }
+
+    let dayOfWeek = daysOfTheWeek[F9];
+    let month = "";
+    if (this.D3_turnNumber <= 124) {
+      this.D3_turnNumber -= 93;
+      month = "JULY ";
+    }
+    else if (this.D3_turnNumber <= 155) {
+      this.D3_turnNumber -= 124;
+      month = "AUGUST ";
+    }
+    else if (this.D3_turnNumber <= 185) {
+      this.D3_turnNumber -= 155;
+      month = "SEPTEMBER ";
+    }
+    else if (this.D3_turnNumber <= 216) {
+      this.D3_turnNumber -= 185;
+      month = "OCTOBER ";
+    }
+    else if (this.D3_turnNumber <= 246) {
+      this.D3_turnNumber -= 216;
+      month = "NOVEMBER ";
+    }
+    else {
+      this.D3_turnNumber -= 246;
+      month = "DECEMBER ";
+    }
+
+    await this.tt.print(dayOfWeek + month + this.D3_turnNumber + " 1847");
+    this.B_ammo = getPositiveInteger(this.B_ammo);
+    this.C_clothing = getPositiveInteger(this.C_clothing);
+    this.F_food = getPositiveInteger(this.F_food);
+    this.M1_supplies = getPositiveInteger(this.M1_supplies);
+    this.T_money = getPositiveInteger(this.T_money);
+
+    await this.tt.print("FOOD  BULLETS  CLOTHING  MISC. SUPP.   CASH");
+    await this.tt.print(
+      this.F_food.toString().padEnd(6, ' ') +
+      this.B_ammo.toString().padEnd(9, ' ') +
+      this.C_clothing.toString().padEnd(10, ' ') +
+      this.M1_supplies.toString().padEnd(14, ' ') +
+      this.T_money.toString()
+    );
+
+    await this.tt.print(
+      "PRESIDENT JAMES K. POLK SENDS YOU HIS HEARTIEST CONGRATULATIONS " +
+      "AND WISHES YOU A PROSERPOUS LIFE AHEAD AT YOUR NEW HOME"
+    );
+    
     this.playAgain();
   }
 
