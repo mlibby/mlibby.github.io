@@ -1714,7 +1714,7 @@ export default class OregonTrail {
       "PRESIDENT JAMES K. POLK SENDS YOU HIS HEARTIEST CONGRATULATIONS " +
       "AND WISHES YOU A PROSERPOUS LIFE AHEAD AT YOUR NEW HOME"
     );
-    
+
     this.playAgain();
   }
 
@@ -1747,10 +1747,11 @@ export default class OregonTrail {
     const shootWords = ["BANG", "BLAM", "POW", "WHAM"];
     const wordIndex = randomInt(4);
     await this.tt.print("TYPE " + shootWords[wordIndex]);
-    const responseStart = moment();
+    const responseStart = Date.now();
     let result = await this.tt.input();
-    let B1_responseTime = moment().diff(responseStart, 'seconds');
-    B1_responseTime -= this.D9_rifleSkill + 1;
+    const responseStop = Date.now();
+    let B1_responseTime = (responseStop - responseStart) / 1000;
+    B1_responseTime -= this.D9_rifleSkill - 1;
     B1_responseTime = getPositiveInteger(B1_responseTime);
     if (result.toUpperCase() !== shootWords[wordIndex]) {
       B1_responseTime = 100;
