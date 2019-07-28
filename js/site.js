@@ -1,9 +1,12 @@
-import OregonTrail from "./oregon.js"
+"use strict";
+
+import Router from "./router.js";
 
 $().ready(function () {
-  const $main = $('main .row .col');
-  $('button.play-oregon').click(() => {
-    const oregonTrail = new OregonTrail($main);
-    oregonTrail._160_play();
+  $(window.document).on("click", "a[href]:not([data-bypass])", function (e) {
+    $(".navbar-collapse").removeClass("show");
   });
+
+  const router = new Router();
+  Backbone.history.start({ pushState: false });
 });
