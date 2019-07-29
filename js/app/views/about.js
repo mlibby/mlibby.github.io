@@ -1,0 +1,273 @@
+"use strict";
+
+import { html, render } from "/js/lib/lit-html/lit-html.js";
+
+const template = (d) => html`
+<article>
+    <section>
+        <h2>Contact Information</h2>
+        <address>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="about-icon icon-home float-left"></div>
+                    <div class="float-left">
+                        Michael C. Libby<br />
+                        3146 Hampshire Ave N<br />
+                        Crystal, MN 55427
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <span class="about-icon icon-envelope-o"></span>
+                    <a href="mailto:m@mlibby.com" title="email me">m@mlibby.com</a>
+                </li>
+                <li class="list-group-item">
+                    <span class="about-icon icon-phone"></span>
+                    <a href='tel:7639130196'>(763) 913-0196</a>
+                </li>
+            </ul>
+        </address>
+    </section>
+    <section>
+        <h2>Summary</h2>
+        <p>I have over a decade of professional experience as a web and applications developer on projects of all sizes using a variety of programming languages and frameworks. Working directly with users and stakeholders, I have consistently built software that exceeded expectations.</p>
+        <p>Project highlights include: building web sales reports without access to a web server, designing and developing complex data migration systems, building user-friendly, efficient UIs, and improving performance and reliability of data analysis applications.</p>
+        <p>Over the years, I have written applications in Perl, Ruby (with and without Rails), VBA (mostly in Access), SQL Server T-SQL, VB.NET, C#, Javascript, HTML/CSS, Bootstrap, BackboneJS-- just to name a few. Third party tools I have worked with include Oracle, MySQL, Kofax Capture and Transformation, Excel. In addition to being a Windows developer, I speak fluent Linux.</p>
+    </section>
+    <section>
+        <h2>Portfolio</h2>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="about-icon icon-github-alt"></span>
+                <a href="https://github.com/mlibby" title="Github Repos">
+                    http://github.com/mlibby
+                </a>
+            </li>
+            <li class="list-group-item">
+                <span class="about-icon icon-stack-overflow"></span>
+                <a href='http://stackoverflow.com/users/13468/mlibby' title="StackOverflow profile">
+                    http://stackoverflow.com/users/13468/mlibby
+                </a>
+            </li>
+        </ul>
+    </section>
+    <section class='mt-3'>
+        <h2>Related Career History</h2>
+        <div>
+            <dl class='job-details current'>
+                <dt>Title</dt>
+                <dd>Application Systems Engineer</dd>
+                <dt>Dates</dt>
+                <dd>March 2015 &mdash; present</dd>
+                <dt>Company</dt>
+                <dd><a href='http://www.wellsfargo.com'>Wells Fargo</a> &mdash; Minneapolis, MN</dd>
+                <dt>Key Technology</dt>
+                <dd>C#, VB.NET, Kofax, KTM, SQL Server, Oracle, ASP.NET MVC</dd>
+                <dt>Duties</dt>
+                <dd>
+                    <ul>
+                        <li>Lead development of Windows services, Windows GUI applications, and web applications (C#, SQL Server, and Oracle), including interfacing with automation hardware and third party systems (Kofax).</li>
+                        <li>Built and validated document recognition models in Kofax Transformation Services (KTM) with custom scripting.</li>
+                        <li>Wrote and executed test plans for software not covered by other quality assurance teams.</li>
+                        <li>Worked as part of a team to resolve production and QA issues supporting 99% uptime of mission critical systems.</li>
+                        <li>Evaluated new technologies and design approaches for incorporation in overall system architecture.</li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <dl class='job-details'>
+                <dt>Title</dt>
+                <dd>Software Developer</dd>
+                <dt>Dates</dt>
+                <dd>September 2013 &mdash; January 2015</dd>
+                <dt>Company</dt>
+                <dd><a href='http://www.novu.com'>Novu</a> &mdash; St. Louis Park, MN</dd>
+                <dt>Key Technology</dt>
+                <dd>Accessibility, Rails, CoffeeScript, Backbone.js, HAML, SCSS, Bootstrap</dd>
+                <dt>Duties</dt>
+                <dd>
+                    <ul>
+                        <li>Researched accessibility best practices to apply to web site, presented to all design and technical staff.</li>
+                        <li>Wrote, debugged, and refactored client-side code with a focus on responsive (mobile first) design.</li>
+                        <li>Wrote, debugged, and refactored server-side code with an emphasis on RESTful APIs.
+                        <li>Worked directly with internal business partners to integrate a third party service for custom marketing to users.</li>
+                        <li>Performed code reviews on a daily basis.</li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <dl class='job-details'>
+                <dt>Title</dt>
+                <dd>Software Developer</dd>
+                <dt>Dates</dt>
+                <dd>July 2011 &mdash; September 2013</dd>
+                <dt>Company</dt>
+                <dd><a href='http://nerdery.com'>The Nerdery</a> &mdash; Bloomington, MN</dd>
+                <dt>Key Technology</dt>
+                <dd>C#, ASP.NET MVC, HTML, CSS, JS, jQuery, Entity Framework</dd>
+                <dt>Duties</dt>
+                <dd>
+                    <ul>
+                        <li>Performed code audits for incoming project work.</li>
+                        <li>Wrote requirements documentation and test plans.</li>
+                        <li>Lead and coordinated teams of 2-10 developers, making technology choices or directing software architecture.</li>
+                        <li>Worked directly with clients to understand their business needs, often presenting unique solutions that helped keep a project budget low while providing a high level of support for the use case.</li>
+                        <li>Wrote and maintained 1000&rsquo;s of lines of code from HTML/CSS, to JavaScript, to C#, to SQL.</li>
+                        <li>Mentored junior developers.</li>
+                        <li>Brought one of the most popular dogs in the office to work every day.</li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <dl class='job-details'>
+                <dt>Title</dt>
+                <dd>Software Developer</dd>
+                <dt>Dates</dt>
+                <dd>February 2008 &mdash; July 2011</dd>
+                <dt>Company</dt>
+                <dd><a href='http://www.wexinc.com'>Evolution1</a> (now Wex, formerly Lighthouse1) &mdash; Edina, MN</dd>
+                <dt>Key Technology</dt>
+                <dd>C#, SQL Sserver, SSIS, TFS, MS Test, TDD, Rhino Mocks</dd>
+                <dt>Duties</dt>
+                <dd>
+                    <ul>
+                        <li>Lead development of a long-term data integration application project.</li>
+                        <li>Responsible for major design decisions, project planning, coding, profiling, optimizing, and technical support during the entire life cycle of project.</li>
+                        <li>Introduced unit and integration testing.</li>
+                        <li>&ldquo;Lightning Rod Award 2008&rdquo; winner, for being &ldquo;the team member who has continually shown enthusiasm, energy, and positive insight, delivering successful solutions in every situation possible even when obstacles could derail the solution.&rdquo;</li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <dl class='job-details'>
+                <dt>Title</dt>
+                <dd>Application Systems Engineer</dd>
+                <dt>Dates</dt>
+                <dd>March 2007 &mdash; January 2008</dd>
+                <dt>Company</dt>
+                <dd><a href='https://www.wellsfargo.com/mortgage/'>Wells Fargo Home Mortgage</a> &mdash; Minneapolis, MN</dd>
+                <dt>Key Technology</dt>
+                <dd>C#, VB.NET, Oracle, Kofax, Ascent Capture, Indicius</dd>
+                <dt>Duties</dt>
+                <dd>
+                    <ul>
+                        <li>Developed and supported applications and systems for a document imaging group, using C#, VB.NET, Oracle, Kofax Ascent Capture, and Indicius.</li>
+                        <li>Designed and developed new end­user tools and Windows services for image processing, being actively involved in the process from requirements gathering through production support.</li>
+                        <li>Automated software builds and deployment of over 30 individual software projects into five test environments and the production environment.</li>
+                        <li>Managed source code branching and merging in ClearCase for a team of 10+ developers.</li>
+                        <li>Wrote high level and detailed design documents, as well as installation and production support documentation.</li>
+                        <li>Feedback from a stakeholder: &ldquo;... the team did a good job on this and... Michael Libby coded up a nice piece of work to put this together.&rdquo;</li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <dl class="job-details">
+                <dt>Title</dt>
+                <dd>Application Systems Engineer</dd>
+                <dt>Dates</dt>
+                <dd>May 2005 &mdash; March 2007</dd>
+                <dt>Company</dt>
+                <dd><a href='https://www.wellsfargo.com'>Wells Fargo</a> (Business Banking) &mdash; Minneapolis, MN</dd>
+                <dt>Key Technology</dt>
+                <dd>SQL Server, VB.NET, DataStage, Oracle</dd>
+                <dt>Duties</dt>
+                <dd>
+                    <ul>
+                        <li>Improved application process time and accuracy by integrating several existing standalone applications into a single interface.
+                        <li>Developed and supported applications and systems related to customer householding, using SQL Server and VB.NET.</li>
+                        <li>Explored rewriting our main applications using IBM DataStage and Oracle, including prototyping.</li>
+                        <li>Worked directly with business users to gather requirements for updates to existing applications.</li>
+                        <li>Review comments include: &ldquo;...instrumental in the recent addition of our data quality scripts...&rdquo; &ndash; &ldquo;As a result of his hard work and dedication, he was promoted...&rdquo; &ndash; &ldquo;Maintains highest ethics and standards, even in stressful time and during tight deadlines.&rdquo;</li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <dl class='job-details'>
+                <dt>Title</dt>
+                <dd>Business Systems Consultant</dd>
+                <dt>Dates</dt>
+                <dd>October 2003 &mdash; May 2005</dd>
+                <dt>Company</dt>
+                <dd><a href='https://www.wellsfargo.com'>Wells Fargo</a> (Business Banking) &mdash; Minneapolis, MN</dd>
+                <dt>Key Technology</dt>
+                <dd>Ruby, HTML, Cognos, MS Access, SQL Navigator, SQLPlus</dd>
+                <dt>Duties</dt>
+                <dd>
+                    <ul>
+                        <li>Designed and developed a monthly management reporting package in Ruby and HTML.</li>
+                        <li>Held the lead business analyst role in the development of a datamart for sales reporting and analysis.</li>
+                        <li>Performed various ad hoc data analysis and reporting tasks as needed, using a variety of tools including SQL Navigator, MS Access, Ruby, and sqlplus.</li>
+                        <li>
+                            Feedback given to my manager regarding the reporting package I designed and built:  &ldquo;The work is amazing&rdquo;
+                            .
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <dl class='job-details'>
+                <dt>Title</dt>
+                <dd>Marketing Database Analyst</dd>
+                <dt>Dates</dt>
+                <dd>2000 &mdash; 2003</dd>
+                <dt>Company</dt>
+                <dd><a href='https://www.wellsfargo.com'>Wells Fargo</a> (Corporate Marketing) &mdash; Minneapolis, MN</dd>
+                <dt>Key Technology</dt>
+                <dd>MS Access, Excel, VBA, Perl, Cognos</dd>
+                <dt>Duties</dt>
+                <dd>
+                    <ul>
+                        <li>Created a reporting package with VBA in Access and Excel via OLE.</li>
+                        <li>Designed and programmed an analysis tool for a high value mortgage program in Perl.</li>
+                        <li>Developed a sales forecasting tool in Perl.</li>
+                        <li>Performed ad hoc customer profitability and geographic movement analyses with Cognos Impromptu.</li>
+                        <li>Maintained online help system with RoboHelp and took support calls about an MIS data warehouse.</li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <dl class='job-details'>
+                <dt>Title</dt>
+                <dd>Financial Analyst</dd>
+                <dt>Dates</dt>
+                <dd>1998 &mdash; 2000</dd>
+                <dt>Company</dt>
+                <dd><a href='https://www.wellsfargo.com'>Wells Fargo</a> (Corporate Marketing) &mdash; Minneapolis, MN</dd>
+                <dt>Key Technology</dt>
+                <dd>MS Access, Excel, VBA, Cognos</dd>
+                <dt>Duties</dt>
+                <dd>
+                    <ul>
+                        <li>Built a reporting tool using VBA in Access to analyze interest expense savings opportunities.</li>
+                        <li>Performed ad hoc financial analyses using Cognos Impromptu, MS Excel, MS Access.</li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+    </section>
+    <hr />
+    <section>
+        <h2>Education and Development</h2>
+        <p>Conferences: RubyConf 2002, Twin Cities Code Camp 2011, jQuery Conf 2014
+        <p>Certifications: Brainbench C11, Brainbench Ruby 1.9, Kofax Ascent Capture 7.5, Indicius 5 certified</p>
+        <p>Classes: financial accounting, economics, operational statistics</p>
+        <p>Training: IBM DataStage Enterprise Edition, Microsoft SQL Server</p>
+        <p>Bachelor of Fine Arts - University of Minnesota</p>
+    </section>
+</article>
+`;
+
+export default class AboutView extends Backbone.View {
+  render() {
+    render(template(), this.el);
+    return this;
+  }
+}
+

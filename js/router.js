@@ -3,11 +3,13 @@
 import HomeView from "/js/app/views/home.js";
 import OregonView from "./app/views/oregon.js";
 import WhyOregonView from "./app/views/whyOregon.js";
+import AboutView from "./app/views/about.js";
 
 export default class Router extends Backbone.Router {
   preinitialize() {
     this.routes = {
       "": "home",
+      "about": "about",
       "oregon": "oregon",
       "why-and-how-oregon": "whyOregon"
     };
@@ -23,6 +25,10 @@ export default class Router extends Backbone.Router {
 
   home() {
     this.switchView(new HomeView(), "");
+  }
+
+  about () {
+    this.switchView(new AboutView(), "");
   }
 
   oregon() {

@@ -51,3 +51,8 @@ figcaption {
     vertical-align: top;
     width: 2rem;
 }
+
+dl.job-details {
+    border-top: 1px grey solid;
+    margin-top: 1rem;
+}
