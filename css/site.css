@@ -56,3 +56,79 @@ dl.job-details {
     border-top: 1px grey solid;
     margin-top: 1rem;
 }
+
+.ai dt {
+    float: left;
+    clear: left;
+    font-weight: bold;
+}
+
+.ai dd {
+    margin: 0 0 0 66px;
+    padding: 0 0 0.5em 0;
+}
+
+.ai .parenthetical dd::before {
+    content: '(';
+}
+
+.ai .parenthetical dd::after {
+    content: ')';
+}
+
+.ai .search-results dt::after {
+    content: ': '
+}
+
+.ai .search-results dt {
+    width: 200px;
+    text-align: right;
+}
+
+.ai .search-results dd {
+    margin: 0 0 0 210px;
+}
+
+.ai .puzzle {
+    border: 3px solid black;
+    padding: 5px;
+    float: left;
+    background-color: #c0c0c0;
+}
+
+.ai .puzzle-spot {
+    display: inline-block;
+    font-size: 2em;
+    width: 2.1em;
+    height: 2.1em;
+    padding: 2px;
+}
+
+.ai .tile {
+    vertical-align: middle;
+    text-align: center;
+    border: 1px solid black;
+    line-height: 1.8em;
+    background-color: white;
+    border-radius: 2px;
+    margin: 0;
+    position: relative;
+    z-index: 25;
+}
+
+.ai .number-9 {
+    z-index: 1;
+}
+
+.ai .tile.empty {
+    border: 0;
+    background-color: #c0c0c0;
+}
+
+.ai .shuffle-tiles {
+    margin: 15px 0;
+}
+
+.ai .search-results {
+    margin-bottom: 5px;
+}

@@ -1,0 +1,98 @@
+"use strict";
+
+import { html, render } from "/js/lib/lit-html/lit-html.js";
+
+const template = (d) => html`
+<div class="ai">
+  <div class="row">
+    <div class="col-sm-12">
+      <p>
+        Some browsers may not be ready for this code, if you don't see working examples, please check
+        @Html.ActionLink("my page on enabling ECMAScript6", "ECMAScript6"). Many of these algorithms are also used on
+        my @Html.ActionLink("puzzle solving", "Puzzle") page. It's all in Git at <a href="https://github.com/mlibby/mlibby">my
+          GitHub repo</a>.
+      </p>
+    </div>
+    <div class="col-sm-6">
+      <h3>Choose endpoints and search algorithm</h3>
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="from-city" class="col-sm-2 control-label">From</label>
+          <div class="col-sm-10">
+            <select id="from-city" class="form-control"></select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="to-city" class="col-sm-2 control-label">To</label>
+          <div class="col-sm-10">
+            <select id="to-city" class="form-control"></select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="search-algorithm" class="col-sm-2 control-label">Algorithm</label>
+          <div class="col-sm-10">
+            <select id="search-algorithm" class="form-control">
+              <option value="tree-search">Tree-Search</option>
+              <option value="graph-search-bfs">Graph-Search (breadth first)</option>
+              <option value="graph-search-dfs">Graph-Search (depth first)</option>
+              <option value="uniform-cost-search">Uniform-Cost-Search</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button id="search" class="btn btn-primary">Find a way</button>
+          </div>
+        </div>
+      </form>
+
+      <h3>Results</h3>
+      <dl class="search-results">
+        <dt>
+          Nodes used in search
+        </dt>
+        <dd id="nodes-used">
+          0
+        </dd>
+        <dt>
+          Elapsed search time (ms)
+        </dt>
+        <dd id="elapsed-time">
+          0
+        </dd>
+        <dt>
+          Path Cost
+        </dt>
+        <dd id="path-cost">
+          0
+        </dd>
+        <dt>
+          Solution Path
+        </dt>
+        <dd id="solution">
+          ...
+        </dd>
+      </dl>
+    </div>
+
+    <div class="col-md-1 hidden-sm"></div>
+
+    <div class="col-sm-6 col-md-5">
+      <h3>A Map</h3>
+      <figure>
+        <img class="smallish" src="~/img/romania-distances.png" alt="Simplified map of Romanian cities" />
+        <figcaption>A simplified map of Romanian cities from the <cite><a href="http://aima.cs.berkeley.edu/figures.html">AIMA
+              figures page</a></cite>.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+</div>
+`;
+
+export default class AiSearchView extends Backbone.View {
+  render() {
+    render(template(), this.el);
+    return this;
+  }
+}
