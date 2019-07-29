@@ -23,7 +23,7 @@ const template = (d) => html`
           expecting a number, you will only be able to type numbers into the box.
         </p>
         <p>
-          Please enjoy! If you are interested, here is <a href="#why-and-how-oregon">an essay with more background on
+          Please enjoy! If you are interested, here is <a href="#oregon-why-and-how">an essay with more background on
             why and how </a> I put this together.
         </p>
         <button class="play-oregon btn btn-primary mb-3">Play The Oregon Trail</button>
