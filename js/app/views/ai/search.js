@@ -21,34 +21,26 @@ const template = (d) => html`
     </div>
     <div class="col-md-6">
       <h3>Choose endpoints and search algorithm</h3>
-      <form class="form-horizontal">
+      <form class="form">
         <div class="form-group">
-          <label for="from-city" class="col-sm-2 control-label">From</label>
-          <div class="col-sm-10">
-            <select id="from-city" class="form-control"></select>
-          </div>
+          <label for="from-city" class="control-label">From</label>
+          <select id="from-city" class="form-control"></select>
         </div>
         <div class="form-group">
-          <label for="to-city" class="col-sm-2 control-label">To</label>
-          <div class="col-sm-10">
-            <select id="to-city" class="form-control"></select>
-          </div>
+          <label for="to-city" class="control-label">To</label>
+          <select id="to-city" class="form-control"></select>
         </div>
         <div class="form-group">
-          <label for="search-algorithm" class="col-sm-2 control-label">Algorithm</label>
-          <div class="col-sm-10">
-            <select id="search-algorithm" class="form-control">
-              <option value="tree-search">Tree-Search</option>
-              <option value="graph-search-bfs">Graph-Search (breadth first)</option>
-              <option value="graph-search-dfs">Graph-Search (depth first)</option>
-              <option value="uniform-cost-search">Uniform-Cost-Search</option>
-            </select>
-          </div>
+          <label for="search-algorithm" class="control-label">Algorithm</label>
+          <select id="search-algorithm" class="form-control">
+            <option value="tree-search">Tree-Search</option>
+            <option value="graph-search-bfs">Graph-Search (breadth first)</option>
+            <option value="graph-search-dfs">Graph-Search (depth first)</option>
+            <option value="uniform-cost-search">Uniform-Cost-Search</option>
+          </select>
         </div>
         <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button id="search" class="btn btn-primary">Find a way</button>
-          </div>
+          <button id="search" class="btn btn-primary">Find Route</button>
         </div>
       </form>
 
