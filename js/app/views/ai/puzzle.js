@@ -9,8 +9,7 @@ const template = (d) => html`
       <p>
         The 8 Puzzle consists of a 3x3 board with eight numbered tiles and an empty spot. A tile adjacent to the empty
         spot can slide into that spot. The goal of the puzzle is to order all of the tiles numerically, leaving the
-        empty
-        spot in the lower-right corner.
+        empty spot in the lower-right corner.
       </p>
     </div>
   </div>
