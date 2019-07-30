@@ -1,11 +1,16 @@
 "use strict";
 
 import { html, render } from "/js/lib/lit-html/lit-html.js";
+import Puzzle from "../../ai/puzzle.js";
+import BreadthFirstSearch from "../../ai/graph-search-bfs.js";
+import DepthFirstSearch from "../../ai/graph-search-dfs.js";
+import UniformCostSearch from "../../ai/uniform-cost-search.js";
 
 const template = (d) => html`
 <div class="ai">
   <div class="row">
     <div class="col-sm-12">
+      <h2>AI: Solve the 8 Puzzle</h2>
       <p>
         The 8 Puzzle consists of a 3x3 board with eight numbered tiles and an empty spot. A tile adjacent to the empty
         spot can slide into that spot. The goal of the puzzle is to order all of the tiles numerically, leaving the
@@ -15,7 +20,7 @@ const template = (d) => html`
   </div>
   <div class="row">
     <div class="col-sm-6">
-      <h2>The Board</h2>
+      <h3>The Puzzle</h3>
       <div id="puzzle">
         <div class="puzzle-row">
           <div id="spot-1" class="puzzle-spot">
@@ -51,33 +56,26 @@ const template = (d) => html`
           </div>
         </div>
       </div>
-      <div class="clearfix"></div>
       <button id="shuffle-tiles" class="btn btn-primary">Shuffle Tiles</button>
       <p>Note: not all tile arrangments are guaranteed to be solvable.</p>
-    </div>
-    <div class="col-sm-6">
-      <h2>Choose an Algorithm</h2>
+
       <form class="form form-horizontal">
         <div class="form-group">
-          <label for="search-algorithm" class="col-sm-2 control-label">Algorithm</label>
-          <div class="col-sm-10">
-            <select id="search-algorithm" class="form-control">
-              <option value="tree-search" disabled="disabled">Tree-Search</option>
-              <option value="graph-search-bfs">Graph-Search (breadth first)</option>
-              <option value="graph-search-dfs">Graph-Search (depth first)</option>
-              <option value="uniform-cost-search">Uniform-Cost-Search</option>
-            </select>
-          </div>
+          <label for="search-algorithm" class="control-label">Choose Search Algorithm</label>
+          <select id="search-algorithm" class="form-control">
+            <option value="tree-search" disabled="disabled">Tree-Search</option>
+            <option value="graph-search-bfs">Graph-Search (breadth first)</option>
+            <option value="graph-search-dfs">Graph-Search (depth first)</option>
+            <option value="uniform-cost-search">Uniform-Cost-Search</option>
+          </select>
         </div>
         <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button id="solve-puzzle" class="btn btn-primary">Solve Puzzle</button>
-          </div>
+          <button id="solve-puzzle" class="btn btn-primary">Solve Puzzle</button>
         </div>
       </form>
     </div>
-    <div class="col-sm-12">
-      <h2>Results</h2>
+    <div class="col-sm-6">
+      <h3>Results</h3>
       <dl class="search-results">
         <dt>
           Nodes used in search
@@ -102,11 +100,9 @@ const template = (d) => html`
           ...
         </dd>
       </dl>
-      <form class="form form-horizontal">
+      <form class="form">
         <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button id="watch-solution" disabled="disabled" class="btn btn-primary">Watch Solution</button>
-          </div>
+          <button id="watch-solution" disabled="disabled" class="btn btn-primary">Watch Solution</button>
         </div>
       </form>
     </div>
@@ -115,8 +111,141 @@ const template = (d) => html`
 `;
 
 export default class AiPuzzleView extends Backbone.View {
+  preinitialize() {
+    this.events = {
+      "click #shuffle-tiles": "shuffleTiles",
+      "click #watch-solution": "watchSolution",
+      "click #solve-puzzle": "solvePuzzle"
+    };
+  }
+
+  constructor() {
+    super();
+    this.puzzle = null;
+    this.puzzleSolution = null;
+    this.$elapsedTime = null;
+    this.$nodesUsed = null;
+    this.$pathCost = null;
+    this.$solution = null;
+    this.$watchSolution = null;
+  }
+
+  shuffleTiles(e) {
+    e.preventDefault();
+    this.refreshPuzzle();
+  }
+
+  displayPuzzle(puzzle) {
+    $.each(this.puzzle.initialState.split(''), (index, tileValue) => {
+      let spot = $('#spot-' + (index + 1));
+      let tile = $('#number-' + tileValue).remove();
+      spot.append(tile);
+    });
+  }
+
+  solvePuzzle(e) {
+    e.preventDefault();
+    if (this.puzzle === null) {
+      alert("Shuffle the tiles, eh?");
+    }
+
+    this.clearResults();
+
+    let search = this.getSearch();
+    search.search();
+
+    this.displayResults(search);
+  }
+
+  refreshPuzzle() {
+    this.puzzle = new Puzzle();
+    this.displayPuzzle(this.puzzle);
+  }
+
+  clearResults() {
+    this.$elapsedTime.text('...');
+    this.$nodesUsed.text('...');
+    this.$pathCost.text('...');
+    this.$solution.text('...');
+  }
+
+  displayResults(search) {
+    this.$elapsedTime.text((search.endTime - search.startTime).toFixed(6));
+    this.$nodesUsed.text(search.nodesUsed);
+
+    if (search.solution.length > 0) {
+      this.$pathCost.text(search.solution[search.solution.length - 1].pathCost);
+      this.$solution.text('');
+      this.$solution.append(search.solution.map((node) => node.action).join(', '));
+      this.$watchSolution.removeAttr('disabled');
+    }
+    else {
+      this.$solution.text('Failed to find solution');
+      this.$watchSolution.attr('disabled', 'disabled');
+    }
+  }
+
+  getSearch() {
+    let searchAlgorithm = $('#search-algorithm').val();
+    let search = null;
+
+    switch (searchAlgorithm) {
+      case 'graph-search-bfs':
+        search = new BreadthFirstSearch(this.puzzle);
+        break;
+      case 'graph-search-dfs':
+        search = new DepthFirstSearch(this.puzzle);
+        break;
+      case 'uniform-cost-search':
+        search = new UniformCostSearch(this.puzzle);
+        break;
+    }
+
+    return search;
+  }
+
+  slideTile(tileNumber) {
+    let $tile = $("#number-" + tileNumber);
+    let $empty = $("#number-9");
+    let tilePosition = $tile.position();
+    let emptyPosition = $empty.position();
+    let newTop = emptyPosition.top - tilePosition.top;
+    let newLeft = emptyPosition.left - tilePosition.left;
+    $tile.animate({ top: newTop, left: newLeft }, 333, () => {
+      let $emptySpot = $empty.parent();
+      let $tileSpot = $tile.parent();
+      $empty.remove();
+      $tile.remove();
+      $tile.css('top', 0);
+      $tile.css('left', 0);
+      $emptySpot.append($tile);
+      $tileSpot.append($empty);
+      this.watchSolution();
+    });
+  }
+
+  watchSolution() {
+    this.$watchSolution.attr('disabled', 'disabled');
+    this.puzzleSolution = this.puzzleSolution || this.$solution.text().split(', ');
+
+    if (this.puzzleSolution.length > 0) {
+      let move = this.puzzleSolution.shift();
+      this.slideTile(move);
+    }
+    else {
+      this.puzzleSolution = null;
+    }
+  }
+
   render() {
     render(template(), this.el);
+
+    this.$elapsedTime = this.$('#elapsed-time');
+    this.$nodesUsed = this.$('#nodes-used');
+    this.$pathCost = this.$('#path-cost');
+    this.$solution = this.$('#solution');
+    this.$watchSolution = this.$('#watch-solution');
+
     return this;
   }
 }
