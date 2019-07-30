@@ -8,8 +8,17 @@ import TreeSearch from "../../ai/tree-search.js";
 import BreadthFirstSearch from "../../ai/graph-search-bfs.js";
 
 const template = (d) => html`
-<div class="ai">
+<section class="ai">
   <div class="row">
+    <div class="col-12">
+      <h2>AI: Route Search</h2>
+      <p>Here I'm just using different search strategies to find a route from one city in Romania to another.</p>
+      <p>I am using <tt>performance.now()</tt> to measure the elapsed time it took to compute the route, but it
+        appears that <a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance/now">this method is
+          currently not returning high-res results</a> due to the Spectre vulnerability, so if it takes less than
+        1 millisecond to complete, we're not really going to see how long it takes. <em>sigh</em>
+      </p>
+    </div>
     <div class="col-md-6">
       <h3>Choose endpoints and search algorithm</h3>
       <form class="form-horizontal">
@@ -83,7 +92,7 @@ const template = (d) => html`
     </div>
   </div>
 
-</div>
+  </div>
 `;
 
 export default class AiSearchView extends Backbone.View {

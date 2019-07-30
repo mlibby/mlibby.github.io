@@ -8,8 +8,8 @@ const template = (d) => html`
     <div class="col">
       <section id="oregon-trail">
         <h2>Play the <em>Original</em> Oregon Trail Game</h2>
-        <blockquote class="alert alert-primary d-inline-block mt-1" >
-          "You have died of dysentery."
+        <blockquote>
+          You have died of dysentery.
         </blockquote>
         <p>This particular quote from the game Oregon Trail is an internet meme
           at this point... but did you know it wasn't in the original game? The first version of Oregon Trail
