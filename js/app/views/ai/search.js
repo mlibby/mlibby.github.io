@@ -1,19 +1,16 @@
 "use strict";
 
 import { html, render } from "/js/lib/lit-html/lit-html.js";
+import Romania from "../../ai/romania.js";
+import DepthFirstSearch from "../../ai/graph-search-dfs.js";
+import UniformCostSearch from "../../ai/uniform-cost-search.js";
+import TreeSearch from "../../ai/tree-search.js";
+import BreadthFirstSearch from "../../ai/graph-search-bfs.js";
 
 const template = (d) => html`
 <div class="ai">
   <div class="row">
-    <div class="col-sm-12">
-      <p>
-        Some browsers may not be ready for this code, if you don't see working examples, please check
-        @Html.ActionLink("my page on enabling ECMAScript6", "ECMAScript6"). Many of these algorithms are also used on
-        my @Html.ActionLink("puzzle solving", "Puzzle") page. It's all in Git at <a href="https://github.com/mlibby/mlibby">my
-          GitHub repo</a>.
-      </p>
-    </div>
-    <div class="col-sm-6">
+    <div class="col-md-6">
       <h3>Choose endpoints and search algorithm</h3>
       <form class="form-horizontal">
         <div class="form-group">
@@ -46,41 +43,40 @@ const template = (d) => html`
         </div>
       </form>
 
-      <h3>Results</h3>
-      <dl class="search-results">
-        <dt>
-          Nodes used in search
-        </dt>
-        <dd id="nodes-used">
-          0
-        </dd>
-        <dt>
-          Elapsed search time (ms)
-        </dt>
-        <dd id="elapsed-time">
-          0
-        </dd>
-        <dt>
-          Path Cost
-        </dt>
-        <dd id="path-cost">
-          0
-        </dd>
-        <dt>
-          Solution Path
-        </dt>
-        <dd id="solution">
-          ...
-        </dd>
-      </dl>
+      <div id="results" style="display:none;">
+        <h3>Results</h3>
+        <dl class="search-results">
+          <dt>
+            Nodes used in search
+          </dt>
+          <dd id="nodes-used">
+            0
+          </dd>
+          <dt>
+            Elapsed search time (ms)
+          </dt>
+          <dd id="elapsed-time">
+            0
+          </dd>
+          <dt>
+            Path Cost
+          </dt>
+          <dd id="path-cost">
+            0
+          </dd>
+          <dt>
+            Solution Path
+          </dt>
+          <dd id="solution">
+            ...
+          </dd>
+        </dl>
+      </div>
     </div>
-
-    <div class="col-md-1 hidden-sm"></div>
-
-    <div class="col-sm-6 col-md-5">
+    <div class="col-md-6">
       <h3>A Map</h3>
       <figure>
-        <img class="smallish" src="~/img/romania-distances.png" alt="Simplified map of Romanian cities" />
+        <img class="smallish" src="img/romania-distances.png" alt="Simplified map of Romanian cities" />
         <figcaption>A simplified map of Romanian cities from the <cite><a href="http://aima.cs.berkeley.edu/figures.html">AIMA
               figures page</a></cite>.</figcaption>
       </figure>
@@ -91,8 +87,76 @@ const template = (d) => html`
 `;
 
 export default class AiSearchView extends Backbone.View {
+  preinitialize() {
+    this.events = {
+      "click #search": "runSearch"
+    };
+  }
+
+  constructor() {
+    super();
+
+    this.romania = new Romania();
+  }
+
+  runSearch(e) {
+    e.preventDefault();
+
+    $('#results').hide(100);
+
+    let searchAlgorithm = $('#search-algorithm').val();
+    let search = null;
+
+    this.romania.initialState = this.$fromCity.val();
+    this.romania.goalState = this.$toCity.val();
+
+    switch (searchAlgorithm) {
+      case 'tree-search':
+        search = new TreeSearch(this.romania);
+        break;
+      case 'graph-search-bfs':
+        search = new BreadthFirstSearch(this.romania);
+        break;
+      case 'graph-search-dfs':
+        search = new DepthFirstSearch(this.romania);
+        break;
+      case 'uniform-cost-search':
+        search = new UniformCostSearch(this.romania);
+        break;
+    }
+
+    search.search();
+
+    $('#elapsed-time').text((search.endTime - search.startTime).toFixed(6));
+    $('#nodes-used').text(search.nodesUsed);
+
+    let $pathCost = $('#path-cost');
+    let $solution = $('#solution');
+    $solution.text(this.romania.initialState);
+    $solution.append($('<br />'));
+
+    for (let x = 0; x < search.solution.length; x++) {
+      $solution.append(search.solution[x].action);
+      $pathCost.text(search.solution[x].pathCost);
+      if (x < search.solution.length - 1) {
+        $solution.append($('<br />'));
+      }
+    }
+
+    $('#results').show(500);
+  }
+
   render() {
     render(template(), this.el);
+
+    this.$fromCity = this.$('#from-city');
+    this.$toCity = this.$('#to-city');
+
+    for (const city of this.romania.cities.sort()) {
+      this.$fromCity.append($('<option value="' + city + '">' + city + '</option>'));
+      this.$toCity.append($('<option value="' + city + '">' + city + '</option>'));
+    }
+
     return this;
   }
 }

@@ -1,4 +1,8 @@
-﻿class UniformCostSearch extends GraphSearch {
+﻿import GraphSearch from "./graph-search.js";
+import PriorityFrontier from "./priority-frontier.js";
+
+export default
+class UniformCostSearch extends GraphSearch {
     constructor(searchable) {
         super(searchable, new PriorityFrontier());
     }

@@ -1,5 +1,5 @@
-﻿//import { Searchable } from './searchable.js';
-//import { SearchNode } from './search-node.js';
+﻿import Searchable from "./searchable.js";
+import SearchNode from "./search-node.js";
 
 let slideMatrix = {
     0: [1, 3],
@@ -13,7 +13,7 @@ let slideMatrix = {
     8: [5, 7]
 };
 
-//export 
+export default 
 class Puzzle extends Searchable {
     constructor() {
         let initialState = _.shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]).join('');

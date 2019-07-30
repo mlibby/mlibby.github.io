@@ -32,6 +32,7 @@ operation.
 
 */
 
+export default
 class PriorityFrontier {
     constructor() {
         this.states = {};

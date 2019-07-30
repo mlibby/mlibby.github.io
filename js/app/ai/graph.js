@@ -1,7 +1,7 @@
-﻿//import { Searchable } from './searchable.js'
-//import { SearchNode } from './search-node.js'
+﻿import Searchable from "./searchable.js";
+import SearchNode from "./search-node.js";
 
-//export
+export default
 class Graph extends Searchable {
     constructor(initialState, goalState, edges) {
         super(initialState, goalState);
@@ -40,5 +40,4 @@ class Graph extends Searchable {
             this.graph[right].set(left, cost);
         }
     }
-
 }

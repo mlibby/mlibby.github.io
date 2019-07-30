@@ -1,4 +1,4 @@
-﻿//export 
+﻿export default 
 class Frontier {
     constructor() {
         this.queue = [];

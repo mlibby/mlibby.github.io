@@ -1,8 +1,8 @@
-﻿//import { Search } from './search.js';
-//import { SearchNode } from './search-node.js';
+﻿import Search from "./search.js";
+import SearchNode from "./search-node.js";
 
-//export
-class GraphSearch extends Search {
+export default
+    class GraphSearch extends Search {
     constructor(searchable, frontier) {
         super(searchable, frontier);
         this.explored = new Set();
@@ -38,7 +38,8 @@ class GraphSearch extends Search {
 
         if (this.searchable.isGoal(node.state)) {
             this.buildSolution(node);
-        } else {
+        }
+        else {
             this.frontier.add(node);
             this.searchFrontier();
         }

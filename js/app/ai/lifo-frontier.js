@@ -1,8 +1,7 @@
-﻿//import { Frontier } from './frontier.js';
+﻿import Frontier from "./frontier.js";
 
 /* AKA "Stack" */
-
-//export 
+export default
 class LifoFrontier extends Frontier {
     add(node) {
         if (!this.set.has(node.state)) {

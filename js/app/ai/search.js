@@ -1,4 +1,4 @@
-﻿//export 
+﻿export default
 class Search {
     constructor(searchable, frontier) {
         this.searchable = searchable;

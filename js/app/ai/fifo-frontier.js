@@ -1,6 +1,6 @@
-﻿//import { Frontier } from './frontier.js';
+﻿import Frontier from "./frontier.js";
 
-//export
+export default
 class FifoFrontier extends Frontier {
     add(node) {
         if (!this.set.has(node.state)) {

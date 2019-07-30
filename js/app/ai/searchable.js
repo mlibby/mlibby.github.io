@@ -1,4 +1,4 @@
-﻿//export 
+﻿export default 
 class Searchable {
     constructor(initialState, goalState) {
         this.initialState = initialState;

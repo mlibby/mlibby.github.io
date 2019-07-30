@@ -1,8 +1,8 @@
-﻿//import { Search } from './search.js';
-//import { SearchNode } from './search-node.js';
-//import { FifoFrontier } from './fifo-frontier.js';
+﻿import Search from "./search.js";
+import FifoFrontier from "./fifo-frontier.js";
+import SearchNode from "./search-node.js";
 
-//export 
+export default 
 class TreeSearch extends Search {
     constructor(searchable) {
         super(searchable, new FifoFrontier());
