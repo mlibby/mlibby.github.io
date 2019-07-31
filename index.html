@@ -64,17 +64,33 @@
   </nav>
   <main class="container">
     <div id="app">
-      <h2>Unsupported Browser</h2>
-      <p>
-        If you can see this, it's likely that this web site and your web browser are not compatible. If you are
-        using an outdated browser like Internet Explorer or Netscape Navigator, then I'd suggest using Firefox, Edge, or
-        even Chrome. If you are using a text-mode browser, I'm sorry, but this site is all about Javascript code which
-        doesn't work in most text-mode browsers.
-      </p>
+      <div id="fallback" style="color:white">
+        <h2>Hello!</h2>
+        <p>
+          I am Michael C. Libby and this is my site. I am a software developer, web developer, and constantly learning
+          more about computers and programming them. My friends tend to call me &ldquo;Libby.&rdquo; You are welcome to
+          do
+          the
+          same.
+        </p>
+        <h2>Unsupported Browser</h2>
+        <p>
+          If you can see this, it's likely that this web site and your web browser are not compatible. If you are
+          using an outdated browser like Internet Explorer or Netscape Navigator, then I'd suggest using Firefox, Edge,
+          or
+          even Chrome. If you are using a text-mode browser, I'm sorry, but this site is all about Javascript code which
+          doesn't work in most text-mode browsers.
+        </p>
+      </div>
     </div>
   </main>
 
   <script src="js/site.js" type="module"></script>
+  <script>
+    $().ready(function () {
+      $("#fallback").attr("style", "color: black");
+    });
+  </script>
 </body>
 
 </html>
