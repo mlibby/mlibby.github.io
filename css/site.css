@@ -35,8 +35,7 @@ blockquote:before {
     padding-bottom: 0;
 }
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight: bold;
     line-height: 1.0;
 }
@@ -76,14 +75,14 @@ h6, .h6 {
     margin-top: -0.66rem;
 }
 
-    .h-horizontal button .collapse-button::after {
-        font-family: 'mlibby-icons' !important;
-        content: '\f068';
-    }
+.h-horizontal button .collapse-button::after {
+    font-family: 'mlibby-icons' !important;
+    content: '\f068';
+}
 
-    .h-horizontal button.collapsed .collapse-button::after {
-        content: '\f067';
-    }
+.h-horizontal button.collapsed .collapse-button::after {
+    content: '\f067';
+}
 
 .smallish {
     max-width: 90%;
@@ -180,4 +179,38 @@ dl.job-details {
 
 .ai .search-results {
     margin-bottom: 5px;
+}
+
+.rgb-clock table.clock {
+    width: 100%;
+    border: 3px solid black;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.rgb-clock td.red, .rgb-clock td.green, .rgb-clock td.blue, .rgb-clock td.void, .rgb-clock table.clock th {
+    border: 4px solid black;
+    padding: 5px 10px;
+    color: white;
+    width: 17%;
+}
+
+.rgb-clock table.clock th {
+    background-color: black;
+}
+
+.rgb-clock td.void {
+    background-color: black;
+}
+
+.rgb-clock td.red {
+    background-color: red;
+}
+
+.rgb-clock td.green {
+    background-color: green;
+}
+
+.rgb-clock td.blue {
+    background-color: blue;
 }
