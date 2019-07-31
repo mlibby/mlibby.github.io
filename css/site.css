@@ -4,7 +4,41 @@
 }
 
 main {
-    margin-top: 69px;
+    margin-top: 60px;
+}
+
+blockquote {
+    display: inline-block;
+    position: relative;
+    padding: 0.75rem 1rem 0.75rem 1.25rem;
+    margin: 1rem 0;
+    border: 1px solid transparent;
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #004085;
+    border-radius: 0.25rem;
+}
+
+blockquote:before {
+    font-family: 'mlibby-icons' !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    content: "\f10d";
+    padding-right: 0.5rem;
+}
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: bold;
+    line-height: 1.0;
 }
 
 h1, .h1 {
@@ -13,7 +47,22 @@ h1, .h1 {
 
 h2, .h2 {
     font-size: 1.66rem;
-    font-weight: bold;
+}
+
+h3, .h3 {
+    font-size: 1.5rem;
+}
+
+h4, .h4 {
+    font-size: 1.33rem;
+}
+
+h5, .h5 {
+    font-size: 1.25rem;
+}
+
+h6, .h6 {
+    font-size: 1.1rem;
 }
 
 .h-horizontal h2 {
@@ -81,12 +130,12 @@ dl.job-details {
 }
 
 .ai .search-results dt {
-    width: 200px;
+    width: 210px;
     text-align: right;
 }
 
 .ai .search-results dd {
-    margin: 0 0 0 210px;
+    margin: 0 0 0 220px;
 }
 
 .ai .puzzle {

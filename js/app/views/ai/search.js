@@ -8,38 +8,39 @@ import TreeSearch from "../../ai/tree-search.js";
 import BreadthFirstSearch from "../../ai/graph-search-bfs.js";
 
 const template = (d) => html`
-<div class="ai">
+<section class="ai">
   <div class="row">
+    <div class="col-12">
+      <h2>AI: Route Search</h2>
+      <p>Here I'm just using different search strategies to find a route from one city in Romania to another.</p>
+      <p>I am using <tt>performance.now()</tt> to measure the elapsed time it took to compute the route, but it
+        appears that <a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance/now">this method is
+          currently not returning high-res results</a> due to the Spectre vulnerability, so if it takes less than
+        1 millisecond to complete, we're not really going to see how long it takes. <em>sigh</em>
+      </p>
+    </div>
     <div class="col-md-6">
       <h3>Choose endpoints and search algorithm</h3>
-      <form class="form-horizontal">
+      <form class="form">
         <div class="form-group">
-          <label for="from-city" class="col-sm-2 control-label">From</label>
-          <div class="col-sm-10">
-            <select id="from-city" class="form-control"></select>
-          </div>
+          <label for="from-city" class="control-label">From</label>
+          <select id="from-city" class="form-control"></select>
         </div>
         <div class="form-group">
-          <label for="to-city" class="col-sm-2 control-label">To</label>
-          <div class="col-sm-10">
-            <select id="to-city" class="form-control"></select>
-          </div>
+          <label for="to-city" class="control-label">To</label>
+          <select id="to-city" class="form-control"></select>
         </div>
         <div class="form-group">
-          <label for="search-algorithm" class="col-sm-2 control-label">Algorithm</label>
-          <div class="col-sm-10">
-            <select id="search-algorithm" class="form-control">
-              <option value="tree-search">Tree-Search</option>
-              <option value="graph-search-bfs">Graph-Search (breadth first)</option>
-              <option value="graph-search-dfs">Graph-Search (depth first)</option>
-              <option value="uniform-cost-search">Uniform-Cost-Search</option>
-            </select>
-          </div>
+          <label for="search-algorithm" class="control-label">Algorithm</label>
+          <select id="search-algorithm" class="form-control">
+            <option value="tree-search">Tree-Search</option>
+            <option value="graph-search-bfs">Graph-Search (breadth first)</option>
+            <option value="graph-search-dfs">Graph-Search (depth first)</option>
+            <option value="uniform-cost-search">Uniform-Cost-Search</option>
+          </select>
         </div>
         <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button id="search" class="btn btn-primary">Find a way</button>
-          </div>
+          <button id="search" class="btn btn-primary">Find Route</button>
         </div>
       </form>
 
@@ -83,7 +84,7 @@ const template = (d) => html`
     </div>
   </div>
 
-</div>
+  </div>
 `;
 
 export default class AiSearchView extends Backbone.View {

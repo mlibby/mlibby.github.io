@@ -6,10 +6,11 @@ const template = (d) => html`
   <div class="row">
     <div class="col">
       <section class="ai">
-          <p>
-            These are practice programs I've written as I work through the textbook <a href="http://aima.cs.berkeley.edu/index.html"><cite>Artificial
+        <h2>Artificial Intelligence Practice</h2>
+        <p>
+          These are practice programs I've written as I work through the textbook <a href="http://aima.cs.berkeley.edu/index.html"><cite>Artificial
               Intelligence: A Modern Approach</cite></a>.
-            </p>
+        </p>
         <h3>Chapter 3: Problem Solving</h3>
         <dl class="parenthetical">
           <dt>
