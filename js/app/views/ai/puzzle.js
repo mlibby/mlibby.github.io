@@ -89,7 +89,9 @@ const template = (d) => html`
         <dd id="elapsed-time">
           0
         </dd>
-        <dt>Path Cost</dt>
+        <dt>
+          Path Cost
+        </dt>
         <dd id="path-cost">
           0
         </dd>
