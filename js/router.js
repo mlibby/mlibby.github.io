@@ -7,6 +7,8 @@ import AboutView from "./app/views/about.js";
 import AiView from "./app/views/ai.js";
 import AiPuzzleView from "./app/views/ai/puzzle.js";
 import AiSearchView from "./app/views/ai/search.js";
+import OtherView from "./app/views/other.js";
+import OtherRgbClockView from "./app/views/other/rgbClock.js";
 
 export default class Router extends Backbone.Router {
   preinitialize() {
@@ -17,7 +19,9 @@ export default class Router extends Backbone.Router {
       "oregon-why-and-how": "oregonWhy",
       "ai": "ai",
       "ai-puzzle": "aiPuzzle",
-      "ai-search": "aiSearch"
+      "ai-search": "aiSearch",
+      "other": "other",
+      "other-clock": "otherClock"
     };
     this.view = new Backbone.View();
   }
@@ -56,6 +60,14 @@ export default class Router extends Backbone.Router {
 
   aiSearch() {
     this.switchView(new AiSearchView(), "#nav-ai", "AI Search");
+  }
+
+  other() {
+    this.switchView(new OtherView(), "#other", "Other Projects");
+  }
+
+  otherClock() {
+    this.switchView(new OtherRgbClockView(), "#other", "RGB Clock");
   }
 }
 
