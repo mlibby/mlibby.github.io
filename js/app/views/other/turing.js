@@ -111,6 +111,7 @@ export default class OtherTuringView extends Backbone.View {
     this.$fileName = null;
     this.$stockSelect = null;
     this.$tape = null;
+    this.tm = null;
 
     this.demoConfigs = {
       "Turing01-ZeroOne": [
@@ -159,13 +160,16 @@ export default class OtherTuringView extends Backbone.View {
   render() {
     render(template(), this.el);
 
+    //this.$("#aboutPanel").collapse();
+
     this.$fileName = this.$("#file-name");
     this.$fileName.val("");
 
     this.initDemoConfigMenu();
 
-    const tm = new TuringMachine(this.$(".turing-tape"));
-    tm.displayTape();
+    this.tm = new TuringMachine(this.$(".turing-tape"));
+    this.tm.displayTape();
+
     return this;
   }
 }
