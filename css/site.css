@@ -214,3 +214,47 @@ dl.job-details {
 .rgb-clock td.blue {
     background-color: blue;
 }
+
+.turing section {
+  margin-bottom: 1rem;
+}
+
+.turing .turing-key {
+  font-size: 1.5rem;
+  line-height: 1rem;
+  color: black;
+  width: 2.3rem;
+  height: 2.3rem;
+  margin: 0.33rem 0.33rem 0 0;
+}
+
+.turing .raw-code {
+  font-family: 'firamono', monospace;
+  font-size: 1.25rem;
+}
+
+.turing .turing-tape {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: auto;
+  width: auto;
+  white-space: nowrap;
+}
+
+.turing .turing-tape-cell {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid grey;
+  font-family: 'firamono', monospace;
+  font-size: 1.5rem;
+  margin: 0 2px 2px 2px;
+  text-align: center;
+  background-color: whitesmoke;
+}
+
+.turing .turing-tape-cell.active-cell {
+  border-color: black;
+  background-color: white;
+}
+

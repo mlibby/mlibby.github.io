@@ -9,6 +9,7 @@ import AiPuzzleView from "./app/views/ai/puzzle.js";
 import AiSearchView from "./app/views/ai/search.js";
 import OtherView from "./app/views/other.js";
 import OtherRgbClockView from "./app/views/other/rgbClock.js";
+import OtherTuringView from "./app/views/other/turing.js";
 
 export default class Router extends Backbone.Router {
   preinitialize() {
@@ -21,7 +22,8 @@ export default class Router extends Backbone.Router {
       "ai-puzzle": "aiPuzzle",
       "ai-search": "aiSearch",
       "other": "other",
-      "other-clock": "otherClock"
+      "other-clock": "otherClock",
+      "other-turing": "otherTuring"
     };
     this.view = new Backbone.View();
   }
@@ -68,6 +70,10 @@ export default class Router extends Backbone.Router {
 
   otherClock() {
     this.switchView(new OtherRgbClockView(), "#other", "RGB Clock");
+  }
+
+  otherTuring() {
+    this.switchView(new OtherTuringView(), "#other", "Turing Machine");
   }
 }
 
