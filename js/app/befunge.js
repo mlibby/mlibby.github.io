@@ -230,7 +230,7 @@ export default
   divide() {
     var rhs = this.pop();
     var lhs = this.pop();
-    this.push(Math.round(lhs / rhs));
+    this.push(Math.floor(lhs / rhs));
   }
 
   multiply() {
@@ -467,7 +467,6 @@ export default
   }
 
   slower() {
-    var that = this;
     clearInterval(this.interval);
     if (this.intervalMS < 2048) {
       this.intervalMS = this.intervalMS * 2;
@@ -476,7 +475,6 @@ export default
   }
 
   faster() {
-    var that = this;
     clearInterval(this.interval);
     if (this.intervalMS > 1) {
       this.intervalMS = this.intervalMS / 2;
