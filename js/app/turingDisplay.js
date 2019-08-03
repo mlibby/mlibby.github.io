@@ -1,5 +1,5 @@
 ﻿export default
-  class TuringMachine {
+  class TuringDisplay {
   constructor($tapeDisplay) {
     this.tapeDisplay = $tapeDisplay;
     this.tape = new Array(64);
