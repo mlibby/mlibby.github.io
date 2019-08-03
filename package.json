@@ -1,0 +1,32 @@
+{
+  "name": "mlibby",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "dependencies": {
+    "ava": "^2.2.0",
+    "bootstrap": "^4.3.1",
+    "esm": "^3.2.25",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlibby/mlibby.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mlibby/mlibby.github.io/issues"
+  },
+  "homepage": "https://github.com/mlibby/mlibby.github.io#readme",
+  "ava": {
+    "require": [
+      "esm"
+    ]
+  }
+}
