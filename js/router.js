@@ -8,6 +8,7 @@ import AiView from "./app/views/ai.js";
 import AiPuzzleView from "./app/views/ai/puzzle.js";
 import AiSearchView from "./app/views/ai/search.js";
 import OtherView from "./app/views/other.js";
+import OtherBefungeView from "./app/views/other/befunge.js";
 import OtherRgbClockView from "./app/views/other/rgbClock.js";
 
 export default class Router extends Backbone.Router {
@@ -21,6 +22,7 @@ export default class Router extends Backbone.Router {
       "ai-puzzle": "aiPuzzle",
       "ai-search": "aiSearch",
       "other": "other",
+      "other-befunge": "otherBefunge",
       "other-clock": "otherClock"
     };
     this.view = new Backbone.View();
@@ -38,7 +40,7 @@ export default class Router extends Backbone.Router {
     this.switchView(new HomeView(), "", "Home");
   }
 
-  about () {
+  about() {
     this.switchView(new AboutView(), "#nav-about", "About Me");
   }
 
@@ -64,6 +66,10 @@ export default class Router extends Backbone.Router {
 
   other() {
     this.switchView(new OtherView(), "#other", "Other Projects");
+  }
+
+  otherBefunge() {
+    this.switchView(new OtherBefungeView(), "#other", "Befunge IDE");
   }
 
   otherClock() {
