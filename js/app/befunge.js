@@ -177,9 +177,9 @@ export default
     var y = this.pop();
     var x = this.pop();
     var val = Number(this.pop());
-    if (val >= 32 & val < 127) {
+    //if (val >= 32 & val < 127) {
       val = String.fromCharCode(val);
-    }
+    //}
 
     var id = this.getTorusId(x, y);
     if (id !== "oob") {
