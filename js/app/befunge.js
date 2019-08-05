@@ -177,9 +177,7 @@ export default
     var y = this.pop();
     var x = this.pop();
     var val = Number(this.pop());
-    //if (val >= 32 & val < 127) {
-      val = String.fromCharCode(val);
-    //}
+    val = String.fromCharCode(val);
 
     var id = this.getTorusId(x, y);
     if (id !== "oob") {
@@ -193,7 +191,7 @@ export default
     var y = this.pop();
     var x = this.pop();
     var id = this.getTorusId(x, y);
-    var val = " ";
+    var val = 0;
 
     if (id !== "oob") {
       val = $("#" + id).val();
@@ -201,7 +199,8 @@ export default
 
     if (this.befunctions[val] === undefined) {
       this.push(val.charCodeAt(0));
-    } else {
+    }
+    else {
       this.push(val);
     }
   }
