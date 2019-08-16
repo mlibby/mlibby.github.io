@@ -6,14 +6,12 @@ import Befunge from "../../befunge.js";
 const template = (d) => html`
 <div id="befunge">
   <div class="row">
-    <section class="col-sm-6">
-      <div>
-        <h2 class="h-horizontal">File</h2>
-        <select id="befunge-stock-files" class="form-control by-header">
+    <section class="col-md-6 mb-3">
+    <h2>File</h2>
+    <div class="form-inline">
+        <select id="befunge-stock-files" class="form-control">
           <option selected="selected" value="0">Choose a stock program...</option>
         </select>
-      </div>
-      <div class="form-inline">
         <div class="input-group">
           <label class="btn btn-default input-group-addon" title="Load File">
             <span class="icon-upload"></span>
@@ -29,7 +27,7 @@ const template = (d) => html`
       </div>
 
     </section>
-    <section class="col-xs-6 col-sm-3">
+    <section class="col-md-6 mb-3">
       <h2>Controls</h2>
       <button id="befunge-reset" class="btn btn-primary" title="Reset Befunge">
         <span class="icon-refresh"></span>
@@ -43,10 +41,6 @@ const template = (d) => html`
         <span class="icon-pause"></span>
         <span class="sr-only">Pause</span>
       </button>
-
-    </section>
-    <section class="col-xs-6 col-sm-3">
-      <h2>Speed</h2>
       <button id="befunge-slower" class="btn btn-info" title="Slower">
         <span class="icon-chevron-down"></span>
         <span class="sr-only">Slower</span>
@@ -57,8 +51,8 @@ const template = (d) => html`
       </button>
     </section>
   </div>
-  <div class="row">
-    <section class="col-sm-6">
+  <div class="row mb-3">
+    <section class="col-md-6">
       <div class="form-inline">
         <h2 class="h-horizontal">Console</h2>
         <button id="befunge-clear" class="btn btn-danger by-header" title="Clear Console"><span class="icon-remove"
@@ -66,7 +60,7 @@ const template = (d) => html`
       </div>
       <textarea id="befunge-console" class="form-control" readonly="readonly"></textarea>
     </section>
-    <section class="col-sm-6">
+    <section class="col-md-6">
       <div>
         <h2 class="h-horizontal">Stack</h2>
         <select id="befunge-stack-mode" class="form-control by-header">
@@ -79,7 +73,7 @@ const template = (d) => html`
     </section>
   </div>
   <div class="row">
-    <section class="col-sm-12">
+    <section class="col-12">
       <h2>The Torus</h2>
       <div id="torus-wrapper">
         <div id="torus">
