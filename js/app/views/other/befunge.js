@@ -6,29 +6,25 @@ import Befunge from "../../befunge.js";
 const template = (d) => html`
 <div id="befunge">
   <div class="row">
-    <section class="col-md-6 mb-3">
-    <h2>File</h2>
+    <section class="col-12 mb-3">
     <div class="form-inline">
-        <select id="befunge-stock-files" class="form-control">
-          <option selected="selected" value="0">Choose a stock program...</option>
-        </select>
-        <div class="input-group">
-          <label class="btn btn-default input-group-addon" title="Load File">
-            <span class="icon-upload"></span>
-            <span class="sr-only">Open File</span>
-            <input id="befunge-file" type="file" style="display: none;">
-          </label>
-          <input id="file-name" type="text" class="form-control" />
-        </div>
-        <button id="save-file" class="btn btn-default" title="Save File" disabled="disabled">
-          <span class="icon-hdd-o"></span>
-          <span class="sr-only">Save File</span>
-        </button>
+      <select id="befunge-stock-files" class="form-control">
+        <option selected="selected" value="0">Choose a stock program...</option>
+      </select>
+      <div class="input-group">
+        <button class="btn btn-secondary" title="Load File">
+          <span class="icon-upload"></span>
+          <span class="sr-only">Open File</span>
+          <input id="befunge-file" type="file" style="display: none;">
+        </label>
+        <!-- input id="file-name" type="text" class="form-control" / -->
       </div>
+      
+      <button id="save-file" class="btn btn-secondary" title="Save File">
+        <span class="icon-hdd-o"></span>
+        <span class="sr-only">Save File</span>
+      </button>
 
-    </section>
-    <section class="col-md-6 mb-3">
-      <h2>Controls</h2>
       <button id="befunge-reset" class="btn btn-primary" title="Reset Befunge">
         <span class="icon-refresh"></span>
         <span class="sr-only">Reset Befunge</span>
@@ -49,6 +45,7 @@ const template = (d) => html`
         <span class="icon-chevron-up"></span>
         <span class="sr-only">Faster</span>
       </button>
+      </div>
     </section>
   </div>
   <div class="row mb-3">
