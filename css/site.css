@@ -1,108 +1,8 @@
-﻿body {
-    font-family: 'arsenal', sans-serif;
-    font-stretch: semi-expanded;
-}
-
-main {
-    margin-top: 60px;
-}
-
-blockquote {
-    display: inline-block;
-    position: relative;
-    padding: 0.75rem 1rem 0.75rem 1.25rem;
-    margin: 1rem 0;
-    border: 1px solid transparent;
-    color: #004085;
-    background-color: #cce5ff;
-    border-color: #004085;
-    border-radius: 0.25rem;
-}
-
-blockquote:before {
-    font-family: 'mlibby-icons' !important;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    content: "\f10d";
-    padding-right: 0.5rem;
-}
-
-.navbar {
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-weight: bold;
-    line-height: 1.0;
-}
-
-h1, .h1 {
-    font-size: 2.0rem;
-}
-
-h2, .h2 {
-    font-size: 1.66rem;
-}
-
-h3, .h3 {
-    font-size: 1.5rem;
-}
-
-h4, .h4 {
-    font-size: 1.33rem;
-}
-
-h5, .h5 {
-    font-size: 1.25rem;
-}
-
-h6, .h6 {
-    font-size: 1.1rem;
-}
-
-.h-horizontal h2 {
-    display: inline-block;
-}
-
-.h-horizontal button {
-    vertical-align: text-top;
-    padding: 0.1rem 0.3rem 0;
-    margin-left: 1rem;
-    margin-top: -0.66rem;
-}
-
-.h-horizontal button .collapse-button::after {
-    font-family: 'mlibby-icons' !important;
-    content: '\f068';
-}
-
-.h-horizontal button.collapsed .collapse-button::after {
-    content: '\f067';
-}
-
-.smallish {
-    max-width: 90%;
-    margin: 5%;
-}
-
-figcaption {
-    text-align: center;
-}
-
-.about-icon {
+﻿.about-icon {
     margin-right: 10px;
     font-size: 1.5rem;
     vertical-align: top;
     width: 2rem;
-}
-
-dl.job-details {
-    border-top: 1px grey solid;
-    margin-top: 1rem;
 }
 
 .ai dt {
@@ -179,6 +79,106 @@ dl.job-details {
 
 .ai .search-results {
     margin-bottom: 5px;
+}
+
+blockquote {
+    display: inline-block;
+    position: relative;
+    padding: 0.75rem 1rem 0.75rem 1.25rem;
+    margin: 1rem 0;
+    border: 1px solid transparent;
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #004085;
+    border-radius: 0.25rem;
+}
+
+blockquote:before {
+    font-family: 'mlibby-icons' !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    content: "\f10d";
+    padding-right: 0.5rem;
+}
+
+body {
+    font-family: 'arsenal', sans-serif;
+    font-stretch: semi-expanded;
+}
+
+dl.job-details {
+    border-top: 1px grey solid;
+    margin-top: 1rem;
+}
+
+figcaption {
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: bold;
+    line-height: 1.0;
+}
+
+h1, .h1 {
+    font-size: 2.0rem;
+}
+
+h2, .h2 {
+    font-size: 1.66rem;
+}
+
+h3, .h3 {
+    font-size: 1.5rem;
+}
+
+h4, .h4 {
+    font-size: 1.33rem;
+}
+
+h5, .h5 {
+    font-size: 1.25rem;
+}
+
+h6, .h6 {
+    font-size: 1.1rem;
+}
+
+.h-horizontal h2 {
+    display: inline-block;
+}
+
+.h-horizontal button {
+    vertical-align: text-top;
+    padding: 0.1rem 0.3rem 0;
+    margin-left: 1rem;
+    margin-top: -0.66rem;
+}
+
+.h-horizontal button .collapse-button::after {
+    font-family: 'mlibby-icons' !important;
+    content: '\f068';
+}
+
+.h-horizontal button.collapsed .collapse-button::after {
+    content: '\f067';
+}
+
+main {
+    margin-top: 60px;
+}
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.smallish {
+    max-width: 90%;
+    margin: 5%;
 }
 
 #torus-wrapper {
@@ -268,4 +268,25 @@ select.by-header {
 
 .rgb-clock td.blue {
     background-color: blue;
+}
+
+.tt-output {
+    font-family: 'firamono', monospace;
+    font-size: 1.25rem;
+    line-height: 1.66rem;
+    white-space: pre-wrap;
+}
+
+.tt-output.user-input {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.tt-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    font-style: italic;
+    text-align: right;
+    margin-left: 15px;
+    margin-top: 3px;
 }
