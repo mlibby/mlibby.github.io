@@ -10,7 +10,7 @@ const template = (d) => html`
       I like to dabble in electronics once in a while, so here's some outtakes from that process.
     </p>
     <ul>
-      <li><a href="#other-clock">RGB Clock</a> - a clock that tells time using the colors Red, Blue, and Green</li>
+      <li><a href="/other/rgb-clock">RGB Clock</a> - a clock that tells time using the colors Red, Blue, and Green</li>
     </ul>
   </div>
 </article>

@@ -1,0 +1,49 @@
+-var title="RGB Clock"
+
+doctype html
+html
+  include ../_includes/head.pug
+  body
+    include ../_includes/nav.pug
+    main.container.rgb-clock
+      .row
+        section.col
+          h2 The RGB Clock
+          p.
+            This is a Javascript prototype of an <a href="https://github.com/mlibby/arduino/tree/master/RgbClock">RGB Clock</a>
+            project I am working on with Arduino, RGB LEDs, and a couple of shift registers.
+          p.
+            "Normal" clocks display time in base 10 (that is, digits 1234567890). Nerds often make clocks in binary (base 2
+            -- just 0s and 1s, or lights that are on or off). This clock uses Red, Green, and Blue instead of numerals
+            (denoting the values of zero, one, and two)
+          p.
+            This clock includes the place numbers for the base 3 numbers to help decode/understand the numbers of the
+            clock.
+            It also includes a "normal" 24 hour clock to aid in double-checking the LED display. The real clock will simply
+            be 11 LED bulbs.
+      .row
+        section.col
+          h2 Simulated LEDs
+          table.clock
+            tr
+              th Hours
+                td.r1c1.red 9s
+                td.r1c2.red 3s
+                td.r1c3.red 1s
+                td.r1c4.void
+            tr
+              th Minutes
+                td.r2c1.red 27s
+                td.r2c2.red 9s
+                td.r2c3.red 3s
+                td.r2c4.red 1s
+            tr
+              th Seconds
+                td.r3c1.red 27s
+                td.r3c2.red 9s
+                td.r3c3.red 3s
+                td.r3c4.red 1s
+      .row
+        section.col
+          h2 24 Hour Clock
+          pre#current-time 23:59:59
