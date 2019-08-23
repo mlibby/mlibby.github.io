@@ -16,7 +16,7 @@
     '        ^-1p0\\0:<    ^-1 p0\\+1 g0:&<          ^-1\\.:\\<' + "\n" +
     '                                   ^                                    <' + "\n" +
     "\n" +
-    '-- Enter # of integers, then the integers --',
+    '-- Enter # of integers, then the integers --'
 };
 
 const befungeVector = {
@@ -28,14 +28,20 @@ const befungeVector = {
 
 export default
   class Befunge {
-  constructor($html) {
-    this.$html = $html;
-
+  constructor() {
     this.setDefaults();
+
+    this.$console = $("#befunge-console");
+    this.$torus = $("#torus");
+    this.$stackMode = $("#befunge-stack-mode");
+    this.$stack = $("#befunge-stack");
+
     this.height = 25;
     this.width = 80;
     this.rawText = "";
     this.parsedText = "";
+    this.interval = null;
+
     this.befunctions = {
       // Directional
       'v': () => { this.vector = befungeVector.s; },
@@ -49,10 +55,7 @@ export default
 
       // Mode
       '"': () => { this.stringMode = true; },
-      '@': () => {
-        this.halted = true;
-        this.pauseRun();
-      },
+      '@': () => { this.halt(); },
 
       // Numerical Entry
       '0': () => { this.push(0); },
@@ -86,83 +89,77 @@ export default
       '/': () => { this.divide(); },
       '*': () => { this.multiply(); },
       '%': () => { this.modulo(); },
-      '`': () => { this.compare(); },
+      '`': () => { this.compare(); }
     };
   }
 
   getNumber() {
-    var $console = this.$html.find("#befunge-console");
     this.numberString = "";
-    this.pauseRun();
-    $console.addClass("befunge-get-number");
-    $console.focus();
-    $console.on('keyup', (e) => { this.readNumber(e); })
+    this.stop();
+    this.$console.addClass("befunge-get-number");
+    this.$console.focus();
+    this.$console.on('keyup', (e) => { this.readNumber(e); });
   }
 
   readNumber(e) {
-    var $console = this.$html.find("#befunge-console");
-    var val = String.fromCharCode(e.which);
+    const val = String.fromCharCode(e.which);
     if (val === " ") {
       this.push(Number(this.numberString));
-      $console.off('keyup');
-      $console.removeClass("befunge-get-number");
-      this.startRun();
+      this.$console.off('keyup');
+      this.$console.removeClass("befunge-get-number");
+      this.run();
     }
     else {
       if (val >= "0" && val <= "9") {
         this.numberString = this.numberString + val;
       }
     }
-    $console.val($console.val() + val);
+    this.$console.val($console.val() + val);
   }
 
   printNumber() {
-    var $console = this.$html.find("#befunge-console");
-    var outputText = $console.val();
+    let outputText = $console.val();
     outputText = outputText + this.pop().toString() + " ";
-    $console.val(outputText);
+    this.$console.val(outputText);
   }
 
   getChar() {
-    var $console = this.$html.find("#befunge-console");
-    this.pauseRun();
-    $console.addClass("befunge-get-char");
-    $console.focus();
-    $console.on('keyup', (e) => { this.readChar(e); });
+    this.stop();
+    this.$console.addClass("befunge-get-char");
+    this.$console.focus();
+    this.$console.on('keyup', (e) => { this.readChar(e); });
   }
 
   readChar(e) {
     this.push(String.fromCharCode(e.which));
-    var $console = this.$html.find("#befunge-console");
-    $console.off('keyup');
-    $console.removeClass("befunge-get-char");
-    this.startRun();
+    this.$console.off('keyup');
+    this.$console.removeClass("befunge-get-char");
+    this.run();
   }
 
   printChar() {
-    var $console = this.$html.find("#befunge-console");
-    var outputText = $console.val();
-    var outputCharCode = this.pop();
+    let outputText = this.$console.val();
+    const outputCharCode = this.pop();
     outputText = outputText + String.fromCharCode(outputCharCode);
 
-    $console.val(outputText);
+    this.$console.val(outputText);
   }
 
   duplicate() {
-    var value = this.pop();
+    const value = this.pop();
     this.push(value);
     this.push(value);
   }
 
   swap() {
-    var rhs = this.pop();
-    var lhs = this.pop();
+    const rhs = this.pop();
+    const lhs = this.pop();
     this.push(rhs);
     this.push(lhs);
   }
 
   push(val) {
-    this.stack.push(val)
+    this.stack.push(val);
   }
 
   pop() {
@@ -174,25 +171,25 @@ export default
   }
 
   put() {
-    var y = this.pop();
-    var x = this.pop();
-    var val = Number(this.pop());
+    const y = this.pop();
+    const x = this.pop();
+    let val = Number(this.pop());
     val = String.fromCharCode(val);
 
-    var id = this.getTorusId(x, y);
+    const id = this.getTorusId(x, y);
     if (id !== "oob") {
-      var $cell = $("#" + id);
+      const $cell = $("#" + id);
       $cell.val('');
       $cell.val(val);
     }
   }
 
   get() {
-    var y = this.pop();
-    var x = this.pop();
-    var id = this.getTorusId(x, y);
-    var val = 0;
+    const y = this.pop();
+    const x = this.pop();
+    const id = this.getTorusId(x, y);
 
+    let val = 0;
     if (id !== "oob") {
       val = $("#" + id).val();
     }
@@ -206,7 +203,7 @@ export default
   }
 
   switchVector(zeroVector, elseVector) {
-    var switchVal = this.pop();
+    const switchVal = this.pop();
     if (switchVal === 0 || switchVal === undefined) {
       this.vector = zeroVector;
     } else {
@@ -215,56 +212,56 @@ export default
   }
 
   add() {
-    var rhs = this.pop();
-    var lhs = this.pop();
+    const rhs = this.pop();
+    const lhs = this.pop();
     this.push(lhs + rhs);
   }
 
   subtract() {
-    var rhs = this.pop();
-    var lhs = this.pop();
+    const rhs = this.pop();
+    const lhs = this.pop();
     this.push(lhs - rhs);
   }
 
   divide() {
-    var rhs = this.pop();
-    var lhs = this.pop();
+    const rhs = this.pop();
+    const lhs = this.pop();
     this.push(Math.floor(lhs / rhs));
   }
 
   multiply() {
-    var rhs = this.pop();
-    var lhs = this.pop();
+    const rhs = this.pop();
+    const lhs = this.pop();
     this.push(lhs * rhs);
   }
 
   modulo() {
-    var rhs = this.pop();
-    var lhs = this.pop();
+    const rhs = this.pop();
+    const lhs = this.pop();
     this.push(lhs % rhs);
   }
 
   logicalNot() {
-    var value = this.pop();
+    const value = this.pop();
     this.push(value === 0 ? 1 : 0);
   }
 
   compare() {
-    var rhs = this.pop();
-    var lhs = this.pop();
-    var val = lhs > rhs ? 1 : 0;
+    const rhs = this.pop();
+    const lhs = this.pop();
+    const val = lhs > rhs ? 1 : 0;
     this.push(val);
   }
 
   readFile() {
-    var that = this;
-    var file = this.$html.find("#befunge-file")[0].files[0];
+    const file = $("#befunge-file")[0].files[0];
     if (file) {
-      var fileReader = new FileReader();
+      const fileReader = new FileReader();
       fileReader.onload = (e) => { this.loadBefunge(e); };
       fileReader.readAsText(file);
-      this.$html.find("#file-name").val(file.name);
-    } else {
+      $("#file-name").val(file.name);
+    }
+    else {
       alert("Failed to load file");
     }
   }
@@ -276,8 +273,8 @@ export default
   }
 
   parseText() {
-    var x = 0;
-    var y = 0;
+    let x = 0;
+    let y = 0;
 
     this.parsedText = "";
 
@@ -305,40 +302,39 @@ export default
   }
 
   getRandomVector() {
-    return [befungeVector.n, befungeVector.s, befungeVector.e, befungeVector.w][getRandomInt(0, 3)]
+    return [befungeVector.n, befungeVector.s, befungeVector.e, befungeVector.w][getRandomInt(0, 3)];
   }
 
   getTorusId(x, y) {
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
       return "oob";
-    } 
+    }
     else {
       return "cell-" + x + "-" + y;
     }
   }
 
   drawTorus() {
-    var $torus = this.$html.find("#torus");
-    $torus.children().remove();
+    this.$torus.children().remove();
     for (var y = 0; y <= this.height; y++) {
-      var $torusRow = $("<div class='torus-row'></div>");
+      const $torusRow = $("<div class='torus-row'></div>");
       for (var x = 0; x < this.width; x++) {
-        var $input = $("<input id='" + this.getTorusId(x, y) + "' type='text' maxlength='1' />");
-        var idx = (y * this.width) + x;
+        const $input = $("<input id='" + this.getTorusId(x, y) + "' type='text' maxlength='1' />");
+        const idx = y * this.width + x;
         $input.val(this.parsedText.charAt(idx));
         $torusRow.append($input);
       }
 
-      $torus.append($torusRow);
+      this.$torus.append($torusRow);
     }
   }
 
   getCurrentCell() {
-    return this.$html.find("#" + this.getTorusId(this.x, this.y));
+    return $("#" + this.getTorusId(this.x, this.y));
   }
 
   activateCurrentCell() {
-    this.$html.find(".torus-row").children().removeClass("active-cell");
+    $(".torus-row").children().removeClass("active-cell");
     this.getCurrentCell().addClass("active-cell");
   }
 
@@ -379,7 +375,7 @@ export default
   }
 
   showStack() {
-    var stackMode = this.$html.find("#befunge-stack-mode").val();
+    const stackMode = this.$stackMode.val();
     var stackText = "";
     for (var sdx = 0; sdx < this.stack.length; sdx++) {
       var charCode = this.stack[sdx];
@@ -387,19 +383,22 @@ export default
       if (stackMode === "asc") {
         if (32 <= charCode && charCode <= 126) {
           addChar = String.fromCharCode(charCode);
-        } else {
-          addChar = ("00" + charCode.toString(10)).substr(-3, 3)
         }
-      } else if (stackMode === "dec") {
+        else {
+          addChar = ("00" + charCode.toString(10)).substr(-3, 3);
+        }
+      }
+      else if (stackMode === "dec") {
         addChar = ("00" + charCode.toString(10)).substr(-3, 3);
-      } else { ///stackmode === "hex"
+      }
+      else { ///stackmode === "hex"
         addChar = ("0" + charCode.toString(16)).substr(-2, 2);
       }
 
       stackText = stackText + addChar + " ";
     }
 
-    this.$html.find("#befunge-stack").val(stackText);
+    this.$stack.val(stackText);
   }
 
   moveCursor() {
@@ -410,13 +409,14 @@ export default
       if (this.x >= this.width) {
         this.x = 0;
       }
-      if (this.x < 0) {
+      else if (this.x < 0) {
         this.x = this.width - 1;
       }
+
       if (this.y >= this.height) {
         this.y = 0;
       }
-      if (this.y < 0) {
+      else if (this.y < 0) {
         this.y = this.height - 1;
       }
     }
@@ -429,18 +429,21 @@ export default
     this.showStack();
   }
 
-  startRun() {
-    var that = this;
-    this.$html.find("#befunge-run").addClass("hidden");
+  run() {
     this.activateCurrentCell();
-    this.interval = setInterval(() => { this.oneStep(); }, this.intervalMS);
-    this.$html.find("#befunge-pause").removeClass("hidden");
+    if (this.interval === null) {
+      this.interval = setInterval(() => { this.oneStep(); }, this.intervalMS);
+    }
   }
 
-  pauseRun() {
-    this.$html.find("#befunge-pause").addClass("hidden");
+  stop() {
     clearInterval(this.interval);
-    this.$html.find("#befunge-run").removeClass("hidden");
+    this.interval = null;
+  }
+
+  halt() {
+    this.stop();
+    this.halted = true;
   }
 
   setDefaults() {
@@ -455,38 +458,47 @@ export default
   }
 
   reset() {
-    this.pauseRun();
+    this.stop();
     this.setDefaults();
+    this.showStack();
     this.activateCurrentCell();
   }
 
-  clear() {
-    var $console = this.$html.find("#befunge-console");
-    $console.val("");
+  clearConsole() {
+    this.$console.val("");
   }
 
   slower() {
-    clearInterval(this.interval);
     if (this.intervalMS < 2048) {
-      this.intervalMS = this.intervalMS * 2;
+      this.newSpeed(this.intervalMS * 2);
     }
-    this.interval = setInterval(() => { this.oneStep(); }, this.intervalMS);
   }
 
   faster() {
-    clearInterval(this.interval);
     if (this.intervalMS > 1) {
-      this.intervalMS = this.intervalMS / 2;
+      this.newSpeed(this.intervalMS / 2);
     }
-    this.interval = setInterval(() => { this.oneStep(); }, this.intervalMS);
+  }
+
+  newSpeed(newIntervalMS) {
+    const hasInterval = this.interval !== null;
+    if (hasInterval) {
+      clearInterval();
+    }
+
+    this.intervalMS = newIntervalMS;
+
+    if (hasInterval) {
+      this.interval = setInterval(() => { this.oneStep(); }, this.intervalMS);
+    }
   }
 
   initStockBefungeMenu() {
-    var $select = this.$html.find("#befunge-stock-files");
+    var $select = $("#befunge-stock-files");
     for (var program in stockBefunges) {
       $select.append($("<option value='" + program + "'>" + program + "</option>"));
     }
-    var that = this;
+
     $select.change((e) => {
       var fileName = $select.val();
       var dummyResponse = {
@@ -495,7 +507,7 @@ export default
         }
       };
       this.loadBefunge(dummyResponse);
-      this.$html.find("#file-name").val(fileName);
+      $("#file-name").val(fileName);
     });
   }
 }

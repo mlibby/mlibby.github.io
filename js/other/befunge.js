@@ -13,11 +13,11 @@ $(document).ready(() => {
   });
 
   $("#befunge-run").click(function () {
-    bf.startRun();
+    bf.run();
   });
 
-  $("#befunge-pause").click(function () {
-    bf.pauseRun();
+  $("#befunge-stop").click(function () {
+    bf.stop();
   });
 
   $("#befunge-reset").click(function () {
@@ -25,7 +25,7 @@ $(document).ready(() => {
   });
 
   $("#befunge-clear").click(function () {
-    bf.clear();
+    bf.clearConsole();
   });
 
   $("#befunge-slower").click(function () {
