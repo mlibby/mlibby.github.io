@@ -114,11 +114,11 @@ export default
         this.numberString = this.numberString + val;
       }
     }
-    this.$console.val($console.val() + val);
+    this.$console.val(this.$console.val() + val);
   }
 
   printNumber() {
-    let outputText = $console.val();
+    let outputText = this.$console.val();
     outputText = outputText + this.pop().toString() + " ";
     this.$console.val(outputText);
   }
@@ -483,7 +483,7 @@ export default
   newSpeed(newIntervalMS) {
     const hasInterval = this.interval !== null;
     if (hasInterval) {
-      clearInterval();
+      clearInterval(this.interval);
     }
 
     this.intervalMS = newIntervalMS;
