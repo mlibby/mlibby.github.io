@@ -82,12 +82,12 @@
 }
 
 .befunge .torus-wrapper {
-    width:100%;
+    width: 100%;
     overflow-x: scroll;
 }
 
 .befunge .stack, .befunge .output, .befunge div.torus-row input {
-    font-family: Consolas,monaco,monospace;
+    font-family: Consolas, monaco, monospace;
 }
 
 .befunge div.torus-row {
@@ -189,7 +189,11 @@ h6, .h6 {
     font-size: 1.1rem;
 }
 
-.h-horizontal h2 {
+h2.h-horizontal, h3.h-horizontal, h4.h-horizontal {
+    display: inline-block;
+}
+
+.h-horizontal {
     display: inline-block;
 }
 
@@ -222,18 +226,17 @@ main {
     max-width: 90%;
     margin: 5%;
 }
+
 h2.h-horizontal {
     display: inline-block;
 }
 
-button.by-header,
-select.by-header {
+button.by-header, select.by-header {
     margin-left: 15px;
     width: auto;
     vertical-align: text-bottom;
     display: inline-block;
 }
-
 
 .rgb-clock table.clock {
     width: 100%;

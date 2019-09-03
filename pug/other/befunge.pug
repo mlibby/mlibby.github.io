@@ -8,6 +8,7 @@ html
     main.container.befunge
       .row
         section.col.mb-3
+          h2 Befunge IDE
           .form-inline
             .input-group
               select#befunge-stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
@@ -51,14 +52,14 @@ html
                   span.sr-only Info
       .row.mb-3
         section.col-md-6
-          h2.h-horizontal Console
+          h3.h-horizontal Console
           button#befunge-clear.btn.btn-sm.btn-danger.by-header(title="Clear Console")
             span.icon-trash(aria-hidden="true")
             span.sr-only Clear Console
           textarea.befunge-console.form-control(readonly)
         .d-block.d-md-none &nbsp;
         section.col-md-6
-          h2.h-horizontal Stack
+          h3.h-horizontal Stack
           select#befunge-stack-mode.form-control.form-control-sm.by-header
             option(value="asc" selected) ascii mode
             option(value="dec") decimal mode
@@ -66,7 +67,7 @@ html
           textarea.befunge-stack.form-control(readonly)
       .row
         section.col
-          h2 Torus
+          h3 Torus
           #torus-wrapper.torus-wrapper
             #torus
     script(src="/js/other/befunge.js" type="module")
