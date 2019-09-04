@@ -109,6 +109,12 @@ body {
     font-stretch: semi-expanded;
 }
 
+.btn [class^="icon-"] {
+    vertical-align: top;
+    margin-top: 3px;
+    display: inline-block;
+}
+
 dl.job-details {
     border-top: 1px grey solid;
     margin-top: 1rem;
