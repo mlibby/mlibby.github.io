@@ -81,6 +81,48 @@
     margin-bottom: 5px;
 }
 
+.befunge .torus-wrapper {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.befunge .stack, .befunge .output, .befunge div.torus-row input {
+    font-family: Consolas, monaco, monospace;
+}
+
+.befunge div.torus-row {
+    width: 1134px;
+}
+
+.befunge div.torus, .befunge div.torus-row {
+    margin: 0;
+    padding: 0;
+    clear: both;
+}
+
+.befunge div.torus-row input {
+    float: left;
+    width: 13px;
+    height: 19px;
+    text-align: center;
+    margin: 0 1px 1px 0;
+    padding: 1px 0 0 0;
+    border: 0;
+    border-radius: 3px;
+    background-color: #d0d0d0;
+    font-size: 11px;
+}
+
+.befunge div.torus-row input.active-cell {
+    background-color: #00b000;
+    color: white;
+}
+
+.befunge div.torus-row input.befunge-breakpoint {
+    background-color: #ff0000;
+    color: white;
+}
+
 blockquote {
     display: inline-block;
     position: relative;
@@ -153,7 +195,11 @@ h6, .h6 {
     font-size: 1.1rem;
 }
 
-.h-horizontal h2 {
+h2.h-horizontal, h3.h-horizontal, h4.h-horizontal {
+    display: inline-block;
+}
+
+.h-horizontal {
     display: inline-block;
 }
 
@@ -187,60 +233,16 @@ main {
     margin: 5%;
 }
 
-#torus-wrapper {
-    width:100%;
-    overflow-x: scroll;
-}
-
-#befunge-stack, #befunge-output, div.torus-row input {
-    font-family: Consolas,monaco,monospace;
-}
-
-div.torus-row {
-    width: 1134px;
-}
-
-div.torus, div.torus-row {
-    margin: 0;
-    padding: 0;
-    clear: both;
-}
-
-div.torus-row input {
-    float: left;
-    width: 13px;
-    height: 19px;
-    text-align: center;
-    margin: 0 1px 1px 0;
-    padding: 1px 0 0 0;
-    border: 0;
-    border-radius: 3px;
-    background-color: #d0d0d0;
-    font-size: 11px;
-}
-
-div.torus-row input.active-cell {
-    background-color: #00b000;
-    color: white;
-}
-
-div.torus-row input.befunge-breakpoint {
-    background-color: #ff0000;
-    color: white;
-}
-
 h2.h-horizontal {
     display: inline-block;
 }
 
-button.by-header,
-select.by-header {
+button.by-header, select.by-header {
     margin-left: 15px;
     width: auto;
     vertical-align: text-bottom;
     display: inline-block;
 }
-
 
 .rgb-clock table.clock {
     width: 100%;

@@ -8,10 +8,11 @@ html
     main.container.befunge
       .row
         section.col.mb-3
+          h2 Befunge IDE
           .form-inline
-            select#befunge-stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-              option(selected value="0") Choose a stock program...
             .input-group
+              select#befunge-stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                option(selected value="0") Choose a stock program...
               .btn-group.mr-2
                 button.btn.btn-secondary(title="Load File")
                   span.icon-upload
@@ -19,8 +20,9 @@ html
                 input#befunge-file.mr-3(type="file" style="display: none;")
                 // input#file-name.form-control(type="text")
                 button#save-file.btn.btn-secondary(title="Save File")
-                  span.icon-hdd-o
+                  span.icon-floppy-disk
                   span.sr-only Save File
+            .input-group
               .btn-group.mr-2
                 button#befunge-reset.btn.btn-primary(title="Reset Befunge")
                   span.icon-refresh
@@ -28,33 +30,44 @@ html
                 button#befunge-run.btn.btn-primary(title="Run")
                   span.icon-play
                   span.sr-only Run
+                button#befunge-step.btn.btn-primary(title="Step")
+                  span.icon-next
+                  span.sr-only Step
                 button#befunge-stop.btn.btn-primary(title="Stop")
                   span.icon-stop
                   span.sr-only Stop
-              .btn-group
+              .btn-group.mr-2
                 button#befunge-slower.btn.btn-info(title="Slower")
-                  span.icon-chevron-down
+                  span.icon-minus
                   span.sr-only Slower
                 button#befunge-faster.btn.btn-info(title="Faster")
-                  span.icon-chevron-up
+                  span.icon-plus
                   span.sr-only Faster
+              .btn-group.mr-2
+                button#befunge-help.btn.btn-success(title="Help")
+                  span.icon-question
+                  span.sr-only Help
+                button#befunge-info.btn.btn-success(title="Info")
+                  span.icon-info
+                  span.sr-only Info
       .row.mb-3
         section.col-md-6
-          h2.h-horizontal Console
-          button#befunge-clear.btn.btn-danger.by-header(title="Clear Console")
-            span.icon-remove(aria-hidden="true")
+          h3.h-horizontal Console
+          button#befunge-clear.btn.btn-sm.btn-danger.by-header(title="Clear Console")
+            span.icon-trash(aria-hidden="true")
             span.sr-only Clear Console
-          textarea#befunge-console.form-control(readonly)
+          textarea.befunge-console.form-control(readonly)
+        .d-block.d-md-none &nbsp;
         section.col-md-6
-          h2.h-horizontal Stack
-          select#befunge-stack-mode.form-control.by-header
-            option(value="asc" selected) ascii
-            option(value="dec") decimal
-            option(value="hex") hexadecimal
-          textarea#befunge-stack.form-control(readonly)
+          h3.h-horizontal Stack
+          select#befunge-stack-mode.form-control.form-control-sm.by-header
+            option(value="asc" selected) ascii mode
+            option(value="dec") decimal mode
+            option(value="hex") hex mode
+          textarea.befunge-stack.form-control(readonly)
       .row
         section.col
-          h2 The Torus
-          #torus-wrapper
+          h3 Torus
+          #torus-wrapper.torus-wrapper
             #torus
     script(src="/js/other/befunge.js" type="module")
