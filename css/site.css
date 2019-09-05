@@ -86,8 +86,8 @@
     overflow-x: scroll;
 }
 
-.befunge .stack, .befunge .output, .befunge div.torus-row input {
-    font-family: Consolas, monaco, monospace;
+#befunge-console, #befunge-stack, .befunge div.torus-row input {
+    font-family: FiraCode, monaco, monospace;
 }
 
 .befunge div.torus-row {
