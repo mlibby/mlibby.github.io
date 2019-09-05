@@ -10,7 +10,9 @@
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^6.3.0"
+  },
   "scripts": {
     "test": "ava"
   },

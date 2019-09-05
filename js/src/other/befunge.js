@@ -48,7 +48,7 @@ export default
       '^': () => { this.vector = befungeVector.n; },
       '<': () => { this.vector = befungeVector.w; },
       '>': () => { this.vector = befungeVector.e; },
-      '?': () => { this.vector = getRandomVector(); },
+      '?': () => { this.vector = this.getRandomVector(); },
       '_': () => { this.switchVector(befungeVector.e, befungeVector.w); },
       '|': () => { this.switchVector(befungeVector.s, befungeVector.n); },
       '#': () => { this.moveCursor(); },
@@ -274,7 +274,6 @@ export default
 
   parseText() {
     let x = 0;
-    let y = 0;
 
     this.parsedText = "";
 
@@ -285,15 +284,13 @@ export default
           this.parsedText = this.parsedText + " ";
           x++;
         }
+
         x = 0;
-        y++;
       }
-      else {
-        if (chr !== 13) {
-          this.parsedText = this.parsedText + this.rawText.charAt(idx);
-        }
-        x++;
+      else if (chr !== 13) {
+        this.parsedText = this.parsedText + this.rawText.charAt(idx);
       }
+      x++;
     }
   }
 
@@ -302,7 +299,7 @@ export default
   }
 
   getRandomVector() {
-    return [befungeVector.n, befungeVector.s, befungeVector.e, befungeVector.w][getRandomInt(0, 3)];
+    return [befungeVector.n, befungeVector.s, befungeVector.e, befungeVector.w][this.getRandomInt(0, 3)];
   }
 
   getTorusId(x, y) {
@@ -499,7 +496,7 @@ export default
       $select.append($("<option value='" + program + "'>" + program + "</option>"));
     }
 
-    $select.change((e) => {
+    $select.change(() => {
       var fileName = $select.val();
       var dummyResponse = {
         target: {
