@@ -142,7 +142,7 @@ blockquote:before {
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-    content: "\f10d";
+    content: "\e977";
     padding-right: 0.5rem;
 }
 
