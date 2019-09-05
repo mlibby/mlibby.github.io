@@ -105,8 +105,10 @@ blockquote:before {
 }
 
 body {
-    font-family: 'arsenal', sans-serif;
-    font-stretch: semi-expanded;
+    font-family: 'molengo', sans-serif;
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 dl.job-details {
@@ -216,7 +218,7 @@ main {
 }
 
 .tt-output {
-    font-family: 'firamono', monospace;
+    font-family: 'firacode', monospace;
     font-size: 1.25rem;
     line-height: 1.66rem;
     white-space: pre-wrap;
