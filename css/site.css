@@ -86,8 +86,8 @@
     overflow-x: scroll;
 }
 
-.befunge .stack, .befunge .output, .befunge div.torus-row input {
-    font-family: Consolas, monaco, monospace;
+#befunge-console, #befunge-stack, .befunge div.torus-row input {
+    font-family: FiraCode, monaco, monospace;
 }
 
 .befunge div.torus-row {
@@ -147,8 +147,10 @@ blockquote:before {
 }
 
 body {
-    font-family: 'arsenal', sans-serif;
-    font-stretch: semi-expanded;
+    font-family: 'molengo', sans-serif;
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .btn [class^="icon-"] {
@@ -279,7 +281,7 @@ button.by-header, select.by-header {
 }
 
 .tt-output {
-    font-family: 'firamono', monospace;
+    font-family: 'firacode', monospace;
     font-size: 1.25rem;
     line-height: 1.66rem;
     white-space: pre-wrap;
