@@ -133,17 +133,8 @@ blockquote {
     background-color: #cce5ff;
     border-color: #004085;
     border-radius: 0.25rem;
-}
-
-blockquote:before {
-    font-family: 'mlibby-icons' !important;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    content: "\f10d";
-    padding-right: 0.5rem;
+    font-style: italic;
+    font-weight: bold;
 }
 
 body {
@@ -223,6 +214,10 @@ h2.h-horizontal, h3.h-horizontal, h4.h-horizontal {
 
 main {
     margin-top: 60px;
+}
+
+main a {
+    border-bottom: 1px dotted;
 }
 
 .navbar {
