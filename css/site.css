@@ -220,6 +220,11 @@ main a {
     border-bottom: 1px dotted;
 }
 
+main a:hover {
+    border-bottom: 1px solid;
+    text-decoration: none !important;
+}
+
 .navbar {
     padding-top: 0;
     padding-bottom: 0;
