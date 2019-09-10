@@ -289,8 +289,9 @@ export default
       }
       else if (chr !== 13) {
         this.parsedText = this.parsedText + this.rawText.charAt(idx);
+        x++;
       }
-      x++;
+
     }
   }
 
