@@ -10,13 +10,40 @@
     '0" :swor fo rebmuN">:#,_&> 55+, v' + "\n" +
     'v01*p00-1:g00.:<1p011p00:\\-1_v#:<' + "\n" +
     '>g:1+10p/48*,:#^_$ 55+,1+\\: ^>$$@' + "\n",
-  "sort_integers.bf":
-    'v ' + "\n" +
-    '> 543** >     :#v_ $&>           :#v_ 1 > :0g >    :#v_ $ 1+: 543** `! #v_ 25*,@' + "\n" +
-    '        ^-1p0\\0:<    ^-1 p0\\+1 g0:&<          ^-1\\.:\\<' + "\n" +
-    '                                   ^                                    <' + "\n" +
-    "\n" +
-    '-- Enter # of integers, then the integers --'
+  // "sort_integers.bf":
+  //   'v ' + "\n" +
+  //   '> 543** >     :#v_ $&>           :#v_ 1 > :0g >    :#v_ $ 1+: 543** `! #v_ 25*,@' + "\n" +
+  //   '        ^-1p0\\0:<    ^-1 p0\\+1 g0:&<          ^-1\\.:\\<' + "\n" +
+  //   '                                   ^                                    <' + "\n" +
+  //   "\n" +
+  //   '-- Enter # of integers, then the integers --',
+  "fizzbuzz.bf":
+    '55*4*v    _   v' + "\n" +
+    'v   <>:1-:^' + "\n" +
+    '    |:<$      <    ,*48 <' + "\n" +
+    '    @>0"zzif">:#,_$      v' + "\n" +
+    '>:3%!|    >0"zzub">:#,_$^' + "\n" +
+    '     >:5%!|' + "\n" +
+    'v "buzz"0<>:.           ^' + "\n" +
+    '         |!%5:           <' + "\n" +
+    '>:#,_   $>              ^',
+  "angle_diff.bf":
+    '012pv1   2      3        4              5         6           7    8' + "\n" +
+    '    >&:v   >859**%:459**1-`#v_     >12g!:12p#v_\-:459**1-`#v_     >.>' + "\n" +
+    '       >0`#^_8v             >859**-^                       >859**-^' + "\n" +
+    '       ^:+**95<                              >                     ^',
+  "unit_tests.bf":
+    '>"A",v   > 56+6*3+, v                ' + "\n" +
+    '     "    v **25*27 <                ' + "\n" +
+    '    "B"   >  2/ :,  v                  ' + "\n" +
+    '>    "D",^v  ,+2-1  <                 ' + "\n" +
+    '     ,    @                      ' + "\n" +
+    '^,"C"<                             ' + "\n" +
+    '                                   ' + "\n" +
+    '                                   ' + "\n" +
+    '                                   ' + "\n" +
+    '                                   ' + "\n" +
+    '                                   ' + "\n"
 };
 
 const befungeVector = {
@@ -98,41 +125,47 @@ export default
     this.stop();
     this.$console.addClass("befunge-get-number");
     this.$console.focus();
-    this.$console.on('keyup', (e) => { this.readNumber(e); });
+    this.$console.on('keypress', (e) => { this.readNumber(e); });
   }
 
   readNumber(e) {
-    const val = String.fromCharCode(e.which);
+    const val = String.fromCharCode(e.which || e.keyCode);
     if (val === " ") {
+      this.$console.val(this.$console.val() + val);
       this.push(Number(this.numberString));
-      this.$console.off('keyup');
+      this.$console.off('keypress');
       this.$console.removeClass("befunge-get-number");
       this.run();
     }
     else {
-      if (val >= "0" && val <= "9") {
+      if (val === "-" || (val >= "0" && val <= "9")) {
         this.numberString = this.numberString + val;
+        this.$console.val(this.$console.val() + val);
       }
     }
-    this.$console.val(this.$console.val() + val);
   }
 
   printNumber() {
     let outputText = this.$console.val();
     outputText = outputText + this.pop().toString() + " ";
+    this.printToConsole(outputText);
+  }
+
+  printToConsole(outputText) {
     this.$console.val(outputText);
+    this.$console.scrollTop(this.$console[0].scrollHeight - this.$console.height());
   }
 
   getChar() {
     this.stop();
     this.$console.addClass("befunge-get-char");
     this.$console.focus();
-    this.$console.on('keyup', (e) => { this.readChar(e); });
+    this.$console.on('keypress', (e) => { this.readChar(e); });
   }
 
   readChar(e) {
-    this.push(String.fromCharCode(e.which));
-    this.$console.off('keyup');
+    this.push(String.fromCharCode(e.which || e.keyCode));
+    this.$console.off('keypress');
     this.$console.removeClass("befunge-get-char");
     this.run();
   }
@@ -142,7 +175,7 @@ export default
     const outputCharCode = this.pop();
     outputText = outputText + String.fromCharCode(outputCharCode);
 
-    this.$console.val(outputText);
+    this.printToConsole(outputText);
   }
 
   duplicate() {
@@ -206,7 +239,8 @@ export default
     const switchVal = this.pop();
     if (switchVal === 0 || switchVal === undefined) {
       this.vector = zeroVector;
-    } else {
+    }
+    else {
       this.vector = elseVector;
     }
   }
@@ -387,7 +421,7 @@ export default
         }
       }
       else if (stackMode === "dec") {
-        addChar = ("00" + charCode.toString(10)).substr(-3, 3);
+        addChar = charCode;
       }
       else { ///stackmode === "hex"
         addChar = ("0" + charCode.toString(16)).substr(-2, 2);

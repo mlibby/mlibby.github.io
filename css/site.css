@@ -86,6 +86,10 @@
     overflow-x: scroll;
 }
 
+#befunge-console, #befunge-stack {
+    height: 10rem;
+}
+
 #befunge-console, #befunge-stack, .befunge div.torus-row input {
     font-family: FiraCode, monaco, monospace;
 }
