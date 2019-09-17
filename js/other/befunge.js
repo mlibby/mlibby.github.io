@@ -8,6 +8,10 @@ $(document).ready(() => {
   bf.drawTorus();
   bf.initStockBefungeMenu();
 
+  $("#open-file").click( () => {
+    $("#befunge-file")[0].click();
+  });
+
   $("#befunge-file").change(function () {
     bf.readFile();
   });

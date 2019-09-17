@@ -14,11 +14,10 @@ html
               select#befunge-stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                 option(selected value="0") Choose a stock program...
               .btn-group.mr-2
-                button.btn.btn-secondary(title="Load File")
+                button#open-file.btn.btn-secondary(title="Load File")
                   span.icon-upload
                   span.sr-only Open File
-                input#befunge-file.mr-3(type="file" style="display: none;")
-                // input#file-name.form-control(type="text")
+                input#befunge-file.mr-3(type="file" style="display:none;")
                 button#save-file.btn.btn-secondary(title="Save File")
                   span.icon-floppy-disk
                   span.sr-only Save File

@@ -29,6 +29,7 @@
     '>:#,_   $>              ^',
   "angle_diff.bf":
     '012pv1   2      3        4              5         6           7    8' + "\n" +
+    // eslint-disable-next-line no-useless-escape
     '    >&:v   >859**%:459**1-`#v_     >12g!:12p#v_\-:459**1-`#v_     >.>' + "\n" +
     '       >0`#^_8v             >859**-^                       >859**-^' + "\n" +
     '       ^:+**95<                              >                     ^',
@@ -207,13 +208,12 @@ export default
     const y = this.pop();
     const x = this.pop();
     let val = Number(this.pop());
-    val = String.fromCharCode(val);
 
     const id = this.getTorusId(x, y);
     if (id !== "oob") {
       const $cell = $("#" + id);
-      $cell.val('');
-      $cell.val(val);
+      $cell.val("=");
+      $cell.attr("title", val);
     }
   }
 
@@ -224,15 +224,25 @@ export default
 
     let val = 0;
     if (id !== "oob") {
-      val = $("#" + id).val();
+      const cell = $("#" +id);
+      val = cell.val();
+      if(val === "=") {
+        val = Number(cell.attr("title"));
+      }
+      else if (val === "") {
+        val = 0;
+      }
+      else {
+        val = val.charCodeAt(0);
+      }
     }
 
-    if (this.befunctions[val] === undefined) {
-      this.push(val.charCodeAt(0));
-    }
-    else {
+    // if (this.befunctions[val] === undefined) {
+    //   this.push(val.charCodeAt(0));
+    // }
+    // else {
       this.push(val);
-    }
+    //}
   }
 
   switchVector(zeroVector, elseVector) {
