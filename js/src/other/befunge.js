@@ -59,11 +59,6 @@ export default
   constructor() {
     this.setDefaults();
 
-    this.$console = $("#befunge-console");
-    this.$torus = $("#torus");
-    this.$stackMode = $("#befunge-stack-mode");
-    this.$stack = $("#befunge-stack");
-
     this.height = 25;
     this.width = 80;
     this.rawText = "";
@@ -224,9 +219,9 @@ export default
 
     let val = 0;
     if (id !== "oob") {
-      const cell = $("#" +id);
-      val = cell.val();
-      if(val === "=") {
+      const cell = this.torus[y][x]; //$("#" + id);
+      //val = cell.val();
+      if (cell === "=") {
         val = Number(cell.attr("title"));
       }
       else if (val === "") {
@@ -237,12 +232,7 @@ export default
       }
     }
 
-    // if (this.befunctions[val] === undefined) {
-    //   this.push(val.charCodeAt(0));
-    // }
-    // else {
-      this.push(val);
-    //}
+    this.push(val);
   }
 
   switchVector(zeroVector, elseVector) {
@@ -357,22 +347,28 @@ export default
   }
 
   drawTorus() {
+    this.torus = [];
     this.$torus.children().remove();
-    for (var y = 0; y <= this.height; y++) {
+    for (var y = 0; y < this.height; y++) {
+      const torusRow = [];
       const $torusRow = $("<div class='torus-row'></div>");
       for (var x = 0; x < this.width; x++) {
         const $input = $("<input id='" + this.getTorusId(x, y) + "' type='text' maxlength='1' />");
         const idx = y * this.width + x;
         $input.val(this.parsedText.charAt(idx));
         $torusRow.append($input);
+        const cell = [0];
+        torusRow.push(cell);
       }
 
       this.$torus.append($torusRow);
+      this.torus.push(torusRow);
     }
   }
 
   getCurrentCell() {
-    return $("#" + this.getTorusId(this.x, this.y));
+    return this.torus[this.y][this.x];
+    //return $("#" + this.getTorusId(this.x, this.y));
   }
 
   activateCurrentCell() {
@@ -467,20 +463,28 @@ export default
   oneStep() {
     this.doCurrentCell();
     this.moveCursor();
-    this.activateCurrentCell();
-    this.showStack();
+    if (this.debug) {
+      this.activateCurrentCell();
+      this.showStack();
+    }
+  }
+
+  runLoop() {
+    if (this.running) {
+      this.oneStep();
+      setTimeout(() => this.runLoop(), this.intervalMS);
+    }
   }
 
   run() {
-    this.activateCurrentCell();
-    if (this.interval === null) {
-      this.interval = setInterval(() => { this.oneStep(); }, this.intervalMS);
+    if (!this.halted) {
+      this.running = true;
+      this.runLoop();
     }
   }
 
   stop() {
-    clearInterval(this.interval);
-    this.interval = null;
+    this.running = false;
   }
 
   halt() {
@@ -494,9 +498,11 @@ export default
     this.stack = [];
     this.numberString = "";
     this.stringMode = false;
+    this.running = false;
     this.halted = false;
     this.vector = befungeVector.e;
-    this.intervalMS = 128;
+    this.intervalMS = 0;
+    this.debug = false;
   }
 
   reset() {

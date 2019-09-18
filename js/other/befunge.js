@@ -1,9 +1,9 @@
-import Befunge from "/js/src/other/befunge.js";
+﻿import BefungeIde from "/js/src/other/befungeIde.js";
 
 "use strict";
 
 $(document).ready(() => {
-  var bf = new Befunge($("main.befunge"));
+  var bf = new BefungeIde($("main.befunge"));
 
   bf.drawTorus();
   bf.initStockBefungeMenu();
