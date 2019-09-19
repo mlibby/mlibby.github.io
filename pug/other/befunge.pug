@@ -11,48 +11,48 @@ html
           h2 Befunge IDE
           .form-inline
             .input-group
-              select#befunge-stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+              select.stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                 option(selected value="0") Choose a stock program...
               .btn-group.mr-2
-                button#open-file.btn.btn-secondary(title="Load File")
+                button.open-file.btn.btn-secondary(title="Load File")
                   span.icon-upload
                   span.sr-only Open File
-                input#befunge-file.mr-3(type="file" style="display:none;")
-                button#save-file.btn.btn-secondary(title="Save File")
+                input.file.mr-3(type="file" style="display:none;")
+                button.save-file.btn.btn-secondary(title="Save File")
                   span.icon-floppy-disk
                   span.sr-only Save File
             .input-group
               .btn-group.mr-2
-                button#befunge-reset.btn.btn-primary(title="Reset Befunge")
+                button.reset.btn.btn-primary(title="Reset Befunge")
                   span.icon-refresh
                   span.sr-only Reset Befunge
-                button#befunge-run.btn.btn-primary(title="Run")
+                button.run.btn.btn-primary(title="Run")
                   span.icon-play
                   span.sr-only Run
-                button#befunge-step.btn.btn-primary(title="Step")
+                button.step.btn.btn-primary(title="Step")
                   span.icon-next
                   span.sr-only Step
-                button#befunge-stop.btn.btn-primary(title="Stop")
+                button.stop.btn.btn-primary(title="Stop")
                   span.icon-stop
                   span.sr-only Stop
               .btn-group.mr-2
-                button#befunge-slower.btn.btn-info(title="Slower")
+                button.slower.btn.btn-info(title="Slower")
                   span.icon-minus
                   span.sr-only Slower
-                button#befunge-faster.btn.btn-info(title="Faster")
+                button.faster.btn.btn-info(title="Faster")
                   span.icon-plus
                   span.sr-only Faster
               .btn-group.mr-2
-                button#befunge-help.btn.btn-success(title="Help")
+                button.help.btn.btn-success(title="Help")
                   span.icon-question
                   span.sr-only Help
-                button#befunge-info.btn.btn-success(title="Info")
+                button.info.btn.btn-success(title="Info")
                   span.icon-info
                   span.sr-only Info
       .row.mb-3
         section.col-md-6
           h3.h-horizontal Console
-          button#befunge-clear.btn.btn-sm.btn-danger.by-header(title="Clear Console")
+          button.clear-console.btn.btn-sm.btn-danger.by-header(title="Clear Console")
             span.icon-trash(aria-hidden="true")
             span.sr-only Clear Console
           textarea.console.form-control(readonly)

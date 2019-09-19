@@ -1,52 +1,4 @@
-﻿const stockBefunges = {
-  "hello_world.bf":
-    "64+\"!dlroW ,olleH\">:#,_@",
-  "99_bottles.bf":
-    '"d"4vv"take one down, pass it around"<>' + "\n" +
-    ':-2*< v "e wall"_v#\\0`1%4./4::_0#%>#4^#' + "\n" +
-    '\\4>/|>:#,_$:55+:,\\4%3-!*0\\>:>#,_$$:1+\\1' + "\n" +
-    '>>>#@^>$"ht no "\\>\\"reeb fo selttob">>>' + "\n",
-  "pascals_triangle.bf":
-    '0" :swor fo rebmuN">:#,_&> 55+, v' + "\n" +
-    'v01*p00-1:g00.:<1p011p00:\\-1_v#:<' + "\n" +
-    '>g:1+10p/48*,:#^_$ 55+,1+\\: ^>$$@' + "\n",
-  // "sort_integers.bf":
-  //   'v ' + "\n" +
-  //   '> 543** >     :#v_ $&>           :#v_ 1 > :0g >    :#v_ $ 1+: 543** `! #v_ 25*,@' + "\n" +
-  //   '        ^-1p0\\0:<    ^-1 p0\\+1 g0:&<          ^-1\\.:\\<' + "\n" +
-  //   '                                   ^                                    <' + "\n" +
-  //   "\n" +
-  //   '-- Enter # of integers, then the integers --',
-  "fizzbuzz.bf":
-    '55*4*v    _   v' + "\n" +
-    'v   <>:1-:^' + "\n" +
-    '    |:<$      <    ,*48 <' + "\n" +
-    '    @>0"zzif">:#,_$      v' + "\n" +
-    '>:3%!|    >0"zzub">:#,_$^' + "\n" +
-    '     >:5%!|' + "\n" +
-    'v "buzz"0<>:.           ^' + "\n" +
-    '         |!%5:           <' + "\n" +
-    '>:#,_   $>              ^',
-  "angle_diff.bf":
-    '012pv1   2      3        4              5         6           7    8' + "\n" +
-    // eslint-disable-next-line no-useless-escape
-    '    >&:v   >859**%:459**1-`#v_     >12g!:12p#v_\-:459**1-`#v_     >.>' + "\n" +
-    '       >0`#^_8v             >859**-^                       >859**-^' + "\n" +
-    '       ^:+**95<                              >                     ^',
-  "unit_tests.bf":
-    '>"A",v   > 56+6*3+, v                ' + "\n" +
-    '     "    v **25*27 <                ' + "\n" +
-    '    "B"   >  2/ :,  v                  ' + "\n" +
-    '>    "D",^v  ,+2-1  <                 ' + "\n" +
-    '     ,    @                      ' + "\n" +
-    '^,"C"<                             ' + "\n" +
-    '                                   ' + "\n" +
-    '                                   ' + "\n" +
-    '                                   ' + "\n" +
-    '                                   ' + "\n" +
-    '                                   ' + "\n"
-};
-
+﻿
 const befungeVector = {
   n: { xd: 0, yd: -1 },
   e: { xd: 1, yd: 0 },
@@ -541,21 +493,5 @@ export default
     }
   }
 
-  initStockBefungeMenu() {
-    var $select = $("#befunge-stock-files");
-    for (var program in stockBefunges) {
-      $select.append($("<option value='" + program + "'>" + program + "</option>"));
-    }
 
-    $select.change(() => {
-      var fileName = $select.val();
-      var dummyResponse = {
-        target: {
-          result: stockBefunges[fileName]
-        }
-      };
-      this.loadBefunge(dummyResponse);
-      $("#file-name").val(fileName);
-    });
-  }
 }
