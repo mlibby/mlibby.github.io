@@ -7,62 +7,18 @@ const vector = {
   w: { x: -1, y: 0 }
 };
 
-export default
-  class Befunge {
-  constructor(program) {
+export default class Befunge {
+
+  static get height() { return 25; }
+
+  static get width() { return 80; }
+
+  constructor(program, callbacks) {
     this.setDefaults();
+    this.initOperations();
+    this.initCallbacks(callbacks);
     this.createTorus();
     this.parseProgram(program);
-
-    this.functions = {
-      // Directional
-      'v': () => { this.vector = vector.s; },
-      '^': () => { this.vector = vector.n; },
-      '<': () => { this.vector = vector.w; },
-      '>': () => { this.vector = vector.e; },
-      '?': () => { this.vector = this.randomVector(); },
-      '_': () => { this.conditionalVector(vector.e, vector.w); },
-      '|': () => { this.conditionalVector(vector.s, vector.n); },
-      '#': () => { this.bridge(); },
-    
-      // Mode
-      '"': () => { this.stringMode = true; },
-      '@': () => { this.halt(); },
-    
-      // Numerical Entry
-      '0': () => { this.push(0); },
-      '1': () => { this.push(1); },
-      '2': () => { this.push(2); },
-      '3': () => { this.push(3); },
-      '4': () => { this.push(4); },
-      '5': () => { this.push(5); },
-      '6': () => { this.push(6); },
-      '7': () => { this.push(7); },
-      '8': () => { this.push(8); },
-      '9': () => { this.push(9); },
-    
-      // Stack manipulation
-      '!': () => { this.logicalNot(); },
-      ':': () => { this.duplicate(); },
-      '\\': () => { this.swap(); },
-      '$': () => { this.pop(); },
-      'g': () => { this.get(); },
-      'p': () => { this.put(); },
-    
-      // I/O
-      ',': () => { this.outputChar(); },
-      '.': () => { this.outputNumber(); },
-      '&': () => { this.inputNumber(); },
-      '~': () => { this.inputChar(); },
-    
-      // Math
-      '+': () => { this.add(); },
-      '-': () => { this.subtract(); },
-      '/': () => { this.divide(); },
-      '*': () => { this.multiply(); },
-      '%': () => { this.modulo(); },
-      '`': () => { this.compare(); }
-    };
   }
 
   setDefaults() {
@@ -76,26 +32,110 @@ export default
     this.debug = false;
   }
 
+  initOperations() {
+    this.operations = {
+      // Default cell state is NO-OP
+      ' ': () => { },
+
+      // Directional
+      'v': () => { this.vector = vector.s; },
+      '^': () => { this.vector = vector.n; },
+      '<': () => { this.vector = vector.w; },
+      '>': () => { this.vector = vector.e; },
+      '?': () => { this.vector = this.randomVector(); },
+      '_': () => { this.conditionalVector(vector.e, vector.w); },
+      '|': () => { this.conditionalVector(vector.s, vector.n); },
+      '#': () => { this.bridge(); },
+
+      // Mode
+      '"': () => { this.stringMode = true; },
+      '@': () => { this.halt(); },
+
+      // Numerical Entry
+      '0': () => { this.push(0); },
+      '1': () => { this.push(1); },
+      '2': () => { this.push(2); },
+      '3': () => { this.push(3); },
+      '4': () => { this.push(4); },
+      '5': () => { this.push(5); },
+      '6': () => { this.push(6); },
+      '7': () => { this.push(7); },
+      '8': () => { this.push(8); },
+      '9': () => { this.push(9); },
+
+      // Stack manipulation
+      '!': () => { this.logicalNot(); },
+      ':': () => { this.duplicate(); },
+      '\\': () => { this.swap(); },
+      '$': () => { this.pop(); },
+      'g': () => { this.get(); },
+      'p': () => { this.put(); },
+
+      // I/O
+      ',': () => { this.outputChar(); },
+      '.': () => { this.outputNumber(); },
+      '&': () => { this.inputNumber(); },
+      '~': () => { this.inputChar(); },
+
+      // Math
+      '+': () => { this.add(); },
+      '-': () => { this.subtract(); },
+      '/': () => { this.divide(); },
+      '*': () => { this.multiply(); },
+      '%': () => { this.modulo(); },
+      '`': () => { this.compare(); }
+    };
+  }
+
+  initCallbacks(callbacks) {
+    this.cellChanged = callbacks.cellChanged || (() => { });
+    this.printed = callbacks.printed || (() => { });
+  }
+
   createTorus() {
     this.height = 25;
     this.width = 80;
     this.torus = Array(this.height * this.width);
 
     for (var i = 0; i < this.height * this.width; i++) {
-      this.torus[i] = 32; // ASCII space
+      this.torus[i] = 32; // ASCII space " " character
+    }
+  }
+
+  parseProgram(program) {
+    let x = 0;
+    let y = 0;
+
+    for (var idx = 0; idx < program.length; idx++) {
+      var chr = program.charCodeAt(idx);
+      if (chr === 10) {
+        x = 0;
+        y++;
+      }
+      else if (chr !== 13) {
+        this.setCell(x, y, chr);
+        x++;
+        if (x == this.width) {
+          x = 0;
+          y++;
+        }
+      }
+
     }
   }
 
   getCell(x, y) {
-    return this.torus(y * this.width + x);
+    return this.torus[y * this.width + x];
   }
 
   setCell(x, y, value) {
     this.torus[y * this.width + x] = value;
+    this.cellChanged(x, y, value);
   }
 
-
-
+  getCurrentCell() {
+    return this.getCell(this.x, this.y);
+  }
 
   inputNumber() {
     this.numberString = "";
@@ -137,17 +177,13 @@ export default
   }
 
   outputNumber() {
-    let outputText = this.$console.val();
-    outputText = outputText + this.pop().toString() + " ";
-    this.printToConsole(outputText);
+    const output = this.pop().toString() + " ";
+    this.printed(output);
   }
 
   outputChar() {
-    let outputText = this.$console.val();
-    const outputCharCode = this.pop();
-    outputText = outputText + String.fromCharCode(outputCharCode);
-
-    this.printToConsole(outputText);
+    const output = String.fromCharCode(Number(this.pop()));
+    this.printed(output);
   }
 
   duplicate() {
@@ -185,24 +221,7 @@ export default
   get() {
     const y = this.pop();
     const x = this.pop();
-    let val = this.getCell(x, y);
-
-    const id = this.getTorusId(x, y);
-
-    if (id !== "oob") {
-      const cell = this.torus[y][x]; //$("#" + id);
-      //val = cell.val();
-      if (cell === "=") {
-        val = Number(cell.attr("title"));
-      }
-      else if (val === "") {
-        val = 0;
-      }
-      else {
-        val = val.charCodeAt(0);
-      }
-    }
-
+    const val = this.getCell(x, y);
     this.push(val);
   }
 
@@ -214,6 +233,10 @@ export default
     else {
       this.vector = elseVector;
     }
+  }
+
+  bridge() {
+    this.moveProgramCounter();
   }
 
   add() {
@@ -258,42 +281,6 @@ export default
     this.push(val);
   }
 
-  readFile() {
-    const file = $("#befunge-file")[0].files[0];
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (e) => { this.loadBefunge(e); };
-      fileReader.readAsText(file);
-      $("#file-name").val(file.name);
-    }
-    else {
-      alert("Failed to load file");
-    }
-  }
-
-  parseProgram(program) {
-    let x = 0;
-
-    let parsedProgram = "";
-
-    for (var idx = 0; idx < program.length; idx++) {
-      var chr = program.charCodeAt(idx);
-      if (chr === 10) {
-        while (x < this.width) {
-          parsedProgram = parsedProgram + " ";
-          x++;
-        }
-
-        x = 0;
-      }
-      else if (chr !== 13) {
-        parsedProgram = parsedProgram + program.charAt(idx);
-        x++;
-      }
-
-    }
-  }
-
   getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -302,49 +289,29 @@ export default
     return [vector.n, vector.s, vector.e, vector.w][this.getRandomInt(0, 3)];
   }
 
-  getTorusId(x, y) {
-    if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
-      return "oob";
-    }
-    else {
-      return "cell-" + x + "-" + y;
-    }
-  }
-
-
-  getCurrentCell() {
-    return this.torus[this.y][this.x];
-    //return $("#" + this.getTorusId(this.x, this.y));
-  }
-
-  activateCurrentCell() {
-    $(".torus-row").children().removeClass("active-cell");
-    this.getCurrentCell().addClass("active-cell");
-  }
-
   doStringMode(currentVal) {
-    if (currentVal === '"') {
+    const currentChar = String.fromCharCode(currentVal);
+    if (currentChar === '"') {
       this.stringMode = false;
     }
     else {
-      this.push(currentVal.charCodeAt(0));
+      this.push(currentVal);
     }
   }
 
   doNonStringMode(currentVal) {
-    if (this.functions[currentVal] !== undefined) {
-      this.functions[currentVal]();
+    const currentChar = String.fromCharCode(currentVal);
+    if (this.operations[currentChar] !== undefined) {
+      this.operations[currentChar]();
     }
   }
 
   doCurrentCell() {
-    var currentCell = this.getCurrentCell();
+    let currentVal = this.getCurrentCell();
 
-    if (currentCell.hasClass("befunge-breakpoint")) {
-      this.breakpointed = true;
-    }
-
-    var currentVal = currentCell.val();
+    // if (currentCell.hasClass("befunge-breakpoint")) {
+    //   this.breakpointed = true;
+    // }
 
     if (this.breakpointed) {
       this.breakpointed = false;
@@ -358,37 +325,12 @@ export default
     }
   }
 
-  showStack() {
-    const stackMode = this.$stackMode.val();
-    var stackText = "";
-    for (var sdx = 0; sdx < this.stack.length; sdx++) {
-      var charCode = this.stack[sdx];
-      var addChar;
-      if (stackMode === "asc") {
-        if (32 <= charCode && charCode <= 126) {
-          addChar = String.fromCharCode(charCode);
-        }
-        else {
-          addChar = ("00" + charCode.toString(10)).substr(-3, 3);
-        }
-      }
-      else if (stackMode === "dec") {
-        addChar = charCode;
-      }
-      else { ///stackmode === "hex"
-        addChar = ("0" + charCode.toString(16)).substr(-2, 2);
-      }
 
-      stackText = stackText + addChar + " ";
-    }
 
-    this.$stack.val(stackText);
-  }
-
-  moveCursor() {
+  moveProgramCounter() {
     if (!this.halted && !this.breakpointed) {
-      this.x = this.x + this.vector.xd;
-      this.y = this.y + this.vector.yd;
+      this.x = this.x + this.vector.x;
+      this.y = this.y + this.vector.y;
 
       if (this.x >= this.width) {
         this.x = 0;
@@ -408,7 +350,7 @@ export default
 
   oneStep() {
     this.doCurrentCell();
-    this.moveCursor();
+    this.moveProgramCounter();
     if (this.debug) {
       this.activateCurrentCell();
       this.showStack();
@@ -441,8 +383,8 @@ export default
   reset() {
     this.stop();
     this.setDefaults();
-    this.showStack();
-    this.activateCurrentCell();
+    //this.showStack();
+    //this.activateCurrentCell();
   }
 
 
