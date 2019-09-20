@@ -1,37 +1,34 @@
-﻿
-const befungeVector = {
-  n: { xd: 0, yd: -1 },
-  e: { xd: 1, yd: 0 },
-  s: { xd: 0, yd: 1 },
-  w: { xd: -1, yd: 0 }
+﻿"use strict";
+
+const vector = {
+  n: { x: 0, y: -1 },
+  e: { x: 1, y: 0 },
+  s: { x: 0, y: 1 },
+  w: { x: -1, y: 0 }
 };
 
 export default
   class Befunge {
-  constructor() {
+  constructor(program) {
     this.setDefaults();
+    this.createTorus();
+    this.parseProgram(program);
 
-    this.height = 25;
-    this.width = 80;
-    this.rawText = "";
-    this.parsedText = "";
-    this.interval = null;
-
-    this.befunctions = {
+    this.functions = {
       // Directional
-      'v': () => { this.vector = befungeVector.s; },
-      '^': () => { this.vector = befungeVector.n; },
-      '<': () => { this.vector = befungeVector.w; },
-      '>': () => { this.vector = befungeVector.e; },
-      '?': () => { this.vector = this.getRandomVector(); },
-      '_': () => { this.switchVector(befungeVector.e, befungeVector.w); },
-      '|': () => { this.switchVector(befungeVector.s, befungeVector.n); },
-      '#': () => { this.moveCursor(); },
-
+      'v': () => { this.vector = vector.s; },
+      '^': () => { this.vector = vector.n; },
+      '<': () => { this.vector = vector.w; },
+      '>': () => { this.vector = vector.e; },
+      '?': () => { this.vector = this.randomVector(); },
+      '_': () => { this.conditionalVector(vector.e, vector.w); },
+      '|': () => { this.conditionalVector(vector.s, vector.n); },
+      '#': () => { this.bridge(); },
+    
       // Mode
       '"': () => { this.stringMode = true; },
       '@': () => { this.halt(); },
-
+    
       // Numerical Entry
       '0': () => { this.push(0); },
       '1': () => { this.push(1); },
@@ -43,7 +40,7 @@ export default
       '7': () => { this.push(7); },
       '8': () => { this.push(8); },
       '9': () => { this.push(9); },
-
+    
       // Stack manipulation
       '!': () => { this.logicalNot(); },
       ':': () => { this.duplicate(); },
@@ -51,13 +48,13 @@ export default
       '$': () => { this.pop(); },
       'g': () => { this.get(); },
       'p': () => { this.put(); },
-
+    
       // I/O
-      ',': () => { this.printChar(); },
-      '.': () => { this.printNumber(); },
-      '&': () => { this.getNumber(); },
-      '~': () => { this.getChar(); },
-
+      ',': () => { this.outputChar(); },
+      '.': () => { this.outputNumber(); },
+      '&': () => { this.inputNumber(); },
+      '~': () => { this.inputChar(); },
+    
       // Math
       '+': () => { this.add(); },
       '-': () => { this.subtract(); },
@@ -68,7 +65,39 @@ export default
     };
   }
 
-  getNumber() {
+  setDefaults() {
+    this.x = 0;
+    this.y = 0;
+    this.stack = [];
+    this.stringMode = false;
+    this.running = false;
+    this.halted = false;
+    this.vector = vector.e;
+    this.debug = false;
+  }
+
+  createTorus() {
+    this.height = 25;
+    this.width = 80;
+    this.torus = Array(this.height * this.width);
+
+    for (var i = 0; i < this.height * this.width; i++) {
+      this.torus[i] = 32; // ASCII space
+    }
+  }
+
+  getCell(x, y) {
+    return this.torus(y * this.width + x);
+  }
+
+  setCell(x, y, value) {
+    this.torus[y * this.width + x] = value;
+  }
+
+
+
+
+  inputNumber() {
     this.numberString = "";
     this.stop();
     this.$console.addClass("befunge-get-number");
@@ -93,18 +122,7 @@ export default
     }
   }
 
-  printNumber() {
-    let outputText = this.$console.val();
-    outputText = outputText + this.pop().toString() + " ";
-    this.printToConsole(outputText);
-  }
-
-  printToConsole(outputText) {
-    this.$console.val(outputText);
-    this.$console.scrollTop(this.$console[0].scrollHeight - this.$console.height());
-  }
-
-  getChar() {
+  inputChar() {
     this.stop();
     this.$console.addClass("befunge-get-char");
     this.$console.focus();
@@ -118,7 +136,13 @@ export default
     this.run();
   }
 
-  printChar() {
+  outputNumber() {
+    let outputText = this.$console.val();
+    outputText = outputText + this.pop().toString() + " ";
+    this.printToConsole(outputText);
+  }
+
+  outputChar() {
     let outputText = this.$console.val();
     const outputCharCode = this.pop();
     outputText = outputText + String.fromCharCode(outputCharCode);
@@ -154,22 +178,17 @@ export default
   put() {
     const y = this.pop();
     const x = this.pop();
-    let val = Number(this.pop());
-
-    const id = this.getTorusId(x, y);
-    if (id !== "oob") {
-      const $cell = $("#" + id);
-      $cell.val("=");
-      $cell.attr("title", val);
-    }
+    const val = Number(this.pop());
+    this.setCell(x, y, val);
   }
 
   get() {
     const y = this.pop();
     const x = this.pop();
+    let val = this.getCell(x, y);
+
     const id = this.getTorusId(x, y);
 
-    let val = 0;
     if (id !== "oob") {
       const cell = this.torus[y][x]; //$("#" + id);
       //val = cell.val();
@@ -187,7 +206,7 @@ export default
     this.push(val);
   }
 
-  switchVector(zeroVector, elseVector) {
+  conditionalVector(zeroVector, elseVector) {
     const switchVal = this.pop();
     if (switchVal === 0 || switchVal === undefined) {
       this.vector = zeroVector;
@@ -252,29 +271,23 @@ export default
     }
   }
 
-  loadBefunge(e) {
-    this.rawText = e.target.result;
-    this.parseText();
-    this.drawTorus();
-  }
-
-  parseText() {
+  parseProgram(program) {
     let x = 0;
 
-    this.parsedText = "";
+    let parsedProgram = "";
 
-    for (var idx = 0; idx < this.rawText.length; idx++) {
-      var chr = this.rawText.charCodeAt(idx);
+    for (var idx = 0; idx < program.length; idx++) {
+      var chr = program.charCodeAt(idx);
       if (chr === 10) {
         while (x < this.width) {
-          this.parsedText = this.parsedText + " ";
+          parsedProgram = parsedProgram + " ";
           x++;
         }
 
         x = 0;
       }
       else if (chr !== 13) {
-        this.parsedText = this.parsedText + this.rawText.charAt(idx);
+        parsedProgram = parsedProgram + program.charAt(idx);
         x++;
       }
 
@@ -286,7 +299,7 @@ export default
   }
 
   getRandomVector() {
-    return [befungeVector.n, befungeVector.s, befungeVector.e, befungeVector.w][this.getRandomInt(0, 3)];
+    return [vector.n, vector.s, vector.e, vector.w][this.getRandomInt(0, 3)];
   }
 
   getTorusId(x, y) {
@@ -298,25 +311,6 @@ export default
     }
   }
 
-  drawTorus() {
-    this.torus = [];
-    this.$torus.children().remove();
-    for (var y = 0; y < this.height; y++) {
-      const torusRow = [];
-      const $torusRow = $("<div class='torus-row'></div>");
-      for (var x = 0; x < this.width; x++) {
-        const $input = $("<input id='" + this.getTorusId(x, y) + "' type='text' maxlength='1' />");
-        const idx = y * this.width + x;
-        $input.val(this.parsedText.charAt(idx));
-        $torusRow.append($input);
-        const cell = [0];
-        torusRow.push(cell);
-      }
-
-      this.$torus.append($torusRow);
-      this.torus.push(torusRow);
-    }
-  }
 
   getCurrentCell() {
     return this.torus[this.y][this.x];
@@ -338,8 +332,8 @@ export default
   }
 
   doNonStringMode(currentVal) {
-    if (this.befunctions[currentVal] !== undefined) {
-      this.befunctions[currentVal]();
+    if (this.functions[currentVal] !== undefined) {
+      this.functions[currentVal]();
     }
   }
 
@@ -444,19 +438,6 @@ export default
     this.halted = true;
   }
 
-  setDefaults() {
-    this.x = 0;
-    this.y = 0;
-    this.stack = [];
-    this.numberString = "";
-    this.stringMode = false;
-    this.running = false;
-    this.halted = false;
-    this.vector = befungeVector.e;
-    this.intervalMS = 0;
-    this.debug = false;
-  }
-
   reset() {
     this.stop();
     this.setDefaults();
@@ -464,9 +445,7 @@ export default
     this.activateCurrentCell();
   }
 
-  clearConsole() {
-    this.$console.val("");
-  }
+
 
   slower() {
     if (this.intervalMS < 2048) {

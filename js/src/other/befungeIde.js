@@ -56,6 +56,10 @@ export default
       $("#file-name").val(fileName);
     });
   }
+  
+  clearConsole() {
+    this.$console.val("");
+  }
 
   drawTorus() {
     this.$torus.children().remove();
@@ -70,4 +74,11 @@ export default
       this.$torus.append($row);
     }
   }
+
+  print(text) {
+    this.$console.val(text);
+    this.$console.scrollTop(this.$console[0].scrollHeight - this.$console.height());
+  }
+
+
 }
