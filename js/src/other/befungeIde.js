@@ -36,8 +36,10 @@ export default
     this.$stackMode = $display.find(".stack-mode");
     this.$stack = $display.find(".stack");
     this.$run = $display.find(".run");
+    this.$stop = $display.find(".stop");
     this.$debug = $display.find(".debug");
 
+    this.$activeCell = $display.find(".noCell");
 
     this.drawTorus();
     this.initStockBefungeMenu();
@@ -52,9 +54,8 @@ export default
 
     this.$run.click(() => { this.befunge.run(); });
 
-    // $("#befunge-stop").click(function () {
-    //   bf.stop();
-    // });
+    this.$stop.click(() => { this.befunge.stop(); })
+
 
     // $("#befunge-reset").click(function () {
     //   bf.reset();
@@ -77,6 +78,7 @@ export default
 
   get callbacks() {
     return {
+      pcChanged: (x, y) => {this.pcChanged(x, y); },
       cellChanged: (x, y, val) => { this.cellChanged(x, y, val); },
       printed: (val) => { this.printed(val); }
     }
@@ -87,7 +89,7 @@ export default
     for (var y = 0; y < Befunge.height; y++) {
       const $row = $("<div class='torus-row'></div>");
       for (var x = 0; x < Befunge.width; x++) {
-        const $input = $("<input class='" + this.getTorusId(x, y) + "' type='text' maxlength='1' value=' ' />");
+        const $input = $("<input class='" + this.getCellId(x, y).replace(".", "") + "' type='text' maxlength='1' value=' ' />");
         $row.append($input);
       }
 
@@ -107,9 +109,14 @@ export default
   }
 
   cellChanged(x, y, val) {
-    const cellId = this.getTorusId(x, y);
-    const cell = this.$torus.find("." + cellId);
+    const cell = this.$torus.find(this.getCellId(x, y));
     cell.val(String.fromCharCode(val));
+  }
+
+  pcChanged(x, y) {
+    this.$activeCell.removeClass("active-cell");
+    this.$activeCell = this.$torus.find(this.getCellId(x, y));
+    this.$activeCell.addClass("active-cell");
   }
 
   printed(val) {
@@ -167,12 +174,12 @@ export default
   }
 
 
-  getTorusId(x, y) {
+  getCellId(x, y) {
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
       return "oob";
     }
     else {
-      return "cell-" + x + "-" + y;
+      return ".cell-" + x + "-" + y;
     }
   }
 
