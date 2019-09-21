@@ -36,6 +36,7 @@ export default
     this.$stackMode = $display.find(".stack-mode");
     this.$stack = $display.find(".stack");
     this.$run = $display.find(".run");
+    this.$debug = $display.find(".debug");
 
 
     this.drawTorus();
@@ -62,6 +63,8 @@ export default
     // $("#befunge-clear").click(function () {
     //   bf.clearConsole();
     // });
+
+    this.$debug.click(() => { this.befunge.debug(); });
 
     // $("#befunge-slower").click(function () {
     //   bf.slower();

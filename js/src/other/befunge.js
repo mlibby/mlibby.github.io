@@ -33,7 +33,7 @@ export default class Befunge {
     this.running = false;
     this.halted = false;
     this.vector = vector.e;
-    this.debug = false;
+    this.debugging = false;
   }
 
   initOperations() {
@@ -367,9 +367,14 @@ export default class Befunge {
 
       if (this.running) {
         this.oneStep();
-        window.postMessage(loopMessage, "*");
-      }
 
+        if (this.debugging) {
+          setTimeout(() => window.postMessage(loopMessage, "*"), 16);
+        }
+        else {
+          window.postMessage(loopMessage, "*");
+        }
+      }
     }
   }
 
@@ -387,6 +392,10 @@ export default class Befunge {
   halt() {
     this.stop();
     this.halted = true;
+  }
+
+  toggleDebug() {
+    this.debugging = !this.debugging;
   }
 
   reset() {
