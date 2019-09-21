@@ -369,7 +369,6 @@ export default class Befunge {
         this.oneStep();
         window.postMessage(loopMessage, "*");
       }
-
     }
   }
 
