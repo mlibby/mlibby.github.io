@@ -93,6 +93,7 @@ export default class Befunge {
 
   initCallbacks(callbacks) {
     this.cellChanged = callbacks.cellChanged || (() => { });
+    this.pcChanged = callbacks.pcChanged || (() => { });
     this.printed = callbacks.printed || (() => { });
   }
 
@@ -240,7 +241,7 @@ export default class Befunge {
   }
 
   bridge() {
-    this.moveProgramCounter();
+    this.moveProgramCounter(false);
   }
 
   add() {
@@ -331,7 +332,7 @@ export default class Befunge {
 
 
 
-  moveProgramCounter() {
+  moveProgramCounter(doCallback = true) {
     if (!this.halted && !this.breakpointed) {
       this.x = this.x + this.vector.x;
       this.y = this.y + this.vector.y;
@@ -348,6 +349,10 @@ export default class Befunge {
       }
       else if (this.y < 0) {
         this.y = this.height - 1;
+      }
+
+      if(doCallback) {
+        this.pcChanged(this.x, this.y);
       }
     }
   }
