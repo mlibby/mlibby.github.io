@@ -1,5 +1,7 @@
 ﻿"use strict";
 
+const loopMessage = "run-loop-message";
+
 const vector = {
   n: { x: 0, y: -1 },
   e: { x: 1, y: 0 },
@@ -19,6 +21,8 @@ export default class Befunge {
     this.initCallbacks(callbacks);
     this.createTorus();
     this.parseProgram(program);
+
+    window.addEventListener("message", (e) => { this.runLoop(e); }, true);
   }
 
   setDefaults() {
@@ -357,17 +361,22 @@ export default class Befunge {
     }
   }
 
-  runLoop() {
-    if (this.running) {
-      this.oneStep();
-      setTimeout(() => this.runLoop(), this.intervalMS);
+  runLoop(e) {
+    if (e.source == window && e.data === loopMessage) {
+      e.stopPropagation();
+
+      if (this.running) {
+        this.oneStep();
+        window.postMessage(loopMessage, "*");
+      }
+
     }
   }
 
   run() {
     if (!this.halted) {
       this.running = true;
-      this.runLoop();
+      window.postMessage(loopMessage, "*");
     }
   }
 
