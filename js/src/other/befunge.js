@@ -360,10 +360,6 @@ export default class Befunge {
   oneStep() {
     this.doCurrentCell();
     this.moveProgramCounter();
-    if (this.debug) {
-      this.activateCurrentCell();
-      this.showStack();
-    }
   }
 
   runLoop(e) {

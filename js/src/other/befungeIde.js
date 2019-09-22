@@ -53,7 +53,6 @@ export default
     // });
 
     this.$run.click(() => { this.befunge.run(); });
-
     this.$stop.click(() => { this.befunge.stop(); })
 
 
@@ -65,7 +64,7 @@ export default
     //   bf.clearConsole();
     // });
 
-    this.$debug.click(() => { this.befunge.debug(); });
+    this.$debug.click(() => { this.toggleDebug(); });
 
     // $("#befunge-slower").click(function () {
     //   bf.slower();
@@ -78,9 +77,24 @@ export default
 
   get callbacks() {
     return {
-      pcChanged: (x, y) => {this.pcChanged(x, y); },
+      pcChanged: (x, y) => { this.pcChanged(x, y); },
       cellChanged: (x, y, val) => { this.cellChanged(x, y, val); },
       printed: (val) => { this.printed(val); }
+    }
+  }
+
+  toggleDebug() {
+    this.befunge.toggleDebug();
+    if (this.befunge.debugging) {
+      this.$activeCell.removeClass("active-cell");
+      this.$debug.removeClass("btn-outline-info");
+      this.$debug.addClass("btn-info");
+      this.$debug.attr("aria-pressed", "true");
+    }
+    else {
+      this.$debug.removeClass("btn-info");
+      this.$debug.addClass("btn-outline-info");
+      this.$debug.attr("aria-pressed", "false");
     }
   }
 
@@ -114,9 +128,11 @@ export default
   }
 
   pcChanged(x, y) {
-    this.$activeCell.removeClass("active-cell");
-    this.$activeCell = this.$torus.find(this.getCellId(x, y));
-    this.$activeCell.addClass("active-cell");
+    if (this.befunge.debugging) {
+      this.$activeCell.removeClass("active-cell");
+      this.$activeCell = this.$torus.find(this.getCellId(x, y));
+      this.$activeCell.addClass("active-cell");
+    }
   }
 
   printed(val) {

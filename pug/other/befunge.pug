@@ -14,48 +14,48 @@ html
               select.stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                 option(selected value="0") Choose a stock program...
               .btn-group.mr-2
-                button.open-file.btn.btn-secondary(title="Load File")
+                button.open-file.btn.btn-outline-secondary(title="Load File")
                   span.icon-upload
                   span.sr-only Open File
                 input.file.mr-3(type="file" style="display:none;")
-                button.save-file.btn.btn-secondary(title="Save File")
+                button.save-file.btn.btn-outline-secondary(title="Save File")
                   span.icon-floppy-disk
                   span.sr-only Save File
             .input-group
               .btn-group.mr-2
-                button.reset.btn.btn-primary(title="Reset Befunge")
+                button.reset.btn.btn-outline-primary(title="Reset Befunge")
                   span.icon-refresh
                   span.sr-only Reset Befunge
-                button.run.btn.btn-primary(title="Run")
+                button.run.btn.btn-outline-primary(title="Run")
                   span.icon-play
                   span.sr-only Run
-                button.step.btn.btn-primary(title="Step")
+                button.step.btn.btn-outline-primary(title="Step")
                   span.icon-next
                   span.sr-only Step
-                button.stop.btn.btn-primary(title="Stop")
+                button.stop.btn.btn-outline-primary(title="Stop")
                   span.icon-stop
                   span.sr-only Stop
               .btn-group.mr-2
-                button.debug.btn.btn-info(title="Debug")
+                button.debug.btn.btn-outline-info(title="Debug" aria-pressed="false")
                   span.icon-bug
                   span.sr-only Debug
-                button.slower.btn.btn-info(title="Slower")
+                button.slower.btn.btn-outline-info(title="Slower")
                   span.icon-minus
                   span.sr-only Slower
-                button.faster.btn.btn-info(title="Faster")
+                button.faster.btn.btn-outline-info(title="Faster")
                   span.icon-plus
                   span.sr-only Faster
               .btn-group.mr-2
-                button.help.btn.btn-success(title="Help")
+                button.help.btn.btn-outline-success(title="Help")
                   span.icon-question
                   span.sr-only Help
-                button.info.btn.btn-success(title="Info")
+                button.info.btn.btn-outline-success(title="Info")
                   span.icon-info
                   span.sr-only Info
       .row.mb-3
         section.col-md-6
           h3.h-horizontal Console
-          button.clear-console.btn.btn-sm.btn-danger.by-header(title="Clear Console")
+          button.clear-console.btn.btn-sm.btn-outline-danger.by-header(title="Clear Console")
             span.icon-trash(aria-hidden="true")
             span.sr-only Clear Console
           textarea.console.form-control(readonly)
