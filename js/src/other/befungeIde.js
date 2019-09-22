@@ -140,7 +140,26 @@ export default
 
   stackChanged() {
     if (this.befunge.debugging) {
-      this.$stack.val(this.befunge.stack.map((s) => s.toString()).join(" "));
+      let stack;
+      const mode = this.$stackMode.val();
+      if (mode === "dec") {
+        stack = this.befunge.stack.map(s => s.toString());
+      }
+      else if(mode === "asc") {
+        stack = this.befunge.stack.map(s => {
+          if(32 < s && s < 127) {
+            return String.fromCharCode(s);
+          }
+          else {
+            return "#" + s.toString();
+          }
+        });
+      }
+      else { // hex mode
+        stack = this.befunge.stack.map(s => "$" + s.toString(16));
+      }
+
+      this.$stack.val(stack.join(" "));
     }
   }
 
