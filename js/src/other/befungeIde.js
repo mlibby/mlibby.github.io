@@ -79,6 +79,7 @@ export default
     return {
       pcChanged: (x, y) => { this.pcChanged(x, y); },
       cellChanged: (x, y, val) => { this.cellChanged(x, y, val); },
+      stackChanged: () => { this.stackChanged(); },
       printed: (val) => { this.printed(val); }
     }
   }
@@ -90,11 +91,13 @@ export default
       this.$debug.removeClass("btn-outline-info");
       this.$debug.addClass("btn-info");
       this.$debug.attr("aria-pressed", "true");
+      this.stackChanged();
     }
     else {
       this.$debug.removeClass("btn-info");
       this.$debug.addClass("btn-outline-info");
       this.$debug.attr("aria-pressed", "false");
+      this.$stack.val("");
     }
   }
 
@@ -132,6 +135,12 @@ export default
       this.$activeCell.removeClass("active-cell");
       this.$activeCell = this.$torus.find(this.getCellId(x, y));
       this.$activeCell.addClass("active-cell");
+    }
+  }
+
+  stackChanged() {
+    if (this.befunge.debugging) {
+      this.$stack.val(this.befunge.stack.map((s) => s.toString()).join(" "));
     }
   }
 

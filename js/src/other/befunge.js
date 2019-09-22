@@ -94,6 +94,7 @@ export default class Befunge {
   initCallbacks(callbacks) {
     this.cellChanged = callbacks.cellChanged || (() => { });
     this.pcChanged = callbacks.pcChanged || (() => { });
+    this.stackChanged = callbacks.stackChanged || (() => { });
     this.printed = callbacks.printed || (() => { });
   }
 
@@ -206,15 +207,19 @@ export default class Befunge {
 
   push(val) {
     this.stack.push(val);
+    this.stackChanged();
   }
 
   pop() {
+    let returnVal = 0;
     if (this.stack.length > 0) {
-      return this.stack.pop();
-    } else {
-      return 0;
+      returnVal = this.stack.pop();
     }
+
+    this.stackChanged();
+    return returnVal;
   }
+
 
   put() {
     const y = this.pop();
@@ -351,7 +356,7 @@ export default class Befunge {
         this.y = this.height - 1;
       }
 
-      if(doCallback) {
+      if (doCallback) {
         this.pcChanged(this.x, this.y);
       }
     }
@@ -370,7 +375,7 @@ export default class Befunge {
         this.oneStep();
 
         if (this.debugging) {
-          setTimeout(() => window.postMessage(loopMessage, "*"), 16);
+          setTimeout(() => window.postMessage(loopMessage, "*"), 4);
         }
         else {
           window.postMessage(loopMessage, "*");
