@@ -34,6 +34,7 @@ export default class Befunge {
     this.halted = false;
     this.vector = vector.e;
     this.debugging = false;
+    this.intervalMS = 16;
   }
 
   initOperations() {
@@ -334,9 +335,7 @@ export default class Befunge {
       this.doNonStringMode(currentVal);
     }
   }
-
-
-
+  
   moveProgramCounter(doCallback = true) {
     if (!this.halted && !this.breakpointed) {
       this.x = this.x + this.vector.x;
@@ -375,7 +374,7 @@ export default class Befunge {
         this.oneStep();
 
         if (this.debugging) {
-          setTimeout(() => window.postMessage(loopMessage, "*"), 4);
+          setTimeout(() => window.postMessage(loopMessage, "*"), this.intervalMS);
         }
         else {
           window.postMessage(loopMessage, "*");
@@ -407,11 +406,7 @@ export default class Befunge {
   reset() {
     this.stop();
     this.setDefaults();
-    //this.showStack();
-    //this.activateCurrentCell();
   }
-
-
 
   slower() {
     if (this.intervalMS < 2048) {
@@ -420,23 +415,12 @@ export default class Befunge {
   }
 
   faster() {
-    if (this.intervalMS > 1) {
+    if (this.intervalMS > 4) {
       this.newSpeed(this.intervalMS / 2);
     }
   }
 
   newSpeed(newIntervalMS) {
-    const hasInterval = this.interval !== null;
-    if (hasInterval) {
-      clearInterval(this.interval);
-    }
-
     this.intervalMS = newIntervalMS;
-
-    if (hasInterval) {
-      this.interval = setInterval(() => { this.oneStep(); }, this.intervalMS);
-    }
   }
-
-
 }

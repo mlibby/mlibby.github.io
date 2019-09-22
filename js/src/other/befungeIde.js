@@ -1,6 +1,4 @@
-import Befunge from "/js/src/other/befunge.js";
-
-"use strict";
+import Befunge from "/js/src/other/befunge.js"
 
 const stockBefunges = {
   "hello_world.bf":
@@ -24,25 +22,30 @@ const stockBefunges = {
     'v "buzz"0<>:.           ^' + "\n" +
     '         |!%5:           <' + "\n" +
     '>:#,_   $>              ^',
-};
+}
 
-export default
-  class BefungeIde {
+export default class BefungeIde {
 
   constructor($display) {
-    this.$stockFiles = $display.find(".stock-files");
-    this.$console = $display.find(".console");
-    this.$torus = $display.find(".torus");
-    this.$stackMode = $display.find(".stack-mode");
-    this.$stack = $display.find(".stack");
-    this.$run = $display.find(".run");
-    this.$stop = $display.find(".stop");
-    this.$debug = $display.find(".debug");
+    this.$stockFiles = $display.find(".stock-files")
+    this.$console = $display.find(".console")
+    this.$torus = $display.find(".torus")
+    this.$stackMode = $display.find(".stack-mode")
+    this.$stack = $display.find(".stack")
 
-    this.$activeCell = $display.find(".noCell");
+    this.$reset = $display.find(".reset")
+    this.$run = $display.find(".run")
+    this.$step = $display.find(".step")
+    this.$stop = $display.find(".stop")
+    this.$debug = $display.find(".debug")
+    this.$slower = $display.find(".slower")
+    this.$faster = $display.find(".faster")
 
-    this.drawTorus();
-    this.initStockBefungeMenu();
+    this.$clear = $display.find(".clear-console")
+    this.$activeCell = $display.find(".noCell")
+
+    this.drawTorus()
+    this.initStockBefungeMenu()
 
     // $("#open-file").click( () => {
     //   $("#befunge-file")[0].click();
@@ -52,178 +55,167 @@ export default
     //   bf.readFile();
     // });
 
-    this.$run.click(() => { this.befunge.run(); });
-    this.$stop.click(() => { this.befunge.stop(); })
+    this.$run.click(() => this.befunge.run())
+    this.$step.click(() => this.befunge.oneStep())
+    this.$stop.click(() => this.befunge.stop())
+    this.$reset.click(() => this.befunge.reset())
 
+    this.$debug.click(() => this.toggleDebug())
+    this.$slower.click(() => this.befunge.slower())
+    this.$faster.click(() => this.befunge.faster())
 
-    // $("#befunge-reset").click(function () {
-    //   bf.reset();
-    // });
-
-    // $("#befunge-clear").click(function () {
-    //   bf.clearConsole();
-    // });
-
-    this.$debug.click(() => { this.toggleDebug(); });
-
-    // $("#befunge-slower").click(function () {
-    //   bf.slower();
-    // });
-
-    // $("#befunge-faster").click(function () {
-    //   bf.faster();
-    // });
+    this.$clear.click(() => this.$console.val(""))
   }
 
   get callbacks() {
     return {
-      pcChanged: (x, y) => { this.pcChanged(x, y); },
-      cellChanged: (x, y, val) => { this.cellChanged(x, y, val); },
-      stackChanged: () => { this.stackChanged(); },
-      printed: (val) => { this.printed(val); }
+      pcChanged: (x, y) => this.pcChanged(x, y),
+      cellChanged: (x, y, val) => this.cellChanged(x, y, val),
+      stackChanged: () => this.stackChanged(),
+      printed: (val) => this.printed(val)
     }
   }
 
   toggleDebug() {
-    this.befunge.toggleDebug();
+    this.befunge.toggleDebug()
     if (this.befunge.debugging) {
-      this.$activeCell.removeClass("active-cell");
-      this.$debug.removeClass("btn-outline-info");
-      this.$debug.addClass("btn-info");
-      this.$debug.attr("aria-pressed", "true");
-      this.stackChanged();
+      this.$activeCell.removeClass("active-cell")
+      this.$debug.removeClass("btn-outline-info")
+      this.$debug.addClass("btn-info")
+      this.$debug.attr("aria-pressed", "true")
+      this.stackChanged()
     }
     else {
-      this.$debug.removeClass("btn-info");
-      this.$debug.addClass("btn-outline-info");
-      this.$debug.attr("aria-pressed", "false");
-      this.$stack.val("");
+      this.$debug.removeClass("btn-info")
+      this.$debug.addClass("btn-outline-info")
+      this.$debug.attr("aria-pressed", "false")
+      this.$stack.val("")
     }
   }
 
   drawTorus() {
-    this.$torus.children().remove();
+    this.$torus.children().remove()
     for (var y = 0; y < Befunge.height; y++) {
-      const $row = $("<div class='torus-row'></div>");
+      const $row = $("<div class='torus-row'></div>")
       for (var x = 0; x < Befunge.width; x++) {
-        const $input = $("<input class='" + this.getCellId(x, y).replace(".", "") + "' type='text' maxlength='1' value=' ' />");
-        $row.append($input);
+        const $input = $("<input class='" + this.getCellId(x, y).replace(".", "") + "' type='text' maxlength='1' value=' ' />")
+        $row.append($input)
       }
 
-      this.$torus.append($row);
+      this.$torus.append($row)
     }
   }
 
   initStockBefungeMenu() {
     for (var program in stockBefunges) {
-      this.$stockFiles.append($("<option value='" + program + "'>" + program + "</option>"));
+      this.$stockFiles.append($(`<option value='${program}'>${program}</option>`))
     }
 
     this.$stockFiles.change(() => {
-      this.fileName = this.$stockFiles.val();
-      this.befunge = new Befunge(stockBefunges[this.fileName], this.callbacks);
-    });
+      this.fileName = this.$stockFiles.val()
+      this.befunge = new Befunge(stockBefunges[this.fileName], this.callbacks)
+    })
   }
 
   cellChanged(x, y, val) {
-    const cell = this.$torus.find(this.getCellId(x, y));
-    cell.val(String.fromCharCode(val));
+    const cell = this.$torus.find(this.getCellId(x, y))
+    cell.val(String.fromCharCode(val))
   }
 
   pcChanged(x, y) {
     if (this.befunge.debugging) {
-      this.$activeCell.removeClass("active-cell");
-      this.$activeCell = this.$torus.find(this.getCellId(x, y));
-      this.$activeCell.addClass("active-cell");
+      this.$activeCell.removeClass("active-cell")
+      this.$activeCell = this.$torus.find(this.getCellId(x, y))
+      this.$activeCell.addClass("active-cell")
     }
   }
 
   stackChanged() {
     if (this.befunge.debugging) {
-      let stack;
-      const mode = this.$stackMode.val();
+      let stack
+      const mode = this.$stackMode.val()
       if (mode === "dec") {
-        stack = this.befunge.stack.map(s => s.toString());
+        stack = this.befunge.stack.map(s => s.toString())
       }
-      else if(mode === "asc") {
+      else if (mode === "asc") {
         stack = this.befunge.stack.map(s => {
-          if(32 < s && s < 127) {
-            return String.fromCharCode(s);
+          if (32 < s && s < 127) {
+            return String.fromCharCode(s)
           }
           else {
-            return "#" + s.toString();
+            return `#${s}`
           }
-        });
+        })
       }
       else { // hex mode
-        stack = this.befunge.stack.map(s => "$" + s.toString(16));
+        stack = this.befunge.stack.map(s => "$" + s.toString(16))
       }
 
-      this.$stack.val(stack.join(" "));
+      this.$stack.val(stack.join(" "))
     }
   }
 
   printed(val) {
-    this.$console.val(this.$console.val() + val);
-    this.$console.scrollTop(this.$console[0].scrollHeight - this.$console.height());
+    this.$console.val(this.$console.val() + val)
+    this.$console.scrollTop(this.$console[0].scrollHeight - this.$console.height())
   }
 
   clearConsole() {
-    this.$console.val("");
+    this.$console.val("")
   }
 
   readFile() {
-    const file = $("#befunge-file")[0].files[0];
+    const file = $("#befunge-file")[0].files[0]
     if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (e) => { this.loadBefunge(e); };
-      fileReader.readAsText(file);
-      $("#file-name").val(file.name);
+      const fileReader = new FileReader()
+      fileReader.onload = (e) => this.loadBefunge(e)
+      fileReader.readAsText(file)
+      $("#file-name").val(file.name)
     }
     else {
-      alert("Failed to load file");
+      alert("Failed to load file")
     }
   }
 
   showStack() {
-    const stackMode = this.$stackMode.val();
-    var stackText = "";
+    const stackMode = this.$stackMode.val()
+    var stackText = ""
     for (var sdx = 0; sdx < this.stack.length; sdx++) {
-      var charCode = this.stack[sdx];
-      var addChar;
+      var charCode = this.stack[sdx]
+      var addChar
       if (stackMode === "asc") {
         if (32 <= charCode && charCode <= 126) {
-          addChar = String.fromCharCode(charCode);
+          addChar = String.fromCharCode(charCode)
         }
         else {
-          addChar = ("00" + charCode.toString(10)).substr(-3, 3);
+          addChar = ("00" + charCode.toString(10)).substr(-3, 3)
         }
       }
       else if (stackMode === "dec") {
-        addChar = charCode;
+        addChar = charCode
       }
       else { ///stackmode === "hex"
-        addChar = ("0" + charCode.toString(16)).substr(-2, 2);
+        addChar = ("0" + charCode.toString(16)).substr(-2, 2)
       }
 
-      stackText = stackText + addChar + " ";
+      stackText = stackText + addChar + " "
     }
 
     this.$stack.val(stackText);
   }
 
   activateCurrentCell() {
-    $(".torus-row").children().removeClass("active-cell");
-    this.getCurrentCell().addClass("active-cell");
+    $(".torus-row").children().removeClass("active-cell")
+    this.getCurrentCell().addClass("active-cell")
   }
 
 
   getCellId(x, y) {
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
-      return "oob";
+      return "oob"
     }
     else {
-      return ".cell-" + x + "-" + y;
+      return ".cell-" + x + "-" + y
     }
   }
 
