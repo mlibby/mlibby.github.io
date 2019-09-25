@@ -2,26 +2,37 @@ import Befunge from "/js/src/other/befunge.js"
 
 const stockBefunges = {
   "hello_world.bf":
-    "64+\"!dlroW ,olleH\">:#,_@",
-  "99_bottles.bf":
-    '"d"4vv"take one down, pass it around"<>' + "\n" +
-    ':-2*< v "e wall"_v#\\0`1%4./4::_0#%>#4^#' + "\n" +
-    '\\4>/|>:#,_$:55+:,\\4%3-!*0\\>:>#,_$$:1+\\1' + "\n" +
-    '>>>#@^>$"ht no "\\>\\"reeb fo selttob">>>' + "\n",
-  "pascals_triangle.bf":
-    '0" :swor fo rebmuN">:#,_&> 55+, v' + "\n" +
-    'v01*p00-1:g00.:<1p011p00:\\-1_v#:<' + "\n" +
-    '>g:1+10p/48*,:#^_$ 55+,1+\\: ^>$$@' + "\n",
-  "fizzbuzz.bf":
-    '55*4*v    _   v' + "\n" +
-    'v   <>:1-:^' + "\n" +
-    '    |:<$      <    ,*48 <' + "\n" +
-    '    @>0"zzif">:#,_$      v' + "\n" +
-    '>:3%!|    >0"zzub">:#,_$^' + "\n" +
-    '     >:5%!|' + "\n" +
-    'v "buzz"0<>:.           ^' + "\n" +
-    '         |!%5:           <' + "\n" +
-    '>:#,_   $>              ^',
+
+    `64+"!dlroW ,olleH">:#,_@`,
+
+  "99_bottles.bf": `
+
+"d"4vv"take one down, pass it around"<>
+:-2*< v "e wall"_v#\\0\`1%4./4::_0#%>#4^#
+\\4>/|>:#,_$:55+:,\\4%3-!*0\\>:>#,_$$:1+\\1
+>>>#@^>$"ht no "\\>\\"reeb fo selttob">>>
+
+`,
+  "pascals_triangle.bf": `
+
+0" :swor fo rebmuN">:#,_&> 55+, v
+v01*p00-1:g00.:<1p011p00:\\-1_v#:<
+>g:1+10p/48*,:#^_$ 55+,1+\\: ^>$$@
+
+`,
+  "fizzbuzz.bf": `
+
+  55*4*v    _   v
+v   <>:1-:^
+    |:<$      <    ,*48 <
+    @>0"zzif">:#,_$      v
+>:3%!|    >0"zzub">:#,_$^
+     >:5%!|
+v "buzz"0<>:.           ^
+         |!%5:           <
+>:#,_   $>              ^
+
+`,
 }
 
 export default class BefungeIde {
@@ -72,7 +83,8 @@ export default class BefungeIde {
       pcChanged: (x, y) => this.pcChanged(x, y),
       cellChanged: (x, y, val) => this.cellChanged(x, y, val),
       stackChanged: () => this.stackChanged(),
-      printed: (val) => this.printed(val)
+      printed: (val) => this.printed(val),
+      torusCleared: () => this.drawTorus(),
     }
   }
 
@@ -113,7 +125,7 @@ export default class BefungeIde {
 
     this.$stockFiles.change(() => {
       this.fileName = this.$stockFiles.val()
-      this.befunge = new Befunge(stockBefunges[this.fileName], this.callbacks)
+      this.befunge = new Befunge(stockBefunges[this.fileName].trim(), this.callbacks)
     })
   }
 

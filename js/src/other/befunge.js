@@ -95,6 +95,7 @@ export default class Befunge {
     this.pcChanged = callbacks.pcChanged || (() => { })
     this.stackChanged = callbacks.stackChanged || (() => { })
     this.printed = callbacks.printed || (() => { })
+    this.torusCleared = callbacks.torusCleared || (() => { })
   }
 
   createTorus() {
@@ -105,6 +106,8 @@ export default class Befunge {
     for (var i = 0; i < this.height * this.width; i++) {
       this.torus[i] = 32 // ASCII space " " character
     }
+
+    this.torusCleared();
   }
 
   parseProgram(program) {
