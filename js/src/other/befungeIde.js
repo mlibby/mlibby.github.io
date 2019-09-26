@@ -133,7 +133,7 @@ export default class BefungeIde {
 
   cellChanged(x, y, val) {
     const cell = this.$torus.find(this.getCellId(x, y))
-    if (32 < val && val < 127) {
+    if (32 <= val && val < 127) {
       cell.val(String.fromCharCode(val))
     }
     else {
