@@ -45,7 +45,7 @@ export default class Befunge {
       '^': () => this.vector = vector.n,
       '<': () => this.vector = vector.w,
       '>': () => this.vector = vector.e,
-      '?': () => this.vector = this.randomVector(),
+      '?': () => this.vector = this.getRandomVector(),
       '_': () => this.conditionalVector(vector.e, vector.w),
       '|': () => this.conditionalVector(vector.s, vector.n),
       '#': () => this.bridge(),

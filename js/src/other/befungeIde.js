@@ -39,10 +39,9 @@ export default class BefungeIde {
 
   constructor($display) {
     this.$stockFiles = $display.find(".stock-files")
-    this.$console = $display.find(".console")
-    this.$torus = $display.find(".torus")
-    this.$stackMode = $display.find(".stack-mode")
-    this.$stack = $display.find(".stack")
+    this.$open = $display.find(".open-file")
+    this.$file = $display.find(".file")
+    this.$save = $display.find(".save-file")
 
     this.$reset = $display.find(".reset")
     this.$run = $display.find(".run")
@@ -53,18 +52,17 @@ export default class BefungeIde {
     this.$faster = $display.find(".faster")
 
     this.$clear = $display.find(".clear-console")
+    this.$console = $display.find(".console")
+    this.$torus = $display.find(".torus")
+    this.$stackMode = $display.find(".stack-mode")
+    this.$stack = $display.find(".stack")
     this.$activeCell = $display.find(".noCell")
 
     this.drawTorus()
     this.initStockBefungeMenu()
 
-    // $("#open-file").click( () => {
-    //   $("#befunge-file")[0].click();
-    // });
-
-    // $("#befunge-file").change(function () {
-    //   bf.readFile();
-    // });
+    this.$open.click(() => this.$file[0].click())
+    this.$file.change(() => this.readFile())
 
     this.$run.click(() => this.befunge.run())
     this.$step.click(() => this.befunge.oneStep())
@@ -125,13 +123,23 @@ export default class BefungeIde {
 
     this.$stockFiles.change(() => {
       this.fileName = this.$stockFiles.val()
-      this.befunge = new Befunge(stockBefunges[this.fileName].trim(), this.callbacks)
+      this.loadBefunge(stockBefunges[this.fileName].trim())
     })
+  }
+
+  loadBefunge(program) {
+    this.befunge = new Befunge(program, this.callbacks);
   }
 
   cellChanged(x, y, val) {
     const cell = this.$torus.find(this.getCellId(x, y))
-    cell.val(String.fromCharCode(val))
+    if (32 < val && val < 127) {
+      cell.val(String.fromCharCode(val))
+    }
+    else {
+      cell.val("𝒶")
+      cell.attr("title", val)
+    }
   }
 
   pcChanged(x, y) {
@@ -177,50 +185,24 @@ export default class BefungeIde {
   }
 
   readFile() {
-    const file = $("#befunge-file")[0].files[0]
+    const file = this.$file[0].files[0]
     if (file) {
       const fileReader = new FileReader()
-      fileReader.onload = (e) => this.loadBefunge(e)
+      fileReader.onload = (e) => {
+        this.loadBefunge(e.target.result)
+      }
       fileReader.readAsText(file)
-      $("#file-name").val(file.name)
+      this.$file.val(file.name)
     }
     else {
       alert("Failed to load file")
     }
   }
 
-  showStack() {
-    const stackMode = this.$stackMode.val()
-    var stackText = ""
-    for (var sdx = 0; sdx < this.stack.length; sdx++) {
-      var charCode = this.stack[sdx]
-      var addChar
-      if (stackMode === "asc") {
-        if (32 <= charCode && charCode <= 126) {
-          addChar = String.fromCharCode(charCode)
-        }
-        else {
-          addChar = ("00" + charCode.toString(10)).substr(-3, 3)
-        }
-      }
-      else if (stackMode === "dec") {
-        addChar = charCode
-      }
-      else { ///stackmode === "hex"
-        addChar = ("0" + charCode.toString(16)).substr(-2, 2)
-      }
-
-      stackText = stackText + addChar + " "
-    }
-
-    this.$stack.val(stackText);
-  }
-
   activateCurrentCell() {
     $(".torus-row").children().removeClass("active-cell")
     this.getCurrentCell().addClass("active-cell")
   }
-
 
   getCellId(x, y) {
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
@@ -230,5 +212,4 @@ export default class BefungeIde {
       return ".cell-" + x + "-" + y
     }
   }
-
 }
