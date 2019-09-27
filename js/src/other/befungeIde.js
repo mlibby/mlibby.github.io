@@ -82,6 +82,7 @@ export default class BefungeIde {
       cellChanged: (x, y, val) => this.cellChanged(x, y, val),
       stackChanged: () => this.stackChanged(),
       printed: (val) => this.printed(val),
+      inputRequested: (isNumber) => this.inputRequested(isNumber),
       torusCleared: () => this.drawTorus(),
     }
   }
@@ -212,4 +213,41 @@ export default class BefungeIde {
       return ".cell-" + x + "-" + y
     }
   }
+
+  inputRequested(isNumber) {
+    this.inputNumber = ""
+    this.$console.focus()
+    this.$console.on('keypress', (e) => this.readInput(e, isNumber))
+  }
+
+  readInput(e, isNumber) {
+    const val = String.fromCharCode(e.which || e.keyCode)
+    if (isNumber) {
+      this.readNumber(val)
+    }
+    else {
+      this.readChar(val)
+    }
+  }
+
+  readChar(val) {
+    this.printed(val)
+    this.befunge.push(val)
+    this.$console.off('keypress')
+    this.befunge.run()
+  }
+
+  readNumber(val) {
+    if (val === " ") {
+      this.printed(val)
+      this.befunge.push(Number(this.inputNumber))
+      this.$console.off('keypress')
+      this.befunge.run()
+    }
+    else if (val === "-" || (val >= "0" && val <= "9")) {
+      this.printed(val);
+      this.inputNumber = this.inputNumber.concat(val);
+    }
+  }
 }
+

@@ -96,6 +96,7 @@ export default class Befunge {
     this.stackChanged = callbacks.stackChanged || (() => { })
     this.printed = callbacks.printed || (() => { })
     this.torusCleared = callbacks.torusCleared || (() => { })
+    this.inputRequested = callbacks.inputRequested || (() => { })
   }
 
   createTorus() {
@@ -145,42 +146,13 @@ export default class Befunge {
   }
 
   inputNumber() {
-    this.numberString = ""
     this.stop()
-    this.$console.addClass("befunge-get-number")
-    this.$console.focus()
-    this.$console.on('keypress', (e) => this.readNumber(e))
-  }
-
-  readNumber(e) {
-    const val = String.fromCharCode(e.which || e.keyCode)
-    if (val === " ") {
-      this.$console.val(this.$console.val() + val)
-      this.push(Number(this.numberString))
-      this.$console.off('keypress')
-      this.$console.removeClass("befunge-get-number")
-      this.run()
-    }
-    else {
-      if (val === "-" || (val >= "0" && val <= "9")) {
-        this.numberString += val;
-        this.$console.val(this.$console.val() + val)
-      }
-    }
+    this.inputRequested(true)
   }
 
   inputChar() {
     this.stop()
-    this.$console.addClass("befunge-get-char")
-    this.$console.focus()
-    this.$console.on('keypress', (e) => this.readChar(e))
-  }
-
-  readChar(e) {
-    this.push(String.fromCharCode(e.which || e.keyCode))
-    this.$console.off('keypress')
-    this.$console.removeClass("befunge-get-char")
-    this.run()
+    this.inputRequested(false)
   }
 
   outputNumber() {
