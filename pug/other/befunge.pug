@@ -8,7 +8,7 @@ html
     main.container.befunge
       .row
         section.col.mb-3
-          h2 Befunge IDE
+          h2 Befunge IDE (beta)
           .form-inline
             .input-group
               select.stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
@@ -18,7 +18,7 @@ html
                   span.icon-upload
                   span.sr-only Open File
                 input.file.mr-3(type="file" style="display:none;")
-                button.save-file.btn.btn-outline-secondary(title="Save File")
+                button.save-file.btn.btn-outline-secondary(title="Save File" disabled)
                   span.icon-floppy-disk
                   span.sr-only Save File
             .input-group
@@ -36,7 +36,7 @@ html
                   span.icon-stop
                   span.sr-only Stop
               .btn-group.mr-2
-                button.debug.btn.btn-outline-info(title="Debug" aria-pressed="false")
+                button.debug.btn.btn-outline-info(title="Toggle Debug Mode" aria-pressed="false")
                   span.icon-bug
                   span.sr-only Debug
                 button.slower.btn.btn-outline-info(title="Slower")
@@ -46,10 +46,10 @@ html
                   span.icon-plus
                   span.sr-only Faster
               .btn-group.mr-2
-                button.help.btn.btn-outline-success(title="Help")
+                button.help.btn.btn-outline-success(title="Help" disabled)
                   span.icon-question
                   span.sr-only Help
-                button.info.btn.btn-outline-success(title="Info")
+                button.info.btn.btn-outline-success(title="Info" disabled)
                   span.icon-info
                   span.sr-only Info
       .row.mb-3
