@@ -8,66 +8,68 @@ html
     main.container.befunge
       .row
         section.col.mb-3
-          h2 Befunge IDE
+          h2 Befunge IDE (beta)
           .form-inline
             .input-group
-              select#befunge-stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+              select.stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                 option(selected value="0") Choose a stock program...
               .btn-group.mr-2
-                button.btn.btn-secondary(title="Load File")
+                button.open-file.btn.btn-outline-secondary(title="Load File")
                   span.icon-upload
                   span.sr-only Open File
-                input#befunge-file.mr-3(type="file" style="display: none;")
-                // input#file-name.form-control(type="text")
-                button#save-file.btn.btn-secondary(title="Save File")
+                input.file.mr-3(type="file" style="display:none;")
+                button.save-file.btn.btn-outline-secondary(title="Save File" disabled)
                   span.icon-floppy-disk
                   span.sr-only Save File
             .input-group
               .btn-group.mr-2
-                button#befunge-reset.btn.btn-primary(title="Reset Befunge")
+                button.reset.btn.btn-outline-primary(title="Reset Befunge")
                   span.icon-refresh
                   span.sr-only Reset Befunge
-                button#befunge-run.btn.btn-primary(title="Run")
+                button.run.btn.btn-outline-primary(title="Run")
                   span.icon-play
                   span.sr-only Run
-                button#befunge-step.btn.btn-primary(title="Step")
+                button.step.btn.btn-outline-primary(title="Step")
                   span.icon-next
                   span.sr-only Step
-                button#befunge-stop.btn.btn-primary(title="Stop")
+                button.stop.btn.btn-outline-primary(title="Stop")
                   span.icon-stop
                   span.sr-only Stop
               .btn-group.mr-2
-                button#befunge-slower.btn.btn-info(title="Slower")
+                button.debug.btn.btn-outline-info(title="Toggle Debug Mode" aria-pressed="false")
+                  span.icon-bug
+                  span.sr-only Debug
+                button.slower.btn.btn-outline-info(title="Slower")
                   span.icon-minus
                   span.sr-only Slower
-                button#befunge-faster.btn.btn-info(title="Faster")
+                button.faster.btn.btn-outline-info(title="Faster")
                   span.icon-plus
                   span.sr-only Faster
               .btn-group.mr-2
-                button#befunge-help.btn.btn-success(title="Help")
+                button.help.btn.btn-outline-success(title="Help" disabled)
                   span.icon-question
                   span.sr-only Help
-                button#befunge-info.btn.btn-success(title="Info")
+                button.info.btn.btn-outline-success(title="Info" disabled)
                   span.icon-info
                   span.sr-only Info
       .row.mb-3
-        section.col-md-6
+        section.col-md-7
           h3.h-horizontal Console
-          button#befunge-clear.btn.btn-sm.btn-danger.by-header(title="Clear Console")
+          button.clear-console.btn.btn-sm.btn-outline-danger.by-header(title="Clear Console")
             span.icon-trash(aria-hidden="true")
             span.sr-only Clear Console
-          textarea#befunge-console.form-control(readonly)
+          textarea.console.form-control(readonly)
         .d-block.d-md-none &nbsp;
-        section.col-md-6
+        section.col-md-5
           h3.h-horizontal Stack
-          select#befunge-stack-mode.form-control.form-control-sm.by-header
+          select.stack-mode.form-control.form-control-sm.by-header
             option(value="asc" selected) ascii mode
             option(value="dec") decimal mode
             option(value="hex") hex mode
-          textarea#befunge-stack.form-control(readonly)
+          textarea.stack.form-control(readonly)
       .row
         section.col
           h3 Torus
-          #torus-wrapper.torus-wrapper
-            #torus
+          .torus-wrapper
+            .torus
     script(src="/js/other/befunge.js" type="module")
