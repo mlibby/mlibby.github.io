@@ -51,6 +51,12 @@ export default class BefungeIde {
     this.$slower = $display.find(".slower")
     this.$faster = $display.find(".faster")
 
+    this.$helpButton = $display.find("button.help")
+    this.$helpSection = $display.find("section.help")
+    this.$closeHelp = this.$helpSection.find("button.close-help")
+
+    this.$info = $display.find("button.info")
+
     this.$clear = $display.find(".clear-console")
     this.$console = $display.find(".console")
     this.$torus = $display.find(".torus")
@@ -72,6 +78,11 @@ export default class BefungeIde {
     this.$debug.click(() => this.toggleDebug())
     this.$slower.click(() => this.befunge.slower())
     this.$faster.click(() => this.befunge.faster())
+
+    this.$helpButton.click(() => this.$helpSection.show(100))
+    this.$closeHelp.click(() => this.$helpSection.hide(100))
+    
+    this.$info.click(() => $("section.info").show(100))
 
     this.$clear.click(() => this.$console.val(""))
   }

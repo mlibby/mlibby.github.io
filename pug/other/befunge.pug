@@ -7,9 +7,25 @@ html
     include ../_includes/nav.pug
     main.container.befunge
       .row
-        section.col.mb-3
+        .col.mb-3
           h2 Befunge IDE (beta)
-          .form-inline
+          section.help(style="display:none;")
+            hr
+            h3 HELP!
+              button.btn.btn-sm.btn-danger.close-help.ml-3
+               span.icon-close
+               span.sr-only Close Help
+            h4 What is a Befunge?
+            p Befunge (technically "Befunge-93") is a programming language where the program is written in a grid of cells. 
+              | Each cell contains a single instruction. As the program is run (starting from the top-left cell) the program
+              | counter moves to an adjacent cell based on which direction it is already moving. The initial direction is to the right.
+              | If the program counter moves past the edge of the grid, it wraps around to the other side. The direction of movement
+              | can be changed using symbols in the program: <code>&gt;</code>, <code>&lt;</code>, <code>^</code>, <code>v</code>, and <code>?</code>
+            p While the program is running values may be pushed onto and popped off the stack. The stack is simply a list of numbers that is
+              | kept in memory by Befunge as it runs the program. 
+            hr
+          section.info(style="display:none;")
+          section.form-inline
             .input-group
               select.stock-files.form-control.mr-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                 option(selected value="0") Choose a stock program...
@@ -46,10 +62,10 @@ html
                   span.icon-plus
                   span.sr-only Faster
               .btn-group.mr-2
-                button.help.btn.btn-outline-success(title="Help" disabled)
+                button.help.btn.btn-outline-success(title="Help")
                   span.icon-question
                   span.sr-only Help
-                button.info.btn.btn-outline-success(title="Info" disabled)
+                button.info.btn.btn-outline-success(title="Info")
                   span.icon-info
                   span.sr-only Info
       .row.mb-3

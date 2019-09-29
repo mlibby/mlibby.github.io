@@ -193,7 +193,6 @@ export default class Befunge {
     return returnVal
   }
 
-
   put() {
     const y = this.pop()
     const x = this.pop()
