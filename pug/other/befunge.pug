@@ -12,15 +12,16 @@ html
           section.help(style="display:none;")
             hr
             h3 HELP!
-              button.btn.btn-sm.btn-danger.close-help.ml-3
-               span.icon-close
+              button.btn.btn-sm.btn-danger.close-help.float-right
+               span.icon-cross
                span.sr-only Close Help
-            h4 What is a Befunge?
-            p Befunge (technically "Befunge-93") is a programming language where the program is written in a grid of cells. 
-              | Each cell contains a single instruction. As the program is run (starting from the top-left cell) the program
-              | counter moves to an adjacent cell based on which direction it is already moving. The initial direction is to the right.
-              | If the program counter moves past the edge of the grid, it wraps around to the other side. The direction of movement
-              | can be changed using symbols in the program: <code>&gt;</code>, <code>&lt;</code>, <code>^</code>, <code>v</code>, and <code>?</code>
+            h4 What is Befunge?
+            p Befunge is an interpreted, two-dimensional, stack-based programming language originally created in 1993 by Chris Pressey.
+            p In Befunge the program is contained in a grid of cells. 
+              | Each cell contains a single command, expressed by a single character. 
+              | As the program counter moves to an adjacent cell based the direction it is already moving.
+              | Commands that change directions: <code>&gt;</code>, <code>&lt;</code>, <code>^</code>, <code>v</code>, and <code>?</code>
+              | When the program counter reaches the sides, top, or bottom, it wraps around. 
             p While the program is running values may be pushed onto and popped off the stack. The stack is simply a list of numbers that is
               | kept in memory by Befunge as it runs the program. 
             hr
