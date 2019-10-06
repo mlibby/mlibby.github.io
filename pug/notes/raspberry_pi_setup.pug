@@ -1,0 +1,60 @@
+-var title="Raspberry Pi Setup"
+
+doctype html
+html
+  include ../_includes/head.pug
+
+  body
+    include ../_includes/nav.pug
+
+    main.container
+      .row
+        .col
+          section.notes
+            div.clearfix
+              h2.float-left Raspberry Pi Setup 
+              p.float-right last updated: 2019-10-05
+            p This covers setting up a Raspberry Pi 3A+ to connect to WiFi, compile Crystal language, and participate in Windows network
+            h3 Install Raspbian
+            ol 
+              li Get a Raspbian image from the #[a(href="https://www.raspberrypi.org/downloads/raspbian/") Raspbian image site] 
+                | &mdash; just use the desktop + recommended image, your MicroSD card is at least 32GB right?
+              li Put the image on an SD card using #[a(href="https://www.balena.io/etcher") Balena Etcher].
+            h3 Boot Raspberry Pi
+            ol(start="3")
+              li Put the MicroSD card into the RPi and boot it up. You should get a desktop and a "Welcome..." window. Click "Next".
+              li Set your country, language, and time zone, then click "Next".
+              li <em>Change your password</em>.
+              li Set up your screen. "Next".
+              li Set up your WiFi. "Next".
+              li Update the software. "Next".
+              li Restart.
+            h3 Configure Raspberry Pi Host Name and enable SSH
+            ol(start="10")
+              li When the Pi has finished rebooting, select "Preferences &gt; Raspberry Pi Configuration" from the Raspberry menu.
+              li On the system tab, change the hostname.
+              li On the interface tab, you probably want to enable SSH.
+              li Click "OK" to save your configuration changes and then reboot the Pi (again).
+            h3 Install Windows Networking
+            p Wow. After changing the hostname, I'm able to SSH into the machine from a DOS prompt using my configured hostname. 
+              | If you don't have SSH, it is part of the #[a(href="https://git-scm.com/download/win") Git for Windows] package. 
+              | I'm not able to SSH in from my WSL Ubuntu terminal at this point, though, the hostname is unknown (although using IP address works).
+              | If step 15 below works for you, you may not really need any additional networking. 
+            ol(start="14")
+              li Put the following Python script somewhere useful (like #[code /home/pi/python/server.py]) and run it.
+                pre.code
+                  code.
+                    import SimpleHTTPServer
+                    import SocketServer
+
+                    PORT = 8000
+
+                    Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+
+                    httpd = SocketServer.TCPServer(("", PORT), Handler)
+
+                    print "serving at port", PORT
+                    httpd.serve_forever()
+              li Go to <code>http://[hostname]:8000</code> in your favorite web browser. If you're as lucky as I've been this time 
+                | around, you'll get a directory listing for <code>/</code> containing a link to your #[code server.py] file.
+                | If you click the link you should see the actual text of your Python script.

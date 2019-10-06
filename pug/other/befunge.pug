@@ -17,13 +17,13 @@ html
                span.sr-only Close Help
             h4 What is Befunge?
             p Befunge is an interpreted, two-dimensional, stack-based programming language originally created in 1993 by Chris Pressey.
-            p In Befunge the program is contained in a grid of cells. 
-              | Each cell contains a single command, expressed by a single character. 
-              | As the program counter moves to an adjacent cell based the direction it is already moving.
-              | Commands that change directions: <code>&gt;</code>, <code>&lt;</code>, <code>^</code>, <code>v</code>, and <code>?</code>
-              | When the program counter reaches the sides, top, or bottom, it wraps around. 
-            p While the program is running values may be pushed onto and popped off the stack. The stack is simply a list of numbers that is
-              | kept in memory by Befunge as it runs the program. 
+            p Rather than try to explain Befunge in depth, I refer you to the official language documentation at 
+              a(href="https://github.com/catseye/Befunge-93/blob/master/doc/Befunge-93.markdown") github.com/catseye/Befunge-93
+            p Quick summary: the program is in a grid, each cell contains an instruction, the program can execute left-to-right,
+              | right-to-left, top-to-bottom, and bottom-to-top. As the program executes it wraps around the edges. There is a 
+              | stack that the program can push and pop values off of. The program can also read and modify any cell in the grid.
+            p My suggestion is to pick a stock program, turn on debug mode (click the bug button), and watch a program in action.
+              | If it's going too fast, click the <code>-</code> button to slow it down.
             hr
           section.info(style="display:none;")
           section.form-inline

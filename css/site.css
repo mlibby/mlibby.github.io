@@ -234,6 +234,23 @@ main a:hover {
     padding-bottom: 0;
 }
 
+.notes code {
+    font-weight: bold;
+}
+
+.notes .code {
+    font-weight: normal;
+    margin: 1rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: black;
+    color: lawngreen;
+}
+
+.notes li {
+    margin-bottom: 0.5rem;
+}
+
 .smallish {
     max-width: 90%;
     margin: 5%;
