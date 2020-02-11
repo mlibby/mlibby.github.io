@@ -6,6 +6,7 @@
   "dependencies": {
     "ava": "^2.2.0",
     "bootstrap": "^4.3.1",
+    "eleventy": "^1.0.6",
     "esm": "^3.2.25",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0"
