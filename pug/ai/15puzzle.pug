@@ -8,9 +8,10 @@ html
     main.container.ai
       .row
         .col-sm-12
-          h2 AI: Solve the 8 Puzzle
+          h2 AI: Solving the 15 Puzzle
           p
-            | The 8 Puzzle consists of a 3x3 board with eight numbered tiles and an empty spot. A tile adjacent to the empty
+            | The 15 Puzzle is a slightly larger version of the #[a(href="/ai/puzzle") 8 Puzzle] that
+            | consists of a 4x4 board with fifteen numbered tiles and an empty spot. A tile adjacent to the empty
             | spot can slide into that spot. The goal of the puzzle is to order all of the tiles numerically, leaving the
             | empty spot in the lower-right corner.
       .row
@@ -19,25 +20,40 @@ html
           #puzzle
             .puzzle-row
               #spot-0.puzzle-spot
-                #number-0.tile 1
+                #number-0.tile 0
               #spot-1.puzzle-spot
-                #number-1.tile 2
+                #number-1.tile 1
               #spot-2.puzzle-spot
-                #number-2.tile 3
-            .puzzle-row
+                #number-2.tile 2
               #spot-3.puzzle-spot
-                #number-3.tile 4
-              #spot-4.puzzle-spot
-                #number-4.tile 5
-              #spot-5.puzzle-spot
-                #number-5.tile 6
+                #number-3.tile 3
             .puzzle-row
+              #spot-4.puzzle-spot
+                #number-4.tile 4
+              #spot-5.puzzle-spot
+                #number-5.tile 5
               #spot-6.puzzle-spot
-                #number-6.tile 7
+                #number-6.tile 6
               #spot-7.puzzle-spot
-                #number-7.tile 8
+                #number-7.tile 7
+            .puzzle-row
               #spot-8.puzzle-spot
-                #number-8.tile.empty &nbsp;
+                #number-8.tile 8
+              #spot-9.puzzle-spot
+                #number-9.tile 9
+              #spot-10.puzzle-spot
+                #number-a.tile A
+              #spot-11.puzzle-spot
+                #number-b.tile B
+            .puzzle-row
+              #spot-12.puzzle-spot
+                #number-c.tile C
+              #spot-13.puzzle-spot
+                #number-d.tile D
+              #spot-14.puzzle-spot
+                #number-e.tile E
+              #spot-15.puzzle-spot
+                #number-f.tile.empty &nbsp;
           button#shuffle-tiles.btn.btn-primary Shuffle Tiles
           p Note: not all tile arrangments are guaranteed to be solvable.
           form.form.form-horizontal
@@ -72,4 +88,4 @@ html
           form.form
             .form-group
               button#watch-solution.btn.btn-primary(disabled='disabled') Watch Solution
-    script(src="/js/ai/puzzle.js" type="module")
+    script(src="/js/ai/15puzzle.js" type="module")

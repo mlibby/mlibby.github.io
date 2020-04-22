@@ -1,0 +1,34 @@
+-var title="AI Puzzle Fun"
+
+doctype html
+html
+  include ../_includes/head.pug
+  body
+    include ../_includes/nav.pug
+    main.container.ai
+      .row
+        .col-sm-12
+          h2 AI: About the 8 or 15 Puzzle
+          p
+            | The 8 Puzzle consists of a 3x3 board with eight numbered tiles and an empty spot. A tile adjacent to the empty
+            | spot can slide into that spot. The goal of the puzzle is to order all of the tiles numerically, leaving the
+            | empty spot in the lower-right corner. The 15 Puzzle is the same puzzle only with 15 tiles on a 4x4 board.
+
+      .row
+        .col-sm-12
+          h2 Facts about the 8 Puzzle
+          form.form.form-horizontal
+            .form-group
+              p 
+                | One thing we might want to know is just how many possible starting positions there are
+                | for the puzzle. That is, we can scramble the tiles around randomly and there would be 
+                | 9x8x7x6x5x4x3x2x1 possible permutations, but many (most?) of these will not result in
+                | puzzles that can be solved. In a physical implementation of this game, the tiles must
+                | slid around one by one to scramble the puzzle. If we scramble the digital version of 
+                | this puzzle the same way, we guarantee that we can solve each starting position because
+                | we know that the solution is just the reverse of the steps used to scramble the puzzle
+                | in the first place.
+
+              p 
+                | Another consideration here is that w
+              button#solve-puzzle.btn.btn-primary Compute Permutations

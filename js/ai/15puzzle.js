@@ -1,4 +1,4 @@
-import Puzzle from "/js/src/ai/puzzle.js";
+import FifteenPuzzle from "/js/src/ai/15puzzle.js";
 import BreadthFirstSearch from "/js/src/ai/graph-search-bfs.js";
 import DepthFirstSearch from "/js/src/ai/graph-search-dfs.js";
 import UniformCostSearch from "/js/src/ai/uniform-cost-search.js";
@@ -47,7 +47,7 @@ $(document).ready(() => {
   }
 
   function refreshPuzzle() {
-    puzzle = new Puzzle();
+    puzzle = new FifteenPuzzle();
     displayPuzzle(puzzle);
   }
 
@@ -95,7 +95,7 @@ $(document).ready(() => {
 
   function slideTile(tileNumber) {
     let $tile = $("#number-" + tileNumber);
-    let $empty = $("#number-8");
+    let $empty = $("#number-16");
     let tilePosition = $tile.position();
     let emptyPosition = $empty.position();
     let newTop = emptyPosition.top - tilePosition.top;
