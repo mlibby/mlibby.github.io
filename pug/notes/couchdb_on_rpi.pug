@@ -1,0 +1,37 @@
+-var title="Installing CouchDB on Raspberry Pi"
+
+doctype html
+html
+  include ../_includes/head.pug
+
+  body
+    include ../_includes/nav.pug
+
+    main.container
+      .row
+        .col
+          section.notes
+            div.clearfix
+              h2.float-left Installing CouchDB on Raspberry Pi
+              p.float-right last updated: 2020-04-22
+            p This is really just a condensed version of the #[a(href="https://docs.couchdb.org/en/latest/install/unix.html#installation-from-source") install instructions from CouchDB].
+            p This covers installing CouchDB 3.0.0, the latest version available as of this writing.
+
+            h3 Install Prerequisite Packages
+            pre.code
+              code.
+                sudo apt install build-essential pkg-config erlang libicu-dev libcurl4-openssl-dev libmozjs185-dev
+            h3 Download CouchDB Source Code
+            pre.code
+              code. 
+                wget http://apache.mirrors.pair.com/couchdb/source/3.0.0/apache-couchdb-3.0.0.tar.gz
+            h3 Unzip the Source
+            pre.code
+              code. 
+                tar xvzf apache-couchdb-3.0.0.tar.gz
+            h3 Build CouchDB
+            pre.code
+              code. 
+                cd apache-couchdb-3.0.0 
+                ./configure  
+                make release
