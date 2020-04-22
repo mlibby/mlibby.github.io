@@ -25,7 +25,7 @@ $(document).ready(() => {
 
   function displayPuzzle(puzzle) {
     $.each(puzzle.initialState.split(''), (index, tileValue) => {
-      let spot = $('#spot-' + (index + 1));
+      let spot = $('#spot-' + index);
       let tile = $('#number-' + tileValue).remove();
       spot.append(tile);
     });
@@ -95,7 +95,7 @@ $(document).ready(() => {
 
   function slideTile(tileNumber) {
     let $tile = $("#number-" + tileNumber);
-    let $empty = $("#number-9");
+    let $empty = $("#number-8");
     let tilePosition = $tile.position();
     let emptyPosition = $empty.position();
     let newTop = emptyPosition.top - tilePosition.top;
