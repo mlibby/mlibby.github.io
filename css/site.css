@@ -9,10 +9,11 @@
     float: left;
     clear: left;
     font-weight: bold;
+    padding-right: 0.5em;
 }
 
 .ai dd {
-    margin: 0 0 0 66px;
+    margin: 0;
     padding: 0 0 0.5em 0;
 }
 
