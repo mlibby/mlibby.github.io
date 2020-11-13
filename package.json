@@ -11,7 +11,9 @@
     "popper.js": "^1.16.1"
   },
   "devDependencies": {
-    "eslint": "^6.8.0"
+    "@11ty/eleventy": "^0.11.1",
+    "eslint": "^6.8.0",
+    "gh-pages": "^3.1.0"
   },
   "scripts": {
     "test": "ava"
