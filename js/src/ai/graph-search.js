@@ -10,6 +10,7 @@ export default
 
     searchChildNode(node) {
         this.nodesUsed++;
+        this.nodeAdded(this.nodesUsed)
         if (!this.explored.has(node.state) &&
             !this.frontier.has(node.state)) {
             if (this.searchable.isGoal(node.state)) {
@@ -30,7 +31,9 @@ export default
         }
     }
 
-    search() {
+    search(nodeAdded) {
+        this.nodeAdded = nodeAdded || (() => {})
+
         this.startTime = performance.now();
 
         let node = new SearchNode(this.searchable.initialState);

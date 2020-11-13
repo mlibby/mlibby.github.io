@@ -41,9 +41,14 @@ $(document).ready(() => {
     clearResults();
 
     let search = getSearch();
-    search.search();
+    search.search(nodeAdded);
 
     displayResults(search);
+  }
+
+  function nodeAdded(nodesUsed) {
+    $nodesUsed.text(nodesUsed);
+    $(window).trigger('resize')
   }
 
   function refreshPuzzle() {
