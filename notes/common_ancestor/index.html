@@ -1,0 +1,63 @@
+<!DOCTYPE html><html><head><title>Common Ancestors - mlibby.com</title><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="I am Michael C. Libby and this is my web site. I am a software developer."><link rel="shortcut icon" href="/favicon.ico"><link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico"><link rel="icon" type="image/png" sizes="196x196" href="/favicon-192.png"><link rel="icon" type="image/png" sizes="160x160" href="/favicon-160.png"><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"><link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png"><link rel="apple-touch-icon" href="/favicon-57.png"><link rel="apple-touch-icon" sizes="114x114" href="/favicon-114.png"><link rel="apple-touch-icon" sizes="72x72" href="/favicon-72.png"><link rel="apple-touch-icon" sizes="144x144" href="/favicon-144.png"><link rel="apple-touch-icon" sizes="60x60" href="/favicon-60.png"><link rel="apple-touch-icon" sizes="120x120" href="/favicon-120.png"><link rel="apple-touch-icon" sizes="76x76" href="/favicon-76.png"><link rel="apple-touch-icon" sizes="152x152" href="/favicon-152.png"><link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="/favicon-144.png"><meta name="msapplication-config" content="/browserconfig.xml"><link href="/css/fonts.css" rel="stylesheet"><link href="/css/bootstrap.css" rel="stylesheet"><link href="/css/mlibby-icons.css" rel="stylesheet"><link href="/css/site.css" rel="stylesheet"><script src="https://www.w3counter.com/tracker.js?id=127536"></script><script src="/js/lib/jquery.min.js"></script><script src="/js/lib/bootstrap.min.js"></script><script src="/js/lib/underscore-min.js"></script></head><body><nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top"><div class="container"><h1><a class="navbar-brand" href="/">mlibby.com</a></h1><button class="navbar-toggler btn btn-outline-dark" type="button" data-toggle="collapse" data-target="#navbar-content"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="navbar-content"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link" id="nav-about" href="/about">About Me</a></li><li class="nav-item"><a class="nav-link" id="nav-ai" href="/ai">Artificial Intelligence</a></li><li class="nav-item"><a class="nav-link" id="nav-oregon" href="/oregon">Oregon Trail</a></li><li class="nav-item"><a class="nav-link" id="nav-other" href="/other">Other Projects</a></li><li class="nav-item"><a class="nav-link" id="nav-notes" href="/notes">Notes</a></li></ul></div></div></nav><main class="container"><div class="row"><div class="col"><section class="notes"><div class="clearfix"><h2 class="float-left">Common Ancestors </h2><p class="float-right">last updated: 2020-10-12</p></div><h3>Introduction</h3><p>The goal of this web page is to illustrate through programming
+how we might calculate something interesting about humanity and
+ancestry. Namely, how many generations do we need to go back in 
+literally everyone's family tree to get to a point where we can 
+conclusively say that we are all related?
+</p><p>Looking at a traditional family tree, this concept is rather counter-
+intuitive. But looking at the math, we can quickly work out how many
+ancestors each person has per generation. Then we can work from the 
+fact that there are more people alive on earth now than in the past to 
+confirm something you might see on a family tree, depending on how it's 
+drawn: cousins and sets of siblings all share a grandparent.
+</p><p>So while I have four grandparents, I share two of them with several other 
+people (cousins on my mom's side and my sister) and two of them with just a few 
+other people (cousins on my dad's side and my sister again). 
+</p><h3>Calculating Ancestors for Me</h3><p>Calculating how many ancestors I have for each generation going back just
+multiply by two. Starting with me, it's 1. So my parents generation is 1 x 2 = 2.
+My grandparents generation is 2 ^ 2 = 4. My great-grandparents generation is
+2 ^ 3 = 8. So let's get the show on the road here:
+</p><pre>2 ^ 4 = 16
+2 ^ 5 = 32
+2 ^ 6 = 64
+2 ^ 7 = 128
+2 ^ 8 = 256
+...
+2 ^ 16 = 65,536
+...
+2 ^ 28 = 268,435,456
+2 ^ 29 = 536,870,912
+...
+2 ^ 32 = 4,294,967,296
+2 ^ 33 = 8,589,934,592
+</pre><p>So you can see that within 33 generations, if all of my ancestors are to be unique
+individuals, I would have more ancestors than there are people on Earth right now.
+</p><p>Just for kicks, let's say a birth-to-reproduction life cycle (aka "generation") takes
+25 years. That means that in 33 * 25 = 825 years I will have too many ancestors.
+</p><p>For further kicks, we'll have to go find some estimates for how many people were
+actually on the earth 825 years ago. It wasn't sure wasn't 8.6 billion 
+people. It was probably was closer to 300 million. So the point in history at 
+which my ancestor count exceeds the population of Earth is more recent than 33
+generations ago.
+</p><p>I've looked on the web and found a page that in the 1500s there were probably around
+400-500 million people on the planet. So let's see if we can find a generation count
+that would get us close to that. Looking at that chart above that's the 29 generations
+ago.
+</p><h3>My Cousins' Ancestors</h3><p>So we've established that within 29 generations back, my ancestor count exhausts the
+population of Earth. That doesn't mean that everyone on Earth at that point was an 
+ancestor of mine, instead what it means is that there are-- no way, no how-- enough 
+people on the planet for all of my ancestors to have been unique individuals. That 
+means that someone on my dad's side is also on my mom's side.
+</p><p>And most likely this type of cross-over person is occurring more often that, since it's 
+not like the whole population of earth was carefully planning my family tree in such a 
+way as to make every member of it unique.
+</p><p>No... the more likely story is that a lot of my ancestors are cousins, albeit many times 
+removed.
+</p><p>Let's use another mathematical progression to see how many descendants a given ancestor
+would have after a number of generations. For the sake of argument, let's say there's a nice
+place in the upper midwest that nobody lives, and we've got 4 couples who'd like to found a
+new society there.
+</p><p>The first generation is 8 people. If each couple has two children, the second generation
+is also 8 children (4 couples x 2 children). Now we have a problem. If we got lucky and there
+were 4 boys and 4 girls in the 2nd generation, that's 4 couples, and if they each have 2 
+children, that's 8 children. This population isn't going to grow much, if each successive 
+generation is the same size as the previous one. So we'll need to do something different.</p></section></div></div></main></body></html>
