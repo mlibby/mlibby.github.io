@@ -2,9 +2,18 @@
 layout: post
 title: "In Progress: Switching to Jekyll"
 ---
+- Haml::Filters::CodeRay.encoder_options = { :css => :class }
 %p
   I've finally gotten around to putting this site on Jekyll. Well, almost.
 %p
   It's a work in progress. I am dumping the Bootstrap framework for styling and layout, so 
   I do need to update some styles and layouts around the site. And not all of the old pages
   have been converted yet.
+
+%p
+  This is a sample code snippet I'm trying to style:
+  :coderay
+    #!ruby
+    def foo
+      puts "bar"
+    end

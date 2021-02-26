@@ -1,10 +1,11 @@
 source "https://rubygems.org"
-gem "minima", "~> 2.5"
+
+gem "haml-coderay"
 
 group :jekyll_plugins do
   gem "jekyll"
   gem "jekyll-feed", "~> 0.12"
-  gem "jekyll-haml"
+  gem "jekyll-haml", git: "https://github.com/mlibby/jekyll-haml.git"
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem

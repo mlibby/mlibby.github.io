@@ -34,6 +34,32 @@ body {
     display: inline-block;
 }
 
+.code pre {
+    margin: 1rem;
+    padding: 1rem;
+    background: #222222;
+    color: lightgreen;
+    font-size: 1.1rem;
+}
+
+.code pre .keyword {
+    color: lightseagreen;
+}
+
+.code pre .function {
+    color: yellow;
+}
+
+.code pre .delimiter {
+    color: #aaaaaa;
+}
+
+.code pre .string {
+    color: #dddddd;
+}
+
+
+
 dl.job-details {
     border-top: 1px grey solid;
     margin-top: 1rem;
