@@ -1,0 +1,53 @@
+-var title="Converting OTF/TTF Fonts to BDF for CircuitPython"
+
+doctype html
+html
+    include ../_includes/head.pug
+
+    body
+        include ../_includes/nav.pug
+
+        main.container
+            .row
+                .col
+                    section.notes
+                        div.clearfix
+                            h2.float-left Convert OTF/TTF Fonts to BDF for CircuitPython
+                            p.float-right last updated: 2020-01-28
+                        p. 
+                            After trying the #[a(href="https://learn.adafruit.com/custom-fonts-for-pyportal-circuitpython-display?view=all") official tutorial]
+                            for creating a new BDF font for use with CircuitPython, I found a much easier way than dealing with FontForge. 
+                            FontForge might be a great tool for other purposes, but for this... not so much.
+                        p In my testing I used Ubuntu via Windows Subsystem for Linux. Other systems might be different.
+                        p Install <code>otf2bdf</code> tool using your package manager:
+                        pre.code
+                            code sudo apt install otf2bdf
+                        p. 
+                            Convert font like so:
+                        pre.code
+                            code otf2bdf [fontname].(ttf|otf) -r 100 -p [point-size] -o [fontname]-[point-size].bdf
+                        p.
+                            For my #[a(href="https://learn.adafruit.com/adafruit-pygamer?view=all") PyGamer], I was trying to make a custom font
+                            to use with #[a(href="https://github.com/adafruit/Adafruit_CircuitPython_PyBadger") PyBadger] and found that 36 was 
+                            the best point size to fit my name in the white box where your name displays. You may need to tweak this depending on
+                            the length of your name and the font you use. Be sure to set <code>name_scale</code> to <code>1</code>. This will display
+                            your text at the native resolution of the font, rather than scaling it up. If you use a <code>name_scale</code> greater
+                            than 1, you will get jagged edges as the font glyphs are bitmaps and simply scaled up, not re-rendered at the larger size.
+                        p. 
+                            Copy your newly minted <code>.bdf</code> over to your <code>CIRCUITPY</code> device in the root directory. If you
+                            are using the example PyBadger script, you will want something like this:
+                        pre.code
+                            code.
+                                from adafruit_pybadger import PyBadger
+
+                                badge = PyBadger()
+                                badge.show_badge(
+                                    hello_scale=2,
+                                    my_name_is_scale=2,
+                                    name_string="Mikey",
+                                    name_scale=1,
+                                    name_font="Chomsky-36.bdf",
+                                )
+
+                                while True:
+                                    ...

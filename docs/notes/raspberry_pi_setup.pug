@@ -1,0 +1,96 @@
+-var title="Raspberry Pi Setup"
+
+doctype html
+html
+  include ../_includes/head.pug
+
+  body
+    include ../_includes/nav.pug
+
+    main.container
+      .row
+        .col
+          section.notes
+            div.clearfix
+              h2.float-left Raspberry Pi Setup 
+              p.float-right last updated: 2020-02-11
+            p This covers setting up a Raspberry Pi (RPi) to connect to WiFi and run a basic web server using Python and Flask.
+            h3 First... Why Would Anyone Do This?
+            p. 
+              Why would you want to set up a web server on such a little computer... over Wifi no less?
+            ol
+              li. 
+                #[em Bragging Rights] - The Raspberry Pi Zero W is a computer that about half the size of a credit card and can be powered 
+                by #[a(href="https://www.raspberrypi-spy.co.uk/2013/02/running-a-raspberry-pi-from-6-aa-batteries/") 6 AA batteries]
+                or any USB power bank capable of delivering more than 2A (which is plenty of them these days). And since setting up a web
+                server on any hardware is a pretty cool accomplishment, setting one up on a system you can literally put in your pocket 
+                is automatically an even cooler accomplishment.
+              li. 
+                #[em Temporary Autonomous Web?] - While one of the big strengths of the WWW is that it is the (ahem) "world wide" web and
+                you can share information all over the world, there's something to be said for the ability to quickly add a web server to
+                a local area network (LAN) like your home WiFi network (or the one at the local coffee shop or conference). Sure, you could
+                use an old laptop or some other small form factor PC, but...
+              li. 
+                #[em Hardware] - The RPi is not just a really small computer, it's also designed to be extremely functional in terms of the
+                ability to hook up to the wider world of electronics. With a laptop/PC you're really limiting your I/O game to monitors,
+                keyboards, mice, and things that have pre-built USB interfaces (and drivers!). With RPi those limits are gone. Web server on
+                wheels anyone? Your robot can communicate via web page and receive commands over HTTP! And that's just the tip of the iceberg.
+            h3 Is your RPi Capable of This?
+            p. 
+              If you're going to connect your RPi to a LAN via WiFi, it has to be one of the models that has WiFi. 😃
+            p. 
+              RPi's that have WiFi are: Pi Zero W, Pi 3A+, Pi 3B, Pi 3B+, Pi 4.
+            p. 
+              If your RPi is not one of the above models, you could still use a USB WiFi dongle. Not sure why would do that though.
+              You can buy a Pi Zero W for #[a(href="https://www.adafruit.com/product/3400") $10 from AdaFruit]. I think I got a few
+              of these for just $5 at MicroCenter when they were running a promotion. And starter kits with Pi Zero, power supplies,
+              MicroSD cards, and various other goodies are all over the place. You can usually find a good bundle for $25-$35. I don't
+              know which is worse, though: having to get a bunch of dongles and attachments for older hardware, or watching the older 
+              hardware collect dust.
+            p.
+              If you have one of the Ethernet-only Pi's, and you don't care where the Pi is as long as it participates in your local
+              WiFi, you could probably just plug it in directly to the WiFi router (assuming you have access/permission).
+            h3 Install Raspbian
+            ol 
+              li Get a Raspbian image from the #[a(href="https://www.raspberrypi.org/downloads/raspbian/") Raspbian image site] 
+                | &mdash; just use the desktop + recommended image, your MicroSD card is at least 32GB right?
+              li Put the image on an SD card using #[a(href="https://www.balena.io/etcher") Balena Etcher].
+            h3 Boot Raspberry Pi
+            ol(start="3")
+              li Put the MicroSD card into the RPi and boot it up. You should get a desktop and a "Welcome..." window. Click "Next".
+              li Set your country, language, and time zone, then click "Next".
+              li <em>Change your password</em>.
+              li Set up your screen. "Next".
+              li Set up your WiFi. "Next".
+              li Update the software. "Next".
+              li Restart.
+            h3 Configure Raspberry Pi Host Name and enable SSH
+            ol(start="10")
+              li When the Pi has finished rebooting, select "Preferences &gt; Raspberry Pi Configuration" from the Raspberry menu.
+              li On the system tab, change the hostname.
+              li On the interface tab, enable SSH.
+              li Click "OK" to save your configuration changes and then reboot the Pi (again).
+              li From your PC: #[a(href="https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md") Configure password-less SSH access]
+            h3 Install Windows Networking
+            p Wow. After changing the hostname, I'm able to SSH into the machine from a DOS prompt using my configured hostname. 
+              | If you don't have SSH, it is part of the #[a(href="https://git-scm.com/download/win") Git for Windows] package. 
+              | I'm not able to SSH in from my WSL Ubuntu terminal at this point, though, the hostname is unknown (although using IP address works).
+              | If step 15 below works for you, you may not really need any additional networking. 
+            ol(start="14")
+              li Put the following Python script somewhere useful (like #[code /home/pi/python/server.py]) and run it.
+                pre.code
+                  code.
+                    import SimpleHTTPServer
+                    import SocketServer
+
+                    PORT = 8000
+
+                    Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+
+                    httpd = SocketServer.TCPServer(("", PORT), Handler)
+
+                    print "serving at port", PORT
+                    httpd.serve_forever()
+              li Go to <code>http://[hostname]:8000</code> in your favorite web browser. If you're as lucky as I've been this time 
+                | around, you'll get a directory listing for <code>/</code> containing a link to your #[code server.py] file.
+                | If you click the link you should see the actual text of your Python script.

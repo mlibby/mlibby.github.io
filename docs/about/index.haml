@@ -1,0 +1,235 @@
+-var title="About Me"
+
+doctype html
+html
+  include _includes/head.pug
+
+  body
+    include _includes/nav.pug
+
+    main.container
+      article
+        section
+          h2 Contact Information
+          address
+            ul.list-group
+              li.list-group-item
+                .about-icon.icon-home.float-left
+                .float-left
+                  | Michael C. Libby
+                  br
+                  | 3146 Hampshire Ave N
+                  br
+                  | Crystal, MN 55427
+              li.list-group-item
+                .about-icon.icon-envelop.float-left
+                a.float-left(href="mailto:m@mlibby.com" title="email me") m@mlibby.com
+              li.list-group-item
+                span.about-icon.icon-phone.float-left
+                a.float-left(href='tel:7639130196') (763) 913-0196
+
+        section
+          h2 Summary
+          p I have over a decade of professional experience as a web and applications developer on projects of all sizes using a variety of programming languages and frameworks. Working directly with users and stakeholders, I have consistently built software that exceeded expectations.
+          p Project highlights include: building web sales reports without access to a web server, designing and developing complex data migration systems, building user-friendly, efficient UIs, and improving performance and reliability of data analysis applications.
+          p Over the years, I have written applications in Perl, Ruby (with and without Rails), VBA (mostly in Access), SQL Server T-SQL, VB.NET, C#, Javascript, HTML/CSS, Bootstrap, BackboneJS-- just to name a few. Third party tools I have worked with include Oracle, MySQL, Kofax Capture and Transformation, Excel. In addition to being a Windows developer, I speak fluent Linux.
+
+        section
+          h2 Portfolio
+          ul.list-group
+            li.list-group-item
+              .about-icon.icon-github.float-left
+              a.float-left(href="https://github.com/mlibby" title="Github Repos") http://github.com/mlibby
+            li.list-group-item
+              .about-icon.icon-stackoverflow.float-left
+              a.float-left(href='http://stackoverflow.com/users/13468/mlibby' title="StackOverflow profile") http://stackoverflow.com/users/13468/mlibby
+
+        section.mt-3
+          h2 Related Career History
+          div 
+            dl.job-details.current
+              dt Title
+              dd Application Systems Engineer
+              dt Dates
+              dd March 2015 &mdash; present
+              dt Company
+              dd 
+                a(href='http://www.wellsfargo.com') Wells Fargo 
+                | &mdash; Minneapolis, MN
+              dt Key Technology
+              dd C#, VB.NET, Kofax, KTM, SQL Server, Oracle, ASP.NET MVC
+              dt Duties
+              dd 
+                ul 
+                  li Lead development of Windows services, Windows GUI applications, and web applications (C#, SQL Server, and Oracle), including interfacing with automation hardware and third party systems (Kofax).
+                  li Built and validated document recognition models in Kofax Transformation Services (KTM) with custom scripting.
+                  li Wrote and executed test plans for software not covered by other quality assurance teams.
+                  li Worked as part of a team to resolve production and QA issues supporting 99% uptime of mission critical systems.
+                  li Evaluated new technologies and design approaches for incorporation in overall system architecture.
+          div 
+            dl.job-details
+              dt Title
+              dd Software Developer
+              dt Dates
+              dd September 2013 &mdash; January 2015
+              dt Company
+              dd 
+                a(href='http://www.novu.com') Novu 
+                | &mdash; St. Louis Park, MN
+              dt Key Technology
+              dd Accessibility, Rails, CoffeeScript, Backbone.js, HAML, SCSS, Bootstrap
+              dt Duties
+              dd 
+                ul 
+                  li Researched accessibility best practices to apply to web site, presented to all design and technical staff.
+                  li Wrote, debugged, and refactored client-side code with a focus on responsive (mobile first) design.
+                  li Wrote, debugged, and refactored server-side code with an emphasis on RESTful APIs.
+                  li Worked directly with internal business partners to integrate a third party service for custom marketing to users.
+                  li Performed code reviews on a daily basis.
+          div 
+            dl.job-details 
+              dt Title
+              dd Software Developer
+              dt Dates
+              dd July 2011 &mdash; September 2013
+              dt Company
+              dd 
+                a(href='http://nerdery.com') The Nerdery
+                |  &mdash; Bloomington, MN
+              dt Key Technology
+              dd C#, ASP.NET MVC, HTML, CSS, JS, jQuery, Entity Framework
+              dt Duties
+              dd 
+                ul 
+                  li Performed code audits for incoming project work.
+                  li Wrote requirements documentation and test plans.
+                  li Lead and coordinated teams of 2-10 developers, making technology choices or directing software architecture.
+                  li Worked directly with clients to understand their business needs, often presenting unique solutions that helped keep a project budget low while providing a high level of support for the use case.
+                  li Wrote and maintained 1000&rsquo;s of lines of code from HTML/CSS, to JavaScript, to C#, to SQL.
+                  li Mentored junior developers.
+                  li Brought one of the most popular dogs in the office to work every day.
+          div 
+            dl.job-details 
+              dt Title
+              dd Software Developer
+              dt Dates
+              dd February 2008 &mdash; July 2011
+              dt Company
+              dd 
+                a(href='http://www.wexinc.com') Evolution1 
+                | (now Wex, formerly Lighthouse1) &mdash; Edina, MN
+              dt Key Technology
+              dd C#, SQL Sserver, SSIS, TFS, MS Test, TDD, Rhino Mocks
+              dt Duties
+              dd 
+                ul 
+                  li Lead development of a long-term data integration application project.
+                  li Responsible for major design decisions, project planning, coding, profiling, optimizing, and technical support during the entire life cycle of project.
+                  li Introduced unit and integration testing.
+                  li &ldquo;Lightning Rod Award 2008&rdquo; winner, for being &ldquo;the team member who has continually shown enthusiasm, energy, and positive insight, delivering successful solutions in every situation possible even when obstacles could derail the solution.&rdquo;
+          div 
+            dl.job-details
+              dt Title
+              dd Application Systems Engineer
+              dt Dates
+              dd March 2007 &mdash; January 2008
+              dt Company
+              dd 
+                a(href='https://www.wellsfargo.com/mortgage/') Wells Fargo Home Mortgage
+                |  &mdash; Minneapolis, MN
+              dt Key Technology
+              dd C#, VB.NET, Oracle, Kofax, Ascent Capture, Indicius
+              dt Duties
+              dd 
+                ul 
+                  li Developed and supported applications and systems for a document imaging group, using C#, VB.NET, Oracle, Kofax Ascent Capture, and Indicius.
+                  li Designed and developed new end­user tools and Windows services for image processing, being actively involved in the process from requirements gathering through production support.
+                  li Automated software builds and deployment of over 30 individual software projects into five test environments and the production environment.
+                  li Managed source code branching and merging in ClearCase for a team of 10+ developers.
+                  li Wrote high level and detailed design documents, as well as installation and production support documentation.
+                  li Feedback from a stakeholder: &ldquo;... the team did a good job on this and... Michael Libby coded up a nice piece of work to put this together.&rdquo;
+          div 
+            dl.job-details
+              dt Title
+              dd Application Systems Engineer
+              dt Dates
+              dd May 2005 &mdash; March 2007
+              dt Company
+              dd 
+                a(href='https://www.wellsfargo.com') Wells Fargo 
+                | (Business Banking) &mdash; Minneapolis, MN
+              dt Key Technology
+              dd SQL Server, VB.NET, DataStage, Oracle
+              dt Duties
+              dd 
+                ul 
+                  li Improved application process time and accuracy by integrating several existing standalone applications into a single interface.
+                  li Developed and supported applications and systems related to customer householding, using SQL Server and VB.NET.
+                  li Explored rewriting our main applications using IBM DataStage and Oracle, including prototyping.
+                  li Worked directly with business users to gather requirements for updates to existing applications.
+                  li Review comments include: &ldquo;...instrumental in the recent addition of our data quality scripts...&rdquo; &ndash; &ldquo;As a result of his hard work and dedication, he was promoted...&rdquo; &ndash; &ldquo;Maintains highest ethics and standards, even in stressful time and during tight deadlines.&rdquo;
+          div 
+            dl.job-details
+              dt Title
+              dd Business Systems Consultant
+              dt Dates
+              dd October 2003 &mdash; May 2005
+              dt Company
+              dd 
+                a(href='https://www.wellsfargo.com') Wells Fargo 
+                | (Business Banking) &mdash; Minneapolis, MN
+              dt Key Technology
+              dd Ruby, HTML, Cognos, MS Access, SQL Navigator, SQLPlus
+              dt Duties
+              dd 
+                ul 
+                  li Designed and developed a monthly management reporting package in Ruby and HTML.
+                  li Held the lead business analyst role in the development of a datamart for sales reporting and analysis.
+                  li Performed various ad hoc data analysis and reporting tasks as needed, using a variety of tools including SQL Navigator, MS Access, Ruby, and sqlplus.
+                  li 
+                    Feedback given to my manager regarding the reporting package I designed and built:  &ldquo;The work is amazing&rdquo;
+          div 
+            dl.job-details
+              dt Title
+              dd Marketing Database Analyst
+              dt Dates
+              dd 2000 &mdash; 2003
+              dt Company
+              dd 
+                a(href='https://www.wellsfargo.com') Wells Fargo 
+                | (Corporate Marketing) &mdash; Minneapolis, MN
+              dt Key Technology
+              dd MS Access, Excel, VBA, Perl, Cognos
+              dt Duties
+              dd 
+                ul 
+                  li Created a reporting package with VBA in Access and Excel via OLE.
+                  li Designed and programmed an analysis tool for a high value mortgage program in Perl.
+                  li Developed a sales forecasting tool in Perl.
+                  li Performed ad hoc customer profitability and geographic movement analyses with Cognos Impromptu.
+                  li Maintained online help system with RoboHelp and took support calls about an MIS data warehouse.
+          div 
+            dl.job-details
+              dt Title
+              dd Financial Analyst
+              dt Dates
+              dd 1998 &mdash; 2000
+              dt Company
+              dd 
+                a(href='https://www.wellsfargo.com') Wells Fargo 
+                | (Corporate Marketing) &mdash; Minneapolis, MN
+              dt Key Technology
+              dd MS Access, Excel, VBA, Cognos
+              dt Duties
+              dd 
+                ul 
+                  li Built a reporting tool using VBA in Access to analyze interest expense savings opportunities.
+                  li Performed ad hoc financial analyses using Cognos Impromptu, MS Excel, MS Access.
+        hr
+        section 
+          h2 Education and Development
+          p Conferences: RubyConf 2002, Twin Cities Code Camp 2011, jQuery Conf 2014
+          p Certifications: Brainbench C11, Brainbench Ruby 1.9, Kofax Ascent Capture 7.5, Indicius 5 certified
+          p Classes: financial accounting, economics, operational statistics
+          p Training: IBM DataStage Enterprise Edition, Microsoft SQL Server
+          p Bachelor of Fine Arts - University of Minnesota

@@ -1,0 +1,332 @@
+﻿.about-icon {
+    margin-right: 10px;
+    font-size: 1.5rem;
+    vertical-align: top;
+    width: 2rem;
+}
+
+.ai dt {
+    float: left;
+    clear: left;
+    font-weight: bold;
+    padding-right: 0.5em;
+}
+
+.ai dd {
+    margin: 0;
+    padding: 0 0 0.5em 0;
+}
+
+.ai .parenthetical dd::before {
+    content: '(';
+}
+
+.ai .parenthetical dd::after {
+    content: ')';
+}
+
+.ai .search-results dt::after {
+    content: ': '
+}
+
+.ai .search-results dt {
+    width: 210px;
+    text-align: right;
+}
+
+.ai .search-results dd {
+    margin: 0 0 0 220px;
+}
+
+.ai .puzzle {
+    border: 3px solid black;
+    padding: 5px;
+    float: left;
+    background-color: #c0c0c0;
+}
+
+.ai .puzzle-spot {
+    display: inline-block;
+    font-size: 2em;
+    width: 2.1em;
+    height: 2.1em;
+    padding: 2px;
+}
+
+.ai .tile {
+    vertical-align: middle;
+    text-align: center;
+    border: 1px solid black;
+    line-height: 1.8em;
+    background-color: white;
+    border-radius: 2px;
+    margin: 0;
+    position: relative;
+    z-index: 25;
+}
+
+.ai .tile.empty {
+    z-index: 1;
+    border: 0;
+    background-color: #c0c0c0;
+}
+
+.ai .shuffle-tiles {
+    margin: 15px 0;
+}
+
+.ai .search-results {
+    margin-bottom: 5px;
+}
+
+.befunge .torus-wrapper {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.befunge .console, .befunge .stack {
+    height: 10rem;
+}
+
+.befunge .console, .befunge .stack, .befunge .torus-row input {
+    font-family: FiraCode, monaco, monospace;
+}
+
+.befunge .torus-row {
+    width: 1134px;
+}
+
+.befunge .torus, .befunge .torus-row {
+    margin: 0;
+    padding: 0;
+    clear: both;
+}
+
+.befunge .torus input {
+    float: left;
+    width: 13px;
+    height: 19px;
+    text-align: center;
+    margin: 0 1px 1px 0;
+    padding: 1px 0 0 0;
+    border: 0;
+    border-radius: 3px;
+    background-color: #d0d0d0;
+    font-size: 11px;
+}
+
+.befunge .torus .active-cell {
+    background-color: #00b000;
+    color: white;
+}
+
+.befunge .torus .breakpoint {
+    background-color: #ff0000;
+    color: white;
+}
+
+blockquote {
+    display: inline-block;
+    position: relative;
+    padding: 0.75rem 1rem 0.75rem 1.25rem;
+    margin: 1rem 0;
+    border: 1px solid transparent;
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #004085;
+    border-radius: 0.25rem;
+    font-style: italic;
+    font-weight: bold;
+}
+
+body {
+    font-family: 'molengo', sans-serif;
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.btn [class^="icon-"] {
+    vertical-align: top;
+    margin-top: 3px;
+    display: inline-block;
+}
+
+dl.job-details {
+    border-top: 1px grey solid;
+    margin-top: 1rem;
+}
+
+figcaption {
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: bold;
+    line-height: 1.0;
+}
+
+h1, .h1 {
+    font-size: 2.0rem;
+}
+
+h2, .h2 {
+    font-size: 1.66rem;
+}
+
+h3, .h3 {
+    font-size: 1.5rem;
+}
+
+h4, .h4 {
+    font-size: 1.33rem;
+}
+
+h5, .h5 {
+    font-size: 1.25rem;
+}
+
+h6, .h6 {
+    font-size: 1.1rem;
+}
+
+h2.h-horizontal, h3.h-horizontal, h4.h-horizontal {
+    display: inline-block;
+}
+
+.h-horizontal {
+    display: inline-block;
+}
+
+.h-horizontal button {
+    vertical-align: text-top;
+    padding: 0.1rem 0.3rem 0;
+    margin-left: 1rem;
+    margin-top: -0.66rem;
+}
+
+.h-horizontal button .collapse-button::after {
+    font-family: 'mlibby-icons' !important;
+    content: '\f068';
+}
+
+.h-horizontal button.collapsed .collapse-button::after {
+    content: '\f067';
+}
+
+main {
+    margin-top: 60px;
+}
+
+main a {
+    border-bottom: 1px dotted;
+}
+
+main a:hover {
+    border-bottom: 1px solid;
+    text-decoration: none !important;
+}
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.notes code, .notes samp {
+    font-family: FiraCode, monaco, monospace;
+    font-weight: bold;
+}
+
+.notes .code {
+    font-family: FiraCode, monaco, monospace;
+    font-weight: normal;
+    margin: 1rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: black;
+    color: lawngreen;
+}
+
+.notes kdb {
+    font-family: FiraCode, monaco, monospace;
+    font-weight: normal;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    background-color: black;
+    color: lawngreen;
+}
+
+.notes li {
+    margin-bottom: 0.5rem;
+}
+
+.smallish {
+    max-width: 90%;
+    margin: 5%;
+}
+
+h2.h-horizontal {
+    display: inline-block;
+}
+
+button.by-header, select.by-header {
+    margin-left: 15px;
+    width: auto;
+    vertical-align: text-bottom;
+    display: inline-block;
+}
+
+.rgb-clock table.clock {
+    width: 100%;
+    border: 3px solid black;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.rgb-clock td.red, .rgb-clock td.green, .rgb-clock td.blue, .rgb-clock td.void, .rgb-clock table.clock th {
+    border: 4px solid black;
+    padding: 5px 10px;
+    color: white;
+    width: 17%;
+}
+
+.rgb-clock table.clock th {
+    background-color: black;
+}
+
+.rgb-clock td.void {
+    background-color: black;
+}
+
+.rgb-clock td.red {
+    background-color: red;
+}
+
+.rgb-clock td.green {
+    background-color: green;
+}
+
+.rgb-clock td.blue {
+    background-color: blue;
+}
+
+.tt-output {
+    font-family: 'firacode', monospace;
+    font-size: 1.25rem;
+    line-height: 1.66rem;
+    white-space: pre-wrap;
+}
+
+.tt-output.user-input {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.tt-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    font-style: italic;
+    text-align: right;
+    margin-left: 15px;
+    margin-top: 3px;
+}
