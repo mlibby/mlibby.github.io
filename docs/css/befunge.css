@@ -1,23 +1,27 @@
-﻿#torus-wrapper {
-    width:100%;
+﻿.befunge .torus-wrapper {
+    width: 100%;
     overflow-x: scroll;
 }
 
-#befunge-stack, #befunge-output, div.torus-row input {
-    font-family: Consolas,monaco,monospace;
+.befunge .console, .befunge .stack {
+    height: 10rem;
 }
 
-div.torus-row {
+.befunge .console, .befunge .stack, .befunge .torus-row input {
+    font-family: FiraCode, monaco, monospace;
+}
+
+.befunge .torus-row {
     width: 1134px;
 }
 
-div.torus, div.torus-row {
+.befunge .torus, .befunge .torus-row {
     margin: 0;
     padding: 0;
     clear: both;
 }
 
-div.torus-row input {
+.befunge .torus input {
     float: left;
     width: 13px;
     height: 19px;
@@ -30,24 +34,12 @@ div.torus-row input {
     font-size: 11px;
 }
 
-div.torus-row input.active-cell {
+.befunge .torus .active-cell {
     background-color: #00b000;
     color: white;
 }
 
-div.torus-row input.befunge-breakpoint {
+.befunge .torus .breakpoint {
     background-color: #ff0000;
     color: white;
-}
-
-h2.h-horizontal {
-    display: inline-block;
-}
-
-button.by-header,
-select.by-header {
-    margin-left: 15px;
-    width: auto;
-    vertical-align: text-bottom;
-    display: inline-block;
 }
