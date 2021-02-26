@@ -40,7 +40,7 @@
 <script src="/js/lib/jquery.min.js"></script>
 <script src="/js/lib/underscore-min.js"></script>
 
-	<title>AI Search - mlibby.com</title>
+	<title>Switch to Jekyll - mlibby.com</title>
 </head>
 
 <body>
@@ -52,113 +52,12 @@
   <a id='nav-other' class='nav-link' href='/other'>Other Projects</a>
   <a id='nav-blog' class='nav-link' href='/blog'>Blog</a>
 </nav>
-	<main class='ai'>
-<h2>
-AI: Route Search
-</h2>
+	<h1>
+Switching to Jekyll
+</h1>
 <p>
-Here I&apos;m just using different search strategies to find a route from one city in Romania to another.
+I've finally gotten around to putting this site on Jekyll
 </p>
-<p>
-I am using
-<tt>
-performance.now()
-</tt>
-to measure the elapsed time it took to compute the route, but it appears that
-<a href='https://developer.mozilla.org/en-US/docs/Web/API/Performance/now'>
-this method is currently not returning high-res results
-</a>
-due to the Spectre vulnerability, so if it takes less than
-1 millisecond to complete, we&apos;re not really going to see how long it takes.
-<em>
-sigh
-</em>
-</p>
-<h3>
-Choose endpoints and search algorithm
-</h3>
-<form class='form'>
-<div class='form-group'>
-<label for='from-city'>
-From
-</label>
-<select class='form-control' id='from-city'></select>
-</div>
-<div class='form-group'>
-<label class='control-label' for='to-city'>
-To
-</label>
-<select class='form-control' id='to-city'></select>
-</div>
-<div class='form-group'>
-<label class='control-label' for='search-algorithm'>
-Algorithm
-</label>
-<select class='form-control' id='search-algorithm'>
-<option value='tree-search'>
-Tree-Search
-</option>
-<option value='graph-search-bfs'>
-Graph-Search (breadth first)
-</option>
-<option value='graph-search-dfs'>
-Graph-Search (depth first)
-</option>
-<option value='uniform-cost-search'>
-Uniform-Cost-Search
-</option>
-</select>
-</div>
-<div class='form-group'>
-<button id='search'>
-Find Route
-</button>
-</div>
-</form>
-<div id='results' style='display:none;'>
-<h3>Results</h3>
-<dl class='search-results'>
-<dt>
-Nodes used in search
-</dt>
-<dd id='nodes-used'>
-0
-</dd>
-<dt>
-Elapsed search time (ms)
-</dt>
-<dd id='elapsed-time'>
-0
-</dd>
-<dt>
-Path Cost
-</dt>
-<dd id='path-cost'>
-0
-</dd>
-<dt>
-Solution Path
-</dt>
-<dd id='solution'>
-...
-</dd>
-</dl>
-</div>
-<h3>A Map</h3>
-<figure>
-<img alt='Simplified map of Romanian cities' class='smallish' src='/img/romania-distances.png'>
-<figcaption>
-A simplified map of Romanian cities from the
-<cite>
-<a href='http://aima.cs.berkeley.edu/figures.html'>
-AIMA figures page
-</a>
-.
-</cite>
-</figcaption>
-</figure>
-</main>
-<script src='/js/ai/search.js' type='module'></script>
 
 </body>
 
