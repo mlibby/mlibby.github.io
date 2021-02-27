@@ -26,6 +26,7 @@ body {
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f1f2;
 }
 
 .code pre {
@@ -161,9 +162,9 @@ h4.h-horizontal {
   margin-bottom: 1.5rem;
 }
 
-.navbar {
-  padding-top: 0;
-  padding-bottom: 0;
+nav img {
+  vertical-align: middle;
+  margin-top: -10px;
 }
 
 .notes code,
