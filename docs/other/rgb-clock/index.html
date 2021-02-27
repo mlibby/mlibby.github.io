@@ -40,32 +40,71 @@
 <script src="/js/lib/jquery.min.js"></script>
 <script src="/js/lib/underscore-min.js"></script>
 
-	<title>In Progress: Switching to Jekyll - mlibby.com</title>
+	<title>RGB Clock - mlibby.com</title>
 </head>
 
 <body>
 	<nav>
     <a class='nav-icon' href='/'>mlibby.com</a> &bull; <a id='nav-about' class='nav-link' href='/about'>About Me</a> &bull; <a id='nav-ai' class='nav-link' href='/ai'>Artificial Intelligence</a> &bull; <a id='nav-oregon' class='nav-link' href='/oregon'>Oregon Trail</a>    &bull; <a id='nav-other' class='nav-link' href='/other'>Other Projects</a> &bull; <a id='nav-blog' class='nav-link' href='/blog'>Blog</a>
 </nav>
-	<main class="post">
-		<h1>In Progress: Switching to Jekyll</h1>
-		<div class="date">Published: 2021-02-26</div>
-		<p>
-I've finally gotten around to putting this site on Jekyll. Well, almost.
+	<main class='rgb-clock'>
+<div class='row'>
+<section class='col'>
+<h2>The RGB Clock</h2>
+<p>
+This is a Javascript prototype of an <a href="https://github.com/mlibby/arduino/tree/master/RgbClock">RGB Clock</a>
+I made with Arduino, RGB LEDs, and a couple of shift registers.
 </p>
 <p>
-It's a work in progress. I am dumping the Bootstrap framework for styling and layout, so
-I do need to update some styles and layouts around the site. And not all of the old pages
-have been converted yet.
+"Normal" clocks display time in base 10 (that is, digits 1234567890). Nerds often make clocks in binary (base 2
+-- just 0s and 1s, or lights that are on or off). This clock uses Red, Green, and Blue instead of numerals
+(denoting the values of zero, one, and two)
 </p>
 <p>
-This is a sample code snippet I'm trying to style:
-<div class="CodeRay">
-  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">foo</span>&#x000A;  puts <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">bar</span><span style="color:#710">&quot;</span></span>&#x000A;<span style="color:#080;font-weight:bold">end</span></pre></div>
+This clock includes the place numbers for the base 3 numbers to help decode/understand the numbers of the
+clock.
+It also includes a "normal" 24 hour clock to aid in double-checking the LED display. The real clock will simply
+be 11 LED bulbs.
+</p>
+</section>
 </div>
-</p>
+<div class='row'>
+<section class='col'>
+<h2>Simulated LEDs</h2>
+<table class='clock'>
+<tr>
+<th>Hours</th>
+<td class='r1c1 red'>9s</td>
+<td class='r1c2 red'>3s</td>
+<td class='r1c3 red'>1s</td>
+<td class='r1c4 void'></td>
+</tr>
+<tr>
+<th>Minutes</th>
+<td class='r2c1 red'>27s</td>
+<td class='r2c2 red'>9s</td>
+<td class='r2c3 red'>3s</td>
+<td class='r2c4 red'>1s</td>
+</tr>
+<tr>
+<th>Seconds</th>
+<td class='r3c1 red'>27s</td>
+<td class='r3c2 red'>9s</td>
+<td class='r3c3 red'>3s</td>
+<td class='r3c4 red'>1s</td>
+</tr>
+</table>
+</section>
+</div>
+<div class='row'>
+<section class='col'>
+<h2>24 Hour Clock</h2>
+<pre id='current-time'>23:59:59</pre>
+</section>
+</div>
+</main>
+<script src='/js/other/rgbClock.js'></script>
 
-	</main>
 </body>
 
 </html>
