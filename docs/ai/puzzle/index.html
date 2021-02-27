@@ -45,12 +45,7 @@
 
 <body>
 	<nav>
-  <a class='nav-icon' href='/'>mlibby.com</a>
-  <a id='nav-about' class='nav-link' href='/about'>About Me</a>
-  <a id='nav-ai' class='nav-link' href='/ai'>Artificial Intelligence</a>
-  <a id='nav-oregon' class='nav-link' href='/oregon'>Oregon Trail</a>
-  <a id='nav-other' class='nav-link' href='/other'>Other Projects</a>
-  <a id='nav-blog' class='nav-link' href='/blog'>Blog</a>
+    <a class='nav-icon' href='/'>mlibby.com</a> &bull; <a id='nav-about' class='nav-link' href='/about'>About Me</a> &bull; <a id='nav-ai' class='nav-link' href='/ai'>Artificial Intelligence</a> &bull; <a id='nav-oregon' class='nav-link' href='/oregon'>Oregon Trail</a>    &bull; <a id='nav-other' class='nav-link' href='/other'>Other Projects</a> &bull; <a id='nav-blog' class='nav-link' href='/blog'>Blog</a>
 </nav>
 	<section class='ai'>
 <h2>AI: Solve the 8 Puzzle</h2>
@@ -59,6 +54,8 @@ The 8 Puzzle consists of a 3x3 board with eight numbered tiles and an empty spot
 spot can slide into that spot. The goal of the puzzle is to order all of the tiles numerically, leaving the
 empty spot in the lower-right corner.
 </p>
+<div class='flexbox'>
+<div class='column'>
 <h3>The Puzzle</h3>
 <div id='puzzle'>
 <div class='puzzle-row'>
@@ -115,6 +112,8 @@ Solve Puzzle
 </button>
 </div>
 </form>
+</div>
+<div class='column'>
 <h3>Results</h3>
 <dl class='search-results'>
 <dt>
@@ -147,6 +146,8 @@ Solution Path
 <button class='btn btn-primary' disabled='disabled' id='watch-solution'>Watch Solution</button>
 </div>
 </form>
+</div>
+</div>
 </section>
 <script src='/js/ai/puzzle.js' type='module'></script>
 

@@ -8,62 +8,65 @@ title: AI Puzzle
     The 8 Puzzle consists of a 3x3 board with eight numbered tiles and an empty spot. A tile adjacent to the empty
     spot can slide into that spot. The goal of the puzzle is to order all of the tiles numerically, leaving the
     empty spot in the lower-right corner.
-  %h3 The Puzzle
-  #puzzle
-    .puzzle-row
-      #spot-0.puzzle-spot
-        #number-0.tile 1
-      #spot-1.puzzle-spot
-        #number-1.tile 2
-      #spot-2.puzzle-spot
-        #number-2.tile 3
-    .puzzle-row
-      #spot-3.puzzle-spot
-        #number-3.tile 4
-      #spot-4.puzzle-spot
-        #number-4.tile 5
-      #spot-5.puzzle-spot
-        #number-5.tile 6
-    .puzzle-row
-      #spot-6.puzzle-spot
-        #number-6.tile 7
-      #spot-7.puzzle-spot
-        #number-7.tile 8
-      #spot-8.puzzle-spot
-        #number-8.tile.empty &nbsp;
-  %button#shuffle-tiles Shuffle Tiles
-  %p Note: not all tile arrangments are guaranteed to be solvable.
-  %form
-    .form-group
-      %label.control-label{ for: 'search-algorithm'}
-        Choose Search Algorithm
-      %select#search-algorithm.form-control
-        %option(value='tree-search' disabled='disabled') Tree-Search
-        %option(value='graph-search-bfs') Graph-Search (breadth first)
-        %option(value='graph-search-dfs') Graph-Search (depth first)
-        %option(value='uniform-cost-search') Uniform-Cost-Search
-    .form-group
-      %button#solve-puzzle
-        Solve Puzzle
-  %h3 Results
-  %dl.search-results
-    %dt
-      Nodes used in search
-    %dd#nodes-used
-      0
-    %dt
-      Elapsed search time (ms)
-    %dd#elapsed-time
-      0
-    %dt
-      Path Cost
-    %dd#path-cost
-      0
-    %dt
-      Solution Path
-    %dd#solution
-      \...
-  %form
-    .form-group
-      %button#watch-solution.btn.btn-primary(disabled='disabled') Watch Solution
+  .flexbox
+    .column  
+      %h3 The Puzzle
+      #puzzle
+        .puzzle-row
+          #spot-0.puzzle-spot
+            #number-0.tile 1
+          #spot-1.puzzle-spot
+            #number-1.tile 2
+          #spot-2.puzzle-spot
+            #number-2.tile 3
+        .puzzle-row
+          #spot-3.puzzle-spot
+            #number-3.tile 4
+          #spot-4.puzzle-spot
+            #number-4.tile 5
+          #spot-5.puzzle-spot
+            #number-5.tile 6
+        .puzzle-row
+          #spot-6.puzzle-spot
+            #number-6.tile 7
+          #spot-7.puzzle-spot
+            #number-7.tile 8
+          #spot-8.puzzle-spot
+            #number-8.tile.empty &nbsp;
+      %button#shuffle-tiles Shuffle Tiles
+      %p Note: not all tile arrangments are guaranteed to be solvable.
+      %form
+        .form-group
+          %label.control-label{ for: 'search-algorithm'}
+            Choose Search Algorithm
+          %select#search-algorithm.form-control
+            %option(value='tree-search' disabled='disabled') Tree-Search
+            %option(value='graph-search-bfs') Graph-Search (breadth first)
+            %option(value='graph-search-dfs') Graph-Search (depth first)
+            %option(value='uniform-cost-search') Uniform-Cost-Search
+        .form-group
+          %button#solve-puzzle
+            Solve Puzzle
+    .column
+      %h3 Results
+      %dl.search-results
+        %dt
+          Nodes used in search
+        %dd#nodes-used
+          0
+        %dt
+          Elapsed search time (ms)
+        %dd#elapsed-time
+          0
+        %dt
+          Path Cost
+        %dd#path-cost
+          0
+        %dt
+          Solution Path
+        %dd#solution
+          \...
+      %form
+        .form-group
+          %button#watch-solution.btn.btn-primary(disabled='disabled') Watch Solution
 %script(src="/js/ai/puzzle.js" type="module")
