@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="I am Michael C. Libby and this is my web site. I am a software developer.">
+
+<!-- ****** faviconit.com favicons ****** -->
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="196x196" href="/favicon-192.png">
+<link rel="icon" type="image/png" sizes="160x160" href="/favicon-160.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/favicon-57.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon-114.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon-72.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon-144.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon-60.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon-120.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon-76.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon-152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<meta name="msapplication-TileColor" content="#FFFFFF">
+<meta name="msapplication-TileImage" content="/favicon-144.png">
+<meta name="msapplication-config" content="/browserconfig.xml">
+<!-- ****** faviconit.com favicons ****** -->
+
+<link rel="stylesheet" href="/css/mlibby-icons.css">
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/ai.css">
+<link rel="stylesheet" href="/css/befunge.css">
+
+<script src="https://www.w3counter.com/tracker.js?id=127536"></script>
+<script src="/js/lib/jquery.min.js"></script>
+<script src="/js/lib/underscore-min.js"></script>
+
+	<title>AI Puzzle - mlibby.com</title>
+</head>
+
+<body>
+	<nav>
+    <a class='nav-icon' href='/'>mlibby.com</a> &bull; <a id='nav-about' class='nav-link' href='/about'>About Me</a> &bull; <a id='nav-ai' class='nav-link' href='/ai'>Artificial Intelligence</a> &bull; <a id='nav-oregon' class='nav-link' href='/oregon'>Oregon Trail</a>    &bull; <a id='nav-other' class='nav-link' href='/other'>Other Projects</a> &bull; <a id='nav-blog' class='nav-link' href='/blog'>Blog</a>
+</nav>
+	<section class='ai'>
+<h2>AI: Solve the 8 Puzzle</h2>
+<p>
+The 8 Puzzle consists of a 3x3 board with eight numbered tiles and an empty spot. A tile adjacent to the empty
+spot can slide into that spot. The goal of the puzzle is to order all of the tiles numerically, leaving the
+empty spot in the lower-right corner.
+</p>
+<div class='flexbox'>
+<div class='column'>
+<h3>The Puzzle</h3>
+<div id='puzzle'>
+<div class='puzzle-row'>
+<div class='puzzle-spot' id='spot-0'>
+<div class='tile' id='number-0'>1</div>
+</div>
+<div class='puzzle-spot' id='spot-1'>
+<div class='tile' id='number-1'>2</div>
+</div>
+<div class='puzzle-spot' id='spot-2'>
+<div class='tile' id='number-2'>3</div>
+</div>
+</div>
+<div class='puzzle-row'>
+<div class='puzzle-spot' id='spot-3'>
+<div class='tile' id='number-3'>4</div>
+</div>
+<div class='puzzle-spot' id='spot-4'>
+<div class='tile' id='number-4'>5</div>
+</div>
+<div class='puzzle-spot' id='spot-5'>
+<div class='tile' id='number-5'>6</div>
+</div>
+</div>
+<div class='puzzle-row'>
+<div class='puzzle-spot' id='spot-6'>
+<div class='tile' id='number-6'>7</div>
+</div>
+<div class='puzzle-spot' id='spot-7'>
+<div class='tile' id='number-7'>8</div>
+</div>
+<div class='puzzle-spot' id='spot-8'>
+<div class='tile empty' id='number-8'>&nbsp;</div>
+</div>
+</div>
+</div>
+<button id='shuffle-tiles'>Shuffle Tiles</button>
+<p>Note: not all tile arrangments are guaranteed to be solvable.</p>
+<form>
+<div class='form-group'>
+<label class='control-label' for='search-algorithm'>
+Choose Search Algorithm
+</label>
+<select class='form-control' id='search-algorithm'>
+<option disabled='disabled' value='tree-search'>Tree-Search</option>
+<option value='graph-search-bfs'>Graph-Search (breadth first)</option>
+<option value='graph-search-dfs'>Graph-Search (depth first)</option>
+<option value='uniform-cost-search'>Uniform-Cost-Search</option>
+</select>
+</div>
+<div class='form-group'>
+<button id='solve-puzzle'>
+Solve Puzzle
+</button>
+</div>
+</form>
+</div>
+<div class='column'>
+<h3>Results</h3>
+<dl class='search-results'>
+<dt>
+Nodes used in search
+</dt>
+<dd id='nodes-used'>
+0
+</dd>
+<dt>
+Elapsed search time (ms)
+</dt>
+<dd id='elapsed-time'>
+0
+</dd>
+<dt>
+Path Cost
+</dt>
+<dd id='path-cost'>
+0
+</dd>
+<dt>
+Solution Path
+</dt>
+<dd id='solution'>
+...
+</dd>
+</dl>
+<form>
+<div class='form-group'>
+<button class='btn btn-primary' disabled='disabled' id='watch-solution'>Watch Solution</button>
+</div>
+</form>
+</div>
+</div>
+</section>
+<script src='/js/ai/puzzle.js' type='module'></script>
+
+</body>
+
+</html>

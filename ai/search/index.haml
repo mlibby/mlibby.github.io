@@ -1,0 +1,78 @@
+---
+layout: default
+title: AI Search
+---
+%main.ai
+  %h2
+    AI: Route Search
+  %p
+    Here I&apos;m just using different search strategies to find a route from one city in Romania to another.
+  %p
+    I am using 
+    %tt
+      performance.now()
+    to measure the elapsed time it took to compute the route, but it appears that 
+    %a(href='https://developer.mozilla.org/en-US/docs/Web/API/Performance/now')
+      this method is currently not returning high-res results
+    due to the Spectre vulnerability, so if it takes less than
+    1 millisecond to complete, we&apos;re not really going to see how long it takes. 
+    %em
+      sigh
+  .flexbox
+    .column
+      %h3
+        Choose endpoints and search algorithm
+      %form.form
+        .form-group
+          %label{ for: 'from-city'}
+            From
+          %select#from-city.form-control
+        .form-group
+          %label.control-label{ for: 'to-city' }
+            To
+          %select#to-city.form-control
+        .form-group
+          %label.control-label{ for: 'search-algorithm'}
+            Algorithm
+          %select#search-algorithm.form-control
+            %option(value='tree-search') 
+              Tree-Search
+            %option(value='graph-search-bfs')
+              Graph-Search (breadth first)
+            %option(value='graph-search-dfs') 
+              Graph-Search (depth first)
+            %option(value='uniform-cost-search')
+              Uniform-Cost-Search
+        .form-group
+          %button#search
+            Find Route
+      #results(style='display:none;')
+        %h3 Results
+        %dl.search-results
+          %dt
+            Nodes used in search
+          %dd#nodes-used
+            0
+          %dt
+            Elapsed search time (ms)
+          %dd#elapsed-time
+            0
+          %dt
+            Path Cost
+          %dd#path-cost
+            0
+          %dt
+            Solution Path
+          %dd#solution
+            \...
+    .column
+      %h3 A Map
+      %figure
+        %img.smallish(src='/img/romania-distances.png' alt='Simplified map of Romanian cities')
+        %figcaption
+          A simplified map of Romanian cities from the 
+          %cite
+            %a(href='http://aima.cs.berkeley.edu/figures.html')
+              AIMA figures page
+            \.
+%script(src="/js/ai/search.js" type="module")
