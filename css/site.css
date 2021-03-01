@@ -27,6 +27,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f0f1f2;
+  margin: 2rem;
 }
 
 .code pre {
