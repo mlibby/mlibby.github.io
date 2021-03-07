@@ -1,4 +1,136 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2021-03-06T20:46:28-06:00</updated><id>/feed.xml</id><title type="html">mlibby.com</title><subtitle>I am Michael C. Libby and this is my web site. I am a software developer.</subtitle><entry><title type="html">In Progress: Switching to Jekyll</title><link href="/2021/02/26/jekyll.html" rel="alternate" type="text/html" title="In Progress: Switching to Jekyll" /><published>2021-02-26T00:00:00-06:00</published><updated>2021-02-26T00:00:00-06:00</updated><id>/2021/02/26/jekyll</id><content type="html" xml:base="/2021/02/26/jekyll.html">&lt;p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2021-03-07T08:13:16-06:00</updated><id>/feed.xml</id><title type="html">mlibby.com</title><subtitle>I am Michael C. Libby and this is my web site. I am a software developer.</subtitle><entry><title type="html">Programming Immersion School, The Backstory</title><link href="/2021/03/06/immersion.html" rel="alternate" type="text/html" title="Programming Immersion School, The Backstory" /><published>2021-03-06T00:00:00-06:00</published><updated>2021-03-06T00:00:00-06:00</updated><id>/2021/03/06/immersion</id><content type="html" xml:base="/2021/03/06/immersion.html">&lt;p&gt;
+I've been hoping to get my children into computer programming.
+It's always been a tough sell, but I think I've managed to
+convince my son to give it a go. But how to go about it?
+&lt;/p&gt;
+&lt;p&gt;
+I've tried getting him those &quot;Programming for Kids&quot; type
+of books, but that's just not his style. I'm a massive bookworm
+myself and have &lt;em&gt;devoured&lt;/em&gt; programming books. But just
+going through a sequenced collection of tutorials like that?
+Not how I learned to program the first time as a teen, and not
+really how I learned the second time as an adult either.
+&lt;/p&gt;
+&lt;p&gt;
+I first learned the first time in the 80's. I took one summer
+school course on computers &lt;em&gt;after&lt;/em&gt; I had already spent
+a lot of afternoons alone with the teletype/timeshare
+we had in a utility room at my primary school. Then I think I
+spent almost two years without much access to a computer? I don't
+remember one at the school I went to for 6th and 7th grade.
+&lt;/p&gt;
+&lt;p&gt;
+I switched schools in 8th grade and the new school had some Apple IIs
+in the math department and we had free periods in our schedules, so
+there was actually time to use them. Then my dad got us a Commodore
+64 at home. But all along I had been learning about computers and
+how they worked. Now with a computer at home I could really take off.
+But in the 80s the closest thing to the internet were dialup text BBS
+systems and those were really just early versions of Twitter and Facebook.
+For learning materials and guidance, I had manuals for our C64 and a
+couple of &quot;how to&quot; books and magazines like
+&lt;a href='https://archive.org/details/byte-magazine'&gt;Byte&lt;/a&gt;
+and
+&lt;a href='https://archive.org/details/compute-magazine'&gt;Compute !&lt;/a&gt;
+.   I had a math teacher who did some graphing in my geometry year.
+&lt;/p&gt;
+&lt;p&gt;
+But somewhere along the way I learned to program well enough to write
+an RPG dungeon crawler (inspired by Wizardry, but using top-down graphics
+instead of a 3D view of the dungeon). I wrote a super-simplistic horse
+race game. Our printers in those days were &quot;dot matrix&quot;, meaning the
+printer head was really just a column of eight pins that would move
+over a type-writer ribbon and as the head moved the pins would smash the
+ribbon into the paper, transferring some ink. Every letter was formed in
+an 8x8 dot matrix. The printer came with maybe four types of lettering
+(what we call fonts these days). The fancy new Macintosh computers from
+Apple had the ability to actually use fonts and didn't rely at all on a
+dot matrix printer's built in letters &amp;mdash and they had an Old English
+font that I thought was really cool. So I made an Old English font for
+my C64. I had to design each letter on graph paper, then compute a byte
+code for each row of the letter (maybe it was by column?), then I wrote
+a program to load that information into the printer. Then finally I was
+able to send text documents to the printer and get Old English out.
+&lt;/p&gt;
+&lt;p&gt;
+Then, as a senior in high school, I got a job at
+&lt;a href='https://en.wikipedia.org/wiki/MECC'&gt;MECC&lt;/a&gt;
+(the company that
+produced Oregon Trail and a lot of other educational software). There I
+did the page layout for books for teachers and schools to use programs
+like Microsoft Works. We did all the work on Macs, which did &lt;em&gt;NOT&lt;/em&gt;
+come with a built-in programming language (whereas all the pre-PC and
+pre-Mac computers like Apple II, Commodore 64, TRS-80 all came with some
+built-in form of BASIC). So I didn't get to do much with programming
+while working at MECC, except when we got into a program called
+&lt;a href='https://en.wikipedia.org/wiki/HyperCard'&gt;HyperCard&lt;/a&gt;
+. HyperCard was essentially a self-contained database program where
+all the data was stored on &quot;cards&quot; that were collected in &quot;stacks&quot;
+and you could use a scripting language called HyperTalk to do animations,
+automation, and the cards could be designed with buttons and fields. I
+actually wrote an &quot;Intro to HyperCard&quot; stack for use with our
+training materials for educators. But that was the closest I was going
+to get to programming for the next several years.
+&lt;/p&gt;
+&lt;p&gt;
+What you'll notice is that for an entire decade or more I had very little
+formal training whatsoever in how to use a computer and almost none in
+how to program. It was sink or swim. You set a goal for what your program
+could do and you figured it out (or didn't).
+&lt;/p&gt;
+&lt;p&gt;
+When I first started at the University I thought I was going to major in
+linguistics. I aced my linguistics and language classes just as easily in
+college as I did in high school. But I was distracted once I got to that
+age by punk rock and trying to be counter-cultural, so I often didn't take
+classes and progress on my undergraduate degree floundered. I quit working
+at MECC because it was way out in the suburbs and I didn't have a car and
+didn't understand what I was giving up. At one point I took a really basic
+computer programming class (not for CompSci majors), but it was WAY too
+easy, didn't challenge me remotely, the classroom was freezing so after the
+first class session I only went back for in-person test days. The rest of
+the time was in the computer labs at school. The class was stupid and I was
+actually having a lot more fun in a photography class I took at the same
+time.
+&lt;/p&gt;
+&lt;p&gt;
+My linguistics and language interests had faded and failed to keep me excited
+about going to college just for their sake, but photography got me to go to
+school again, sort of. It was a rocky road, but I eventually graduated with
+a Bachelor of Fine Arts. I was using a computer to do some rudimentary
+digital work. Even as late as my final year in 1997, digital photography was
+still basically getting on its feet. And if you didn't know, art degrees are
+not terrible degrees, but they rarely lead to becoming a working artist. I
+got an office job. I made enough money to buy the iMac when it came out. Best
+mistake I ever made, because that thing was a piece of shit.
+&lt;/p&gt;
+&lt;p&gt;
+At that point in history, free programming languages were still pretty rare
+and confined to &quot;serious&quot; computing environments. The internet (especially the
+web) was still being invented. But along came a revolution in computer
+operating systems: Linux. You were no longer tied to Windows or Mac OS. My
+iMac was, like I said, a piece of shit, but it &lt;em&gt;could&lt;/em&gt; run Yellow Dog
+Linux. And since Linux was a copy off the &quot;serious&quot; computer environments out
+there (Unix), all the things from the world of Unix carried over. This included
+freely available compilers for C, but more importantly, scripting languages
+like Perl. Perl was definitely the language to learn for a little while as the
+web caught on. It was one of the easiest ways to make dynamic web sites (via CGI).
+&lt;/p&gt;
+&lt;p&gt;
+In the same time in my life, I'd proven very adept at using computers where I worked
+and was doing some light programming tasks, mostly database querying and the like.
+But I also had a copy of Microsoft Access on my computer, and this was like HyperCard
+on steroids. I used it to generate reports. All as automated as possible. At the same
+time at home I was playing with Linux and Perl.
+&lt;/p&gt;
+&lt;p&gt;
+And once again, the formal training was extremely limited. I read tons of books about
+programming as a practice (&quot;Code Complete&quot;, &quot;Pragmatic Programmer&quot;, several O'Reilly
+titles), but it was still essentially sink or swim. Programming immersion school.
+&lt;/p&gt;
+&lt;p&gt;
+To be continued...
+&lt;/p&gt;</content><author><name></name></author><summary type="html">I've been hoping to get my children into computer programming. It's always been a tough sell, but I think I've managed to convince my son to give it a go. But how to go about it? I've tried getting him those &quot;Programming for Kids&quot; type of books, but that's just not his style. I'm a massive bookworm myself and have devoured programming books. But just going through a sequenced collection of tutorials like that? Not how I learned to program the first time as a teen, and not really how I learned the second time as an adult either. I first learned the first time in the 80's. I took one summer school course on computers after I had already spent a lot of afternoons alone with the teletype/timeshare we had in a utility room at my primary school. Then I think I spent almost two years without much access to a computer? I don't remember one at the school I went to for 6th and 7th grade. I switched schools in 8th grade and the new school had some Apple IIs in the math department and we had free periods in our schedules, so there was actually time to use them. Then my dad got us a Commodore 64 at home. But all along I had been learning about computers and how they worked. Now with a computer at home I could really take off. But in the 80s the closest thing to the internet were dialup text BBS systems and those were really just early versions of Twitter and Facebook. For learning materials and guidance, I had manuals for our C64 and a couple of &quot;how to&quot; books and magazines like Byte and Compute ! . I had a math teacher who did some graphing in my geometry year. But somewhere along the way I learned to program well enough to write an RPG dungeon crawler (inspired by Wizardry, but using top-down graphics instead of a 3D view of the dungeon). I wrote a super-simplistic horse race game. Our printers in those days were &quot;dot matrix&quot;, meaning the printer head was really just a column of eight pins that would move over a type-writer ribbon and as the head moved the pins would smash the ribbon into the paper, transferring some ink. Every letter was formed in an 8x8 dot matrix. The printer came with maybe four types of lettering (what we call fonts these days). The fancy new Macintosh computers from Apple had the ability to actually use fonts and didn't rely at all on a dot matrix printer's built in letters &amp;mdash and they had an Old English font that I thought was really cool. So I made an Old English font for my C64. I had to design each letter on graph paper, then compute a byte code for each row of the letter (maybe it was by column?), then I wrote a program to load that information into the printer. Then finally I was able to send text documents to the printer and get Old English out. Then, as a senior in high school, I got a job at MECC (the company that produced Oregon Trail and a lot of other educational software). There I did the page layout for books for teachers and schools to use programs like Microsoft Works. We did all the work on Macs, which did NOT come with a built-in programming language (whereas all the pre-PC and pre-Mac computers like Apple II, Commodore 64, TRS-80 all came with some built-in form of BASIC). So I didn't get to do much with programming while working at MECC, except when we got into a program called HyperCard . HyperCard was essentially a self-contained database program where all the data was stored on &quot;cards&quot; that were collected in &quot;stacks&quot; and you could use a scripting language called HyperTalk to do animations, automation, and the cards could be designed with buttons and fields. I actually wrote an &quot;Intro to HyperCard&quot; stack for use with our training materials for educators. But that was the closest I was going to get to programming for the next several years. What you'll notice is that for an entire decade or more I had very little formal training whatsoever in how to use a computer and almost none in how to program. It was sink or swim. You set a goal for what your program could do and you figured it out (or didn't). When I first started at the University I thought I was going to major in linguistics. I aced my linguistics and language classes just as easily in college as I did in high school. But I was distracted once I got to that age by punk rock and trying to be counter-cultural, so I often didn't take classes and progress on my undergraduate degree floundered. I quit working at MECC because it was way out in the suburbs and I didn't have a car and didn't understand what I was giving up. At one point I took a really basic computer programming class (not for CompSci majors), but it was WAY too easy, didn't challenge me remotely, the classroom was freezing so after the first class session I only went back for in-person test days. The rest of the time was in the computer labs at school. The class was stupid and I was actually having a lot more fun in a photography class I took at the same time. My linguistics and language interests had faded and failed to keep me excited about going to college just for their sake, but photography got me to go to school again, sort of. It was a rocky road, but I eventually graduated with a Bachelor of Fine Arts. I was using a computer to do some rudimentary digital work. Even as late as my final year in 1997, digital photography was still basically getting on its feet. And if you didn't know, art degrees are not terrible degrees, but they rarely lead to becoming a working artist. I got an office job. I made enough money to buy the iMac when it came out. Best mistake I ever made, because that thing was a piece of shit. At that point in history, free programming languages were still pretty rare and confined to &quot;serious&quot; computing environments. The internet (especially the web) was still being invented. But along came a revolution in computer operating systems: Linux. You were no longer tied to Windows or Mac OS. My iMac was, like I said, a piece of shit, but it could run Yellow Dog Linux. And since Linux was a copy off the &quot;serious&quot; computer environments out there (Unix), all the things from the world of Unix carried over. This included freely available compilers for C, but more importantly, scripting languages like Perl. Perl was definitely the language to learn for a little while as the web caught on. It was one of the easiest ways to make dynamic web sites (via CGI). In the same time in my life, I'd proven very adept at using computers where I worked and was doing some light programming tasks, mostly database querying and the like. But I also had a copy of Microsoft Access on my computer, and this was like HyperCard on steroids. I used it to generate reports. All as automated as possible. At the same time at home I was playing with Linux and Perl. And once again, the formal training was extremely limited. I read tons of books about programming as a practice (&quot;Code Complete&quot;, &quot;Pragmatic Programmer&quot;, several O'Reilly titles), but it was still essentially sink or swim. Programming immersion school. To be continued...</summary></entry><entry><title type="html">In Progress: Switching to Jekyll</title><link href="/2021/02/26/jekyll.html" rel="alternate" type="text/html" title="In Progress: Switching to Jekyll" /><published>2021-02-26T00:00:00-06:00</published><updated>2021-02-26T00:00:00-06:00</updated><id>/2021/02/26/jekyll</id><content type="html" xml:base="/2021/02/26/jekyll.html">&lt;p&gt;
 I've finally gotten around to putting this site on Jekyll. Well, almost.
 &lt;/p&gt;
 &lt;p&gt;
