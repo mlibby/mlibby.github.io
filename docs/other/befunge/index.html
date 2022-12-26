@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="I am Michael C. Libby and this is my web site. I am a software developer.">
+
+<!-- ****** faviconit.com favicons ****** -->
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="196x196" href="/favicon-192.png">
+<link rel="icon" type="image/png" sizes="160x160" href="/favicon-160.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/favicon-57.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon-114.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon-72.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon-144.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon-60.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon-120.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon-76.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon-152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<meta name="msapplication-TileColor" content="#FFFFFF">
+<meta name="msapplication-TileImage" content="/favicon-144.png">
+<meta name="msapplication-config" content="/browserconfig.xml">
+<!-- ****** faviconit.com favicons ****** -->
+
+<link rel="stylesheet" href="/css/mlibby-icons.css">
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/ai.css">
+<link rel="stylesheet" href="/css/befunge.css">
+
+<script src="https://www.w3counter.com/tracker.js?id=127536"></script>
+<script src="/js/lib/jquery.min.js"></script>
+<script src="/js/lib/underscore-min.js"></script>
+
+	<title>Befunge IDE - mlibby.com</title>
+</head>
+
+<body>
+	<nav>
+  <a class='nav-icon' href='/'>
+    <img src="/m_logo.svg" alt="m logo">
+  </a>
+  <a id='nav-about' class='nav-link' href='/about'>About Me</a>
+  &bull;
+  <a id='nav-ai' class='nav-link' href='/ai'>Artificial Intelligence</a>
+  &bull;
+  <a id='nav-oregon' class='nav-link' href='/oregon'>Oregon Trail</a>
+  &bull;
+  <a id='nav-other' class='nav-link' href='/other'>Other Projects</a>
+  &bull;
+  <a id='nav-blog' class='nav-link' href='/blog'>Blog</a>
+</nav>
+
+	<main class='befunge'>
+<h2>Befunge IDE (beta)</h2>
+<section class='help' style='display:none;'>
+<hr>
+<h3>HELP!</h3>
+<button class='btn btn-sm btn-danger close-help float-right'>
+<span class='icon-cross'></span>
+<span class='sr-only'>Close Help</span>
+</button>
+<h4>What is Befunge?</h4>
+<p>Befunge is an interpreted, two-dimensional, stack-based programming language originally created in 1993 by Chris Pressey.</p>
+<p>
+Rather than try to explain Befunge in depth, I refer you to the official language documentation at
+a(href="https://github.com/catseye/Befunge-93/blob/master/doc/Befunge-93.markdown") github.com/catseye/Befunge-93
+</p>
+<p>
+Quick summary: the program is in a grid, each cell contains an instruction, the program can execute left-to-right,
+right-to-left, top-to-bottom, and bottom-to-top. As the program executes it wraps around the edges. There is a
+stack that the program can push and pop values off of. The program can also read and modify any cell in the grid.
+</p>
+<p>
+My suggestion is to pick a stock program, turn on debug mode (click the bug button), and watch a program in action.
+If it's going too fast, click the <code>-</code> button to slow it down.
+</p>
+<hr>
+</section>
+<section class='info' style='display:none;'></section>
+<section class='flexbox'>
+<div class='input-group'>
+<select class='stock-files form-control mr-2'>
+<option selected value='0'>Choose a stock program...</option>
+</select>
+<button class='open-file btn btn-outline-secondary' title='Load File'>
+<span class='icon-upload'></span>
+<span class='sr-only'>Open File</span>
+</button>
+<input class='file mr-3' style='display:none;' type='file'>
+<button class='save-file btn btn-outline-secondary' disabled title='Save File'>
+<span class='icon-floppy-disk'></span>
+<span class='sr-only'>Save File</span>
+</button>
+</div>
+<div class='input-group'>
+<button class='reset btn btn-outline-primary' title='Reset Befunge'>
+<span class='icon-refresh'></span>
+<span class='sr-only'>Reset Befunge</span>
+</button>
+<button class='run btn btn-outline-primary' title='Run'>
+<span class='icon-play'></span>
+<span class='sr-only'>Run</span>
+</button>
+<button class='step btn btn-outline-primary' title='Step'>
+<span class='icon-next'></span>
+<span class='sr-only'>Step</span>
+</button>
+<button class='stop btn btn-outline-primary' title='Stop'>
+<span class='icon-stop'></span>
+<span class='sr-only'>Stop</span>
+</button>
+</div>
+<div class='input-group'>
+<button aria-pressed='false' class='debug btn btn-outline-info' title='Toggle Debug Mode'>
+<span class='icon-bug'></span>
+<span class='sr-only'>Debug</span>
+</button>
+<button class='slower btn btn-outline-info' title='Slower'>
+<span class='icon-minus'></span>
+<span class='sr-only'>Slower</span>
+</button>
+<button class='faster btn btn-outline-info' title='Faster'>
+<span class='icon-plus'></span>
+<span class='sr-only'>Faster</span>
+</button>
+</div>
+<div class='input-group'>
+<button class='help btn btn-outline-success' title='Help'>
+<span class='icon-question'></span>
+<span class='sr-only'>Help</span>
+</button>
+<button class='info btn btn-outline-success' title='Info'>
+<span class='icon-info'></span>
+<span class='sr-only'>Info</span>
+</button>
+</div>
+</section>
+<div class='flexbox'>
+<section class='column'>
+<div class='row'>
+<h3 class='h-horizontal'>Console</h3>
+<button class='clear-console btn btn-sm btn-outline-danger by-header' title='Clear Console'>
+<span aria-hidden='true' class='icon-trash'></span>
+<span class='sr-only'>Clear Console</span>
+</button>
+</div>
+<div class='row'>
+<textarea class='console' readonly></textarea>
+</div>
+</section>
+<section class='column'>
+<div class='row'>
+<h3 class='h-horizontal'>Stack</h3>
+<select class='stack-mode by-header'>
+<option selected value='asc'>ascii mode</option>
+<option value='dec'>decimal mode</option>
+<option value='hex'>hex mode</option>
+</select>
+</div>
+<div class='row'>
+<textarea class='stack' readonly></textarea>
+</div>
+</section>
+</div>
+<section>
+<h3>Torus</h3>
+<div class='torus-wrapper'>
+<div class='torus'></div>
+</div>
+</section>
+</main>
+<script src='/js/other/befunge.js' type='module'></script>
+
+</body>
+
+</html>
