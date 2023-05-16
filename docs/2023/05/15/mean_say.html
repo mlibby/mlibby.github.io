@@ -40,7 +40,7 @@
 <script src="/js/lib/jquery.min.js"></script>
 <script src="/js/lib/underscore-min.js"></script>
 
-	<title>RGB Clock - mlibby.com</title>
+	<title>What Programmers Mean When We Say... - mlibby.com</title>
 </head>
 
 <body>
@@ -59,64 +59,106 @@
   <a id='nav-blog' class='nav-link' href='/blog'>Blog</a>
 </nav>
 
-	<main class='rgb-clock'>
-<div class='row'>
-<section class='col'>
-<h2>The RGB Clock</h2>
-<p>
-This is a Javascript prototype of an <a href="https://github.com/mlibby/arduino/tree/master/RgbClock">RGB Clock</a>
-I made with Arduino, RGB LEDs, and a couple of shift registers.
-</p>
-<p>
-"Normal" clocks display time in base 10 (that is, digits 1234567890). Nerds often make clocks in binary (base 2
--- just 0s and 1s, or lights that are on or off). This clock uses Red, Green, and Blue instead of numerals
-(denoting the values of zero, one, and two)
-</p>
-<p>
-This clock includes the place numbers for the base 3 numbers to help decode/understand the numbers of the
-clock.
-It also includes a "normal" 24 hour clock to aid in double-checking the LED display. The real clock will simply
-be 11 LED bulbs.
-</p>
-</section>
-</div>
-<div class='row'>
-<section class='col'>
-<h2>Simulated LEDs</h2>
-<table class='clock'>
+	<main class="post">
+		<h1>What Programmers Mean When We Say...</h1>
+		<div class="date">Published: 2023-05-15</div>
+		<table>
+<caption>What Programmers Mean When We say...</caption>
+<thead>
 <tr>
-<th>Hours</th>
-<td class='r1c1 red'>9s</td>
-<td class='r1c2 red'>3s</td>
-<td class='r1c3 red'>1s</td>
-<td class='r1c4 void'></td>
+<th>What we say</th>
+<th>What we mean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Horrible hack</td>
+<td>Horrible hack that I didn't write</td>
 </tr>
 <tr>
-<th>Minutes</th>
-<td class='r2c1 red'>27s</td>
-<td class='r2c2 red'>9s</td>
-<td class='r2c3 red'>3s</td>
-<td class='r2c4 red'>1s</td>
+<td>Temporary workaround</td>
+<td>Horrible hack that I wrote</td>
 </tr>
 <tr>
-<th>Seconds</th>
-<td class='r3c1 red'>27s</td>
-<td class='r3c2 red'>9s</td>
-<td class='r3c3 red'>3s</td>
-<td class='r3c4 red'>1s</td>
+<td>It's broken</td>
+<td>There are bugs in your code</td>
 </tr>
+<tr>
+<td>It has a few issues</td>
+<td>There are bugs in my code</td>
+</tr>
+<tr>
+<td>Obscure</td>
+<td>Someone else's code doesn't have comments</td>
+</tr>
+<tr>
+<td>Self-documenting</td>
+<td>My code doesn't have comments</td>
+</tr>
+<tr>
+<td>That's why it's an awesome language</td>
+<td>It's my favorite language and it's really easy to do something in it.</td>
+</tr>
+<tr>
+<td>You're thinking in the wrong mindset</td>
+<td>It's my favorite language and it's really hard to do something in it.</td>
+</tr>
+<tr>
+<td>I can read this Perl script</td>
+<td>I wrote this Perl script</td>
+</tr>
+<tr>
+<td>I can't read this perl script</td>
+<td>I didn't write this perl script</td>
+</tr>
+<tr>
+<td>Bad structure</td>
+<td>Someone else's code is badly organized</td>
+</tr>
+<tr>
+<td>Complex structure</td>
+<td>My code is badly organized</td>
+</tr>
+<tr>
+<td>Bug</td>
+<td>The absence of a feature I like</td>
+</tr>
+<tr>
+<td>Out of scope</td>
+<td>The absence of a feature I don't like</td>
+</tr>
+<tr>
+<td>Clean solution</td>
+<td>It works and I understand it</td>
+</tr>
+<tr>
+<td>We need to rewrite it</td>
+<td>It works but I don't understand it</td>
+</tr>
+<tr>
+<td>emacs is better than vi</td>
+<td>It's too peaceful here, let's start a flame war</td>
+</tr>
+<tr>
+<td>vi is better than emacs</td>
+<td>It's too peaceful here, let's start a flame war</td>
+</tr>
+<tr>
+<td>IMHO</td>
+<td>You are wrong</td>
+</tr>
+<tr>
+<td>Legacy code</td>
+<td>It works, but no one knows how</td>
+</tr>
+<tr>
+<td>^X^Cquit^[ESC][ESC]^C</td>
+<td>I don't know how to quit vi</td>
+</tr>
+</tbody>
 </table>
-</section>
-</div>
-<div class='row'>
-<section class='col'>
-<h2>24 Hour Clock</h2>
-<pre id='current-time'>23:59:59</pre>
-</section>
-</div>
-</main>
-<script src='/js/other/rgbClock.js'></script>
 
+	</main>
 </body>
 
 </html>
